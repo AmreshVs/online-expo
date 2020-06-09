@@ -1,7 +1,7 @@
 User Type - Visitor, Exhibitor
-
+Design:
 1. Event List - Done
-2. Individual event landing page
+2. Individual event landing page - Done
 3. Event Enroll - Payment
 4. Enrolled Events
 5. Floor Plan - List all stalls

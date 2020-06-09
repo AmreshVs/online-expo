@@ -4,6 +4,8 @@ import { Switch, Route } from "react-router-dom";
 import Register from '../pages/register';
 import Login from '../pages/login';
 import Events from '../pages/events';
+import EventDetail from '../pages/eventDetail';
+import ExhibitorBuyTicket from '../pages/exhibitor/buyTicket';
 
 export default function Navigation() {
   return (
@@ -19,6 +21,12 @@ export default function Navigation() {
       </Route>
       <Route path="/events">
         <Events />
+      </Route>
+      <Route path="/event-detail">
+        <EventDetail />
+      </Route>
+      <Route path="/exhibitor/buy-ticket">
+        <ExhibitorBuyTicket />
       </Route>
     </Switch>
   );
