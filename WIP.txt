@@ -1,0 +1,17 @@
+User Type - Visitor, Exhibitor
+
+1. Event List - Done
+2. Individual event landing page
+3. Event Enroll - Payment
+4. Enrolled Events
+5. Floor Plan - List all stalls
+6. Individual Stall details
+
+Admin:
+
+1. Create Events
+2. List events with enable, disable
+3. View Individual Event details
+4. Event Stalls Floor Plan
+5. List stalls
+6. Enable / Disable Stall
