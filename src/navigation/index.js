@@ -6,6 +6,7 @@ import Login from '../pages/login';
 import Events from '../pages/events';
 import EventDetail from '../pages/eventDetail';
 import ExhibitorBuyTicket from '../pages/exhibitor/buyTicket';
+import PaymentSuccess from '../pages/paymentSuccess';
 
 export default function Navigation() {
   return (
@@ -27,6 +28,9 @@ export default function Navigation() {
       </Route>
       <Route path="/exhibitor/buy-ticket">
         <ExhibitorBuyTicket />
+      </Route>
+      <Route path="/payment-confirmation">
+        <PaymentSuccess />
       </Route>
     </Switch>
   );

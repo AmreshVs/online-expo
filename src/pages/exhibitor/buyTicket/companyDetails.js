@@ -44,7 +44,7 @@ const editorConfiguration = {
 
 const CompanyDetails = (props) => {
   return (
-    <div className="p-3">
+    <div className="card p-3 shadow-sm">
       <div className="form-group">
         <label htmlFor="logoUpload">Upload Logo</label>
         <input id="logoUpload" type="file" className="form-control p-1" />
@@ -68,7 +68,51 @@ const CompanyDetails = (props) => {
           }}
         />
       </div>
-      <button className="btn btn-primary" onClick={props.handleNext}>Next</button>
+      <div className="row">
+        <div className="col-sm-6">
+          <div className="form-group">
+            <label htmlFor="Webpage">Webpage</label>
+            <input id="Webpage" type="text" className="form-control" />
+          </div>
+        </div>
+        <div className="col-sm-6">
+          <div className="form-group">
+            <label htmlFor="meetId">Meet ID</label>
+            <input id="meetId" type="text" className="form-control" />
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-sm-6">
+          <div className="form-group">
+            <label htmlFor="zoomId">Zoom ID</label>
+            <input id="zoomId" type="text" className="form-control" />
+          </div>
+        </div>
+        <div className="col-sm-6">
+          <div className="form-group">
+            <label htmlFor="whatsapp">Whatsapp Number</label>
+            <input id="whatsapp" type="text" className="form-control" />
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-sm-6">
+          <div className="form-group">
+            <label htmlFor="facebookLive">Facebook Live</label>
+            <input id="facebookLive" type="text" className="form-control" />
+          </div>
+        </div>
+        <div className="col-sm-6">
+          <div className="form-group">
+            <label htmlFor="youtubeLink">Youtube Link</label>
+            <input id="youtubeLink" type="text" className="form-control" />
+          </div>
+        </div>
+      </div>
+      <div className="text-right">
+        <button className="btn btn-primary" onClick={props.handleNext}>Next</button>
+      </div>
     </div>
   )
 }

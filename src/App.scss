@@ -19,6 +19,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #fcfcfc;
 }
 
 code {
@@ -32,7 +33,7 @@ a{
 
 .layout{
   min-height: calc(100vh - 60px);
-  background-color: #fcfcfc;
+  
 }
 
 .navbar{
@@ -52,6 +53,11 @@ a{
 }
 
 @media (max-width: 575.98px){
+
+  .floorPlan table {
+    table-layout: auto !important;
+  }
+
   .trans-navigation {
     padding: 0px 10px;
   }
@@ -136,7 +142,72 @@ a{
   .image{
     width: 100%;
   }
-  .detailContainer{
-    background-color: #FFF;
+}
+
+.detailContainer{
+  position: relative;
+}
+
+.getDetails{
+  background-color: #FFF;
+  position: absolute;
+}
+
+.ck.ck-content{
+  height: 400px;
+}
+
+.exhibitorContents{
+  position: absolute;
+  width: 100%;
+}
+
+.floorPlan{
+
+  table{
+    table-layout: fixed;
+  }
+  td{
+    // min-width: 100px;
+  }
+  .table-light{
+    background-color: #f6f6f6;
+  }
+
+  .table tbody td:hover {
+    color: #212529;
+    background-color: rgba(0, 0, 0, 0.075);
+    cursor: pointer;
+  }
+
+  .table tbody td.table-light:hover{
+    background-color: #f6f6f6;
+  }
+  
+  .table tbody td.table-danger:hover{
+    background-color: #f5c6cb;
+  }
+
+  .table td.active{
+    background-color: #bcbaeb;
+  }
+}
+
+.btnLRContainer{
+  display: flex;
+  justify-content: space-between;
+}
+
+.selectPackage{
+  .form-check{
+    padding: 10px 20px;
+  }
+  .form-check-input{
+    margin-top: 5px;
+    margin-right: 10px;
+  }
+  .checkLabelContainer{
+    display: flex;
+    flex-direction: column;
   }
 }
