@@ -211,3 +211,90 @@ a{
     flex-direction: column;
   }
 }
+
+.selectPackageVisitor{
+  .form-check{
+    padding: 10px 0px;
+  }
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  transition: all .3s;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  visibility: hidden;
+  position: absolute;
+  background-color: #FFF;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  transition: all .3s;
+  border-radius: 5px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-radius: 5px;
+}
+
+.dropdown-content a:hover {background-color: #eee; transition: all .3s;}
+.dropdown:hover .dropdown-content {visibility: visible; transition: all .3s;}
+
+.nav-icon{
+  margin-right: 5px;
+}
+
+.dropdown .nav-link{
+  display: flex;
+}
+
+.heartContainer{
+  position: absolute !important;
+  right: 10px;
+  top: -5px;
+  z-index: 2;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.divider{
+  height: 1px;
+  background-color: #f6f6f6;
+  margin: 10px 0px;
+}
+
+.viewEvent{
+  td{
+    cursor: pointer;
+  }
+
+  td.table-light, td.table-danger{
+    cursor: auto;
+  }
+}
+
+.stallDetail{
+  .image{
+    width: 100%;
+  }
+  .contactImage{
+    height: 40px;
+    width: 40px;
+  }
+}
+
+// Responsive
+
+@include media-breakpoint-down(xs) { 
+  .yourEvents h5{
+    font-size: 16px;
+  }
+}

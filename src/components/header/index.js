@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom';
+import { User } from 'react-feather';
 
 const Header = () => {
 
@@ -24,11 +25,26 @@ const Header = () => {
 
         <div className={`collapse navbar-collapse justify-content-end ${toggle === true ? 'show' : ''}`} id="mainNav">
           <ul className="navbar-nav ">
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link smoth-scroll" to="/register">Register</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link smoth-scroll" to="/login">Login</Link>
+            </li> */}
+            <li className="nav-item">
+              <Link className="nav-link smoth-scroll" to="/events">Latest Events</Link>
+            </li>
+            <li className="dropdown nav-item">
+              <Link className="nav-link smoth-scroll" to="/register">
+                <User className="nav-icon" />
+                Amresh Vs
+              </Link>
+              <div className="dropdown-content">
+                <Link to="/your-events">Your Events</Link>
+                <Link to="/register">Favourites</Link>
+                <Link to="/register">Profile</Link>
+                <Link to="/home">Logout</Link>
+              </div>
             </li>
           </ul>
         </div>

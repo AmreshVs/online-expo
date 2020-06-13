@@ -1,11 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Heart } from 'react-feather';
 
 const Events = () => {
+
+  const [fav, setFav] = React.useState(false);
+
+  const handleFavourite = () => {
+    setFav(!fav);
+  }
+
   return (
     <div id="eventsList" className="layout container-fluid pt-3">
       <div className="row">
         <div className="col-sm-3">
+          <div className="heartContainer" onClick={handleFavourite}>
+            <Heart color="white" fill={fav === false ? '#CCC' : 'red'} />
+          </div>
           <Link to="/event-detail">
             <div className="card shadow-sm">
               <img className="card-img" src="https://www.onlineexpo.com/site/assets/files/1033/onlineexpo-house-1.1920x1080.jpg" alt="event" />
@@ -17,6 +28,9 @@ const Events = () => {
           </Link>
         </div>
         <div className="col-sm-3">
+          <div className="heartContainer" onClick={handleFavourite}>
+            <Heart color="white" fill={fav === false ? '#CCC' : 'red'} />
+          </div>
           <Link to="/event-detail">
             <div className="card shadow-sm">
               <img className="card-img" src="https://www.onlineexpo.com/site/assets/files/1033/onlineexpo-house-1.1920x1080.jpg" alt="event" />

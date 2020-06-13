@@ -11,7 +11,7 @@ const FloorPlanPage1 = ({ selected, handleClick }) => {
     for(let id of ids){
       if(id !== ''){
         tds.push(
-          <td className={selected === id ? "table-success" : ''} onClick={() => handleClick(id)} key={id}>test {id}</td>
+          <td className={selected === id ? "table-success" : ''} onClick={() => handleClick(id)} key={id} data-tip={`Stall <b>${id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>test {id}</td>
         )
       }
       else{
@@ -36,7 +36,7 @@ const FloorPlanPage1 = ({ selected, handleClick }) => {
     for(let id of ids){
       if(id !== ''){
         tds.push(
-          <td className={selected === id ? "table-success" : ''} onClick={() => handleClick(id)} key={id}>test {id}</td>
+          <td className={selected === id ? "table-success" : ''} onClick={() => handleClick(id)} key={id} data-tip={`Stall <b>${id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>test {id}</td>
         )
       }
       else{
@@ -79,15 +79,15 @@ const FloorPlanPage1 = ({ selected, handleClick }) => {
     for(let i = 0; i < 26; i++){
       rows.push(
         <tr colSpan="9" key={i}>
-          <td className={selected === r1Arr[i] ? "table-success" : ''} onClick={() => handleClick(r1Arr[i])}>test {r1Arr[i]}</td>
+          <td className={selected === r1Arr[i] ? "table-success" : ''} onClick={() => handleClick(r1Arr[i])} data-tip={`Stall <b>${r1Arr[i]}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>test {r1Arr[i]}</td>
           <td className="table-light"></td>
-          <td className={selected === r3Arr[i] ? "table-success" : ''} onClick={() => handleClick(r3Arr[i])}>test {r3Arr[i]}</td>
+          <td className={selected === r3Arr[i] ? "table-success" : ''} onClick={() => handleClick(r3Arr[i])} data-tip={`Stall <b>${r3Arr[i]}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>test {r3Arr[i]}</td>
           <td className="table-light"></td>
-          <td className={selected === r5Arr[i] ? "table-success" : ''} onClick={() => handleClick(r5Arr[i])}>test {r5Arr[i]}</td>
+          <td className={selected === r5Arr[i] ? "table-success" : ''} onClick={() => handleClick(r5Arr[i])} data-tip={`Stall <b>${r5Arr[i]}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>test {r5Arr[i]}</td>
           <td className="table-light"></td>
-          <td className={selected === r7Arr[i] ? "table-success" : ''} onClick={() => handleClick(r7Arr[i])}>test {r7Arr[i]}</td>
+          <td className={selected === r7Arr[i] ? "table-success" : ''} onClick={() => handleClick(r7Arr[i])} data-tip={`Stall <b>${r7Arr[i]}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>test {r7Arr[i]}</td>
           <td className="table-light"></td>
-          <td className={selected === r9Arr[i] ? "table-success" : ''} onClick={() => handleClick(r9Arr[i])}>test {r9Arr[i]}</td>
+          <td className={selected === r9Arr[i] ? "table-success" : ''} onClick={() => handleClick(r9Arr[i])} data-tip={`Stall <b>${r9Arr[i]}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>test {r9Arr[i]}</td>
         </tr>
       );
       r1--; r3++; r5--; r7--; r9++;
@@ -103,7 +103,7 @@ const FloorPlanPage1 = ({ selected, handleClick }) => {
     for(let id of ids){
       if(id !== ''){
         tds.push(
-          <td className={selected === id ? "table-success" : ''} onClick={() => handleClick(id)} key={id}>test {id}</td>
+          <td className={selected === id ? "table-success" : ''} onClick={() => handleClick(id)} key={id} data-tip={`Stall <b>${id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>test {id}</td>
         )
       }
       else{
@@ -128,7 +128,7 @@ const FloorPlanPage1 = ({ selected, handleClick }) => {
     for(let id of ids){
       if(id !== ''){
         tds.push(
-          <td className={selected === id ? "table-success" : ''} onClick={() => handleClick(id)} key={id}>test {id}</td>
+          <td className={selected === id ? "table-success" : ''} onClick={() => handleClick(id)} key={id} data-tip={`Stall <b>${id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>test {id}</td>
         )
       }
       else{
