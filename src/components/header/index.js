@@ -1,5 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { User } from 'react-feather';
 
@@ -41,8 +41,9 @@ const Header = () => {
               </Link>
               <div className="dropdown-content">
                 <Link to="/your-events">Your Events</Link>
-                <Link to="/register">Favourites</Link>
-                <Link to="/register">Profile</Link>
+                <Link to="/favourites">Favorites</Link>
+                <Link to="/tickets">Tickets</Link>
+                <Link to="/profile">Profile</Link>
                 <Link to="/home">Logout</Link>
               </div>
             </li>

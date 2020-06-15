@@ -1,5 +1,6 @@
 import React from 'react';
 import IntlTelInput from 'react-bootstrap-intl-tel-input'
+import { Typeahead } from 'react-bootstrap-typeahead'; 
 
 import { countries } from './countryStatic';
 
@@ -7,6 +8,9 @@ const Register = () => {
 
   const [type, setType] = React.useState('none');
   const [resendOtp, setResendOtp] = React.useState(10);
+  const [country, setCountry] = React.useState([]);
+  const [state, setState] = React.useState([]);
+  const [city, setCity] = React.useState([]);
   const [slideAnimation, setSlideAnimation] = React.useState({
     left: { transition: 'all .3s', transform: 'translate(0px, 0px)' },
     right: { transition: 'all .3s', transform: 'translate(-1200px, 0px)' }
@@ -16,7 +20,6 @@ const Register = () => {
   const companyEmail = React.useRef(null);
   const fullName = React.useRef(null);
   const email = React.useRef(null);
-  const country = React.useRef(null);
   const mobileNumber = React.useRef(null);
 
   const otpRef = {
@@ -150,11 +153,15 @@ const Register = () => {
                   }
                   <div className="form-group">
                     <label htmlFor="Country">Country</label>
-                    <select className="form-control" id="Country" ref={country}>
-                      {countries.map((country, index) => (
-                        <option key={index}>{country.name}</option>
-                      ))}
-                    </select>
+                    <Typeahead id="Country" labelKey="name" multiple={false} onChange={setCountry} options={countries} placeholder="Choose a country" selected={country}  />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="State">State</label>
+                    <Typeahead id="State" labelKey="name" multiple={false} onChange={setState} options={countries} placeholder="Choose a state" selected={state}  />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="City">City</label>
+                    <Typeahead id="City" labelKey="name" multiple={false} onChange={setCity} options={countries} placeholder="Choose a state..." selected={city}  />
                   </div>
                   <div className="form-group">
                     <label htmlFor="Country">Mobile Number</label>

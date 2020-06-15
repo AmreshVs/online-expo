@@ -57,8 +57,12 @@ const CompanyDetails = (props) => {
   return (
     <div className="card p-3 shadow-sm">
       <div className="form-group">
-        <label htmlFor="logoUpload">Upload Logo</label>
-        <input id="logoUpload" type="file" className="form-control p-1" />
+        <label htmlFor="logoUpload">Logo (50 x 50)</label>
+        <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" />
+      </div>
+      <div className="form-group">
+        <label htmlFor="logoUpload">Company Cover Image (1920 x 1080)</label>
+        <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" />
       </div>
       <div className="form-group">
         <label htmlFor="companyname">Company Name</label>

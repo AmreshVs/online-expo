@@ -288,6 +288,25 @@ a{
   .contactImage{
     height: 40px;
     width: 40px;
+    filter: grayscale(1);
+    transition: all .3s;
+  }
+  .d-flex{
+    &:hover{
+      .contactImage{
+        filter: none;
+      }
+    }
+    .logo{
+      height: 55px;
+    }
+  }
+}
+
+.tickets{
+  .card-img{
+    width: 50px;
+    padding: 5px;
   }
 }
 
@@ -296,5 +315,9 @@ a{
 @include media-breakpoint-down(xs) { 
   .yourEvents h5{
     font-size: 16px;
+  }
+
+  .Toastify__toast {
+    margin: 10px !important;
   }
 }

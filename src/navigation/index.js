@@ -11,6 +11,11 @@ import PaymentSuccess from '../pages/paymentSuccess';
 import YourEvents from '../pages/yourEvents';
 import ViewEvent from '../pages/viewEvent';
 import StallDetail from '../pages/stallDetail';
+import EditStall from '../pages/editStall';
+import Favourites from '../pages/favourites';
+import Tickets from '../pages/tickets';
+import Profile from '../pages/profile';
+import EditProfile from '../pages/profile/editProfile';
 
 export default function Navigation() {
   return (
@@ -47,6 +52,21 @@ export default function Navigation() {
       </Route>
       <Route path="/stall-detail/:id">
         <StallDetail />
+      </Route>
+      <Route path="/edit-stall/:id">
+        <EditStall />
+      </Route>
+      <Route path="/favourites">
+        <Favourites />
+      </Route>
+      <Route path="/tickets">
+        <Tickets />
+      </Route>
+      <Route path="/profile">
+        <Profile />
+      </Route>
+      <Route path="/edit-profile">
+        <EditProfile />
       </Route>
     </Switch>
   );
