@@ -1,21 +1,22 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 
-import Register from '../pages/register';
-import Login from '../pages/login';
-import Events from '../pages/events';
-import EventDetail from '../pages/eventDetail';
-import ExhibitorBuyTicket from '../pages/exhibitor/buyTicket';
-import VisitorBuyTicket from '../pages/visitor/buyTicket';
-import PaymentSuccess from '../pages/paymentSuccess';
-import YourEvents from '../pages/yourEvents';
-import ViewEvent from '../pages/viewEvent';
-import StallDetail from '../pages/stallDetail';
-import EditStall from '../pages/editStall';
-import Favourites from '../pages/favourites';
-import Tickets from '../pages/tickets';
-import Profile from '../pages/profile';
-import EditProfile from '../pages/profile/editProfile';
+import Register from 'pages/register';
+import Login from 'pages/login';
+import Events from 'pages/events';
+import EventDetail from 'pages/eventDetail';
+import ExhibitorBuyTicket from 'pages/exhibitor/buyTicket';
+import VisitorBuyTicket from 'pages/visitor/buyTicket';
+import PaymentSuccess from 'pages/paymentSuccess';
+import YourEvents from 'pages/yourEvents';
+import ViewEvent from 'pages/viewEvent';
+import StallDetail from 'pages/stallDetail';
+import EditStall from 'pages/editStall';
+import Favourites from 'pages/favourites';
+import Tickets from 'pages/tickets';
+import Profile from 'pages/profile';
+import EditProfile from 'pages/profile/editProfile';
+import Main from 'pages/main';
 
 export default function Navigation() {
   return (
@@ -70,8 +71,4 @@ export default function Navigation() {
       </Route>
     </Switch>
   );
-}
-
-function Main() {
-  return <h2>Main</h2>;
 }

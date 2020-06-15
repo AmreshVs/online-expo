@@ -1,8 +1,22 @@
 import React from 'react';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-const Login = () => {
+import UseAxios from 'hooks/UseAxios';
+import { LOGIN } from 'api';
+import { snackBarError, snackBarSuccess } from 'common/snackBar';
+import { mobileValidation } from 'common/validation';
+import Button from 'components/button';
+import { setUserData } from 'redux/actions/commonActions';
+import { useHistory } from 'react-router-dom';
 
-  const [resendOtp, setResendOtp] = React.useState(10);
+const Login = (props) => {
+
+  const history = useHistory();
+  const [resendOtp, setResendOtp] = React.useState(60);
+  const [otpId, setOtpId] = React.useState('');
+  const [spinner, setSpinner] = React.useState(false);
   const [slideAnimation, setSlideAnimation] = React.useState({
     left: { transition: 'all .3s', transform: 'translate(0px, 0px)' },
     right: { transition: 'all .3s', transform: 'translate(-1200px, 0px)' }
@@ -16,15 +30,24 @@ const Login = () => {
     4: React.useRef(null),
   }
 
-  const handleNext = () => {
-    setSlideAnimation({ right: { ...slideAnimation.right, transform: 'translate(0px, 0px)'}, left: { ...slideAnimation.left, transform: 'translate(-1200px, 0px)'} });
-    if(validate()){
-      console.log('Submit');
+  const handleNext = async () => {
+    if(mobileValidation(mobileNum.current.value)){
+      setSpinner(true);
+      let bodyFormData = new FormData();
+      bodyFormData.set('mobile_number', mobileNum.current.value);
+      const response = await UseAxios(LOGIN, bodyFormData)
+      if(response.data.length > 0){
+        setOtpId(response.data);
+        setSpinner(false);
+        snackBarSuccess('OTP sent to your mobile number');
+        setSlideAnimation({ right: { ...slideAnimation.right, transform: 'translate(0px, 0px)'}, left: { ...slideAnimation.left, transform: 'translate(-1200px, 0px)'} });
+        otpRef[1].current.focus();
+        runTimer();
+      }
     }
-    runTimer();
   }
 
-  const runTimer = (sec = 10) => {
+  const runTimer = (sec = 60) => {
     let timer = setInterval(() => {
       sec -= 1;
       setResendOtp(sec);
@@ -34,21 +57,24 @@ const Login = () => {
     }, 1000);
   }
 
-  const validate = () => {
-    if(mobileNum.current.value === ''){
-      console.log('Mobile Number cannot be empty!');
-      return false;
-    }
-
-    return true;
-  }
-
   const handleBack = () => {
     setSlideAnimation({ right: { ...slideAnimation.right, transform: 'translate(-1200px, 0px)'}, left: { ...slideAnimation.left, transform: 'translate(0px, 0px)'} });
   }
 
-  const handleSubmit = () => {
-    
+  const handleSubmit = async () => {
+    let otp = otpRef[1].current.value + otpRef[2].current.value + otpRef[3].current.value + otpRef[4].current.value
+    var bodyFormData = new FormData();
+    bodyFormData.set('otp', otp);
+    bodyFormData.set('otp_id', 1);
+    const response = await UseAxios(LOGIN, bodyFormData);
+    if(response.message === 'Logged in successfully'){
+      axios.defaults.headers.authorization = `Bearer ${response.access_token}`;
+      localStorage.setItem('userData', JSON.stringify({ access_token: response.access_token }));
+      props.setUserData(response.data);
+      history.replace('/events');
+    }else{
+      snackBarError(response.message);
+    }
   }
 
   const handleOtpChange = (e, id) => {
@@ -79,9 +105,11 @@ const Login = () => {
               <div className='card shadow-sm' style={slideAnimation.left}>
                 <div className="form-group">
                   <label htmlFor="mobileNumber">Mobile Number</label>
-                  <input type="tel" className="form-control" id="mobileNumber" placeholder="Enter Mobile Number" ref={mobileNum} />
+                  <input type="tel" className="form-control" id="mobileNumber" placeholder="Enter Mobile Number with country code" ref={mobileNum} />
                 </div>
-                <button type="button" className="btn btn-primary" onClick={handleNext}>Next</button>
+                <Button className="btn btn-primary" onClick={handleNext} loading={spinner}>
+                  Next
+                </Button>
               </div>
               <div className='card shadow-sm' style={slideAnimation.right}>
                 <div className=" mb-2">
@@ -115,4 +143,10 @@ const Login = () => {
   )
 }
 
-export default Login;
+const mapStateToProps = (state) => state.common;
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ setUserData: setUserData }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

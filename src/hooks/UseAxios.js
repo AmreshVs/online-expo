@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-import Logout from '@common/logout';
+// import Logout from '@common/logout';
 
 const UseAxios = async (params, data) => {
   let { url, method, headers } = params;
-
+  
   return await axios({
     url: url,
     method: method,
@@ -16,7 +16,7 @@ const UseAxios = async (params, data) => {
   })
   .catch((error) => {
     if(error.response.data.message !== undefined && error.response.data.message === 'Please Login to Continue'){
-      Logout();
+      // Logout();
     }
     return error.response.data;
   })
