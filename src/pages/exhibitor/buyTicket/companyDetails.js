@@ -1,4 +1,10 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+
+import ImageUploadAdapter from 'common/imageUploadAdapter';
+import UseAxios from 'hooks/UseAxios';
+import { COMPANY_DETAILS } from 'api';
+import { snackBarError } from 'common/snackBar';
+import Button from 'components/button';
 
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
@@ -54,19 +60,94 @@ const editorConfiguration = {
 };
 
 const CompanyDetails = (props) => {
+  
+  let userData = localStorage.getItem('userData');
+  userData = JSON.parse(userData);
+  let token = userData.access_token;
+
+  const [loading, setLoading] = useState(false);
+  const [content, setContent] = useState('');
+  const logo = useRef(null);
+  const cover = useRef(null);
+  const company_name = useRef(null);
+  const desc = useRef(null);
+  const web = useRef(null);
+  const meet_id = useRef(null);
+  const zoom_id = useRef(null);
+  const whatsapp = useRef(null);
+  const fb_live = useRef(null);
+  const youtube = useRef(null);
+
+  const validate = () => {
+
+    if(logo.current.files[0] === undefined){
+      snackBarError('Logo cannot be empty!');
+      return false;
+    }
+
+    if(cover.current.files[0] === ''){
+      snackBarError('Cover cannot be empty!');
+      return false;
+    }
+
+    if(company_name.current.value === ''){
+      snackBarError('Company name cannot be empty!');
+      return false;
+    }
+
+    if(desc.current.value === ''){
+      snackBarError('Description cannot be empty!');
+      return false;
+    }
+
+    if(content === ''){
+      snackBarError('Content cannot be empty!');
+      return false;
+    }
+
+    return true;
+  }
+  
+  const handleNext = async () => {
+    if(validate()){
+      setLoading(true);
+      let formData = new FormData();
+      formData.set('event_key', props.ekey);
+      formData.set('company_name', company_name.current.value);
+      formData.set('website', web.current.value);
+      formData.set('meet_id', meet_id.current.value);
+      formData.set('zoom_id', zoom_id.current.value);
+      formData.set('whatsapp_number', whatsapp.current.value);
+      formData.set('fb_url', fb_live.current.value);
+      formData.set('youtupe_link', youtube.current.value);
+      formData.set('company_desc', content);
+      formData.set('logo_image_path', logo.current.files[0]);
+      formData.set('cover_image_path', cover.current.files[0]);
+      formData.set('short_desc', desc.current.value);
+      const response = await UseAxios(COMPANY_DETAILS, formData);
+      console.log(response)
+      setLoading(false);
+      props.handleNext(response.data.ticket_key);
+    }
+  }
+
   return (
     <div className="card p-3 shadow-sm">
       <div className="form-group">
         <label htmlFor="logoUpload">Logo (50 x 50)</label>
-        <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" />
+        <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={logo} />
       </div>
       <div className="form-group">
         <label htmlFor="logoUpload">Company Cover Image (1920 x 1080)</label>
-        <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" />
+        <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={cover} />
       </div>
       <div className="form-group">
         <label htmlFor="companyname">Company Name</label>
-        <input id="companyname" type="text" className="form-control" />
+        <input id="companyname" type="text" className="form-control" ref={company_name} />
+      </div>
+      <div className="form-group">
+        <label htmlFor="description">Short Description</label>
+        <input id="description" type="text" className="form-control" ref={desc} />
       </div>
       <div className="form-group">
         <CKEditor
@@ -75,11 +156,11 @@ const CompanyDetails = (props) => {
           data=""
           onInit={editor => {
             editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-              // return new ImageUploadAdapter(loader, props.userData.token);
+              return new ImageUploadAdapter(loader, token);
             };
           }}
           onChange={(event, editor) => {
-            // setContent(editor.getData());
+            setContent(editor.getData());
           }}
         />
       </div>
@@ -87,13 +168,13 @@ const CompanyDetails = (props) => {
         <div className="col-sm-6">
           <div className="form-group">
             <label htmlFor="Webpage">Webpage</label>
-            <input id="Webpage" type="text" className="form-control" />
+            <input id="Webpage" type="text" className="form-control" ref={web} />
           </div>
         </div>
         <div className="col-sm-6">
           <div className="form-group">
             <label htmlFor="meetId">Meet ID</label>
-            <input id="meetId" type="text" className="form-control" />
+            <input id="meetId" type="text" className="form-control" ref={meet_id} />
           </div>
         </div>
       </div>
@@ -101,13 +182,13 @@ const CompanyDetails = (props) => {
         <div className="col-sm-6">
           <div className="form-group">
             <label htmlFor="zoomId">Zoom ID</label>
-            <input id="zoomId" type="text" className="form-control" />
+            <input id="zoomId" type="text" className="form-control" ref={zoom_id} />
           </div>
         </div>
         <div className="col-sm-6">
           <div className="form-group">
             <label htmlFor="whatsapp">Whatsapp Number</label>
-            <input id="whatsapp" type="text" className="form-control" />
+            <input id="whatsapp" type="text" className="form-control" ref={whatsapp} />
           </div>
         </div>
       </div>
@@ -115,18 +196,20 @@ const CompanyDetails = (props) => {
         <div className="col-sm-6">
           <div className="form-group">
             <label htmlFor="facebookLive">Facebook Live</label>
-            <input id="facebookLive" type="text" className="form-control" />
+            <input id="facebookLive" type="text" className="form-control" ref={fb_live} />
           </div>
         </div>
         <div className="col-sm-6">
           <div className="form-group">
-            <label htmlFor="youtubeLink">Youtube Link</label>
-            <input id="youtubeLink" type="text" className="form-control" />
+            <label htmlFor="youtubeLink">Youtube</label>
+            <input id="youtubeLink" type="text" className="form-control" ref={youtube} />
           </div>
         </div>
       </div>
       <div className="text-right">
-        <button className="btn btn-primary" onClick={props.handleNext}>Next</button>
+      <Button className="btn btn-primary" onClick={handleNext} loading={loading} >
+        Next
+      </Button>
       </div>
     </div>
   )

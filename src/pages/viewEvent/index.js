@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 
 import FloorPlanPage1 from '../../components/floorPlan/page1';
 import FloorPlanPage2 from '../../components/floorPlan/page2';
+import UseAxios from 'hooks/UseAxios';
+import Loader from 'components/loader';
+import { STALL_BLOCKS } from 'api';
 
 const ViewEvent = () => {
 
@@ -14,7 +17,26 @@ const ViewEvent = () => {
     history.push(`/stall-detail/${id}`);
   }
 
+  const [state, setState] = React.useState({
+    loading: true,
+    data: [],
+    spinner: false
+  });
+
+  React.useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setState({ ...state, loading: true });
+    const response = await UseAxios({ ...STALL_BLOCKS, url: STALL_BLOCKS.url + 'bpfxvxwjqxsmyxub' });
+    setState({ ...state, data: response.data, loading: false });
+  }
+
   return (
+    state.loading === true ?
+    <Loader/>
+    :
     <div className="viewEvent">
       <div className="container">
         <div className="row justify-content-center">
@@ -32,8 +54,8 @@ const ViewEvent = () => {
                     </Link>
                   </div>
                   <div>
-                    <FloorPlanPage1 handleClick={handleClick} />
-                    <FloorPlanPage2 handleClick={handleClick} />
+                    <FloorPlanPage1 handleClick={handleClick} data={state.data.room1} />
+                    <FloorPlanPage2 handleClick={handleClick} data={state.data.room2} />
                     <ReactTooltip html={true} disable={false} />
                   </div>
                 </div>

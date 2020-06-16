@@ -6,27 +6,17 @@ import { useHistory } from 'react-router-dom';
 import Loader from 'components/loader';
 import { setUserData } from 'redux/actions/commonActions';
 
-const Main = (props) => {
+const Logout = (props) => {
 
   const history = useHistory();
-
+  
   React.useEffect(() => {
-    validateUser();
-  }, [])
+    localStorage.removeItem('userData');
+    props.setUserData({});
+    history.replace('/login');
+  });
 
-  const validateUser = async () => {
-    let userData = await localStorage.getItem('userData');
-    userData = JSON.parse(userData);
-    if(userData === null || Object.keys(userData) <= 0){
-      history.replace('/login');
-    }
-    else{
-      props.setUserData(userData);
-      history.replace('/events');
-    }
-  }
-
-  return (
+  return(
     <Loader/>
   )
 }
@@ -37,4 +27,4 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ setUserData: setUserData }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Logout);

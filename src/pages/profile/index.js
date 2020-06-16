@@ -2,9 +2,33 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Edit, Phone, User, Mail, MapPin, Map } from 'react-feather';
 
+import UseAxios from 'hooks/UseAxios';
+import Loader from 'components/loader';
+import { PROFILE } from 'api';
+
 const Profile = () => {
 
+  const [state, setState] = React.useState({
+    loading: true,
+    data: [],
+  });
+
+  React.useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setState({ ...state, loading: true });
+    const response = await UseAxios(PROFILE);
+    setState({ ...state, data: response.data, loading: false });
+  }
+
+  let data = state.data;
+
   return (
+    state.loading === true ? 
+    <Loader/>
+    :
     <div className="viewEvent">
       <div className="container">
         <div className="row justify-content-center">
@@ -27,7 +51,7 @@ const Profile = () => {
                         <h6>Fullname</h6>
                       </div>
                       <div className="col-sm-7">
-                        <p className="text-secondary">Amresh Vs</p>
+                        <p className="text-secondary">{state.data.username}</p>
                       </div>
                     </div>
                     <div className="row">
@@ -36,7 +60,7 @@ const Profile = () => {
                         <h6>Email</h6>
                       </div>
                       <div className="col-sm-7">
-                        <p className="text-secondary">amreshcse007@gmail.com</p>
+                        <p className="text-secondary">{state.data.email}</p>
                       </div>
                     </div>
                     <div className="row">
@@ -45,7 +69,7 @@ const Profile = () => {
                         <h6>Country</h6>
                       </div>
                       <div className="col-sm-7">
-                        <p className="text-secondary">India</p>
+                        <p className="text-secondary">{state.data.country.name}</p>
                       </div>
                     </div>
                     <div className="row">
@@ -54,7 +78,7 @@ const Profile = () => {
                         <h6>State</h6>
                       </div>
                       <div className="col-sm-7">
-                        <p className="text-secondary">Tamil Nadu</p>
+                        <p className="text-secondary">{state.data.state.name}</p>
                       </div>
                     </div>
                     <div className="row">
@@ -63,7 +87,7 @@ const Profile = () => {
                         <h6>City</h6>
                       </div>
                       <div className="col-sm-7">
-                        <p className="text-secondary">Coimbatore</p>
+                        <p className="text-secondary">{state.data.city.name}</p>
                       </div>
                     </div>
                     <div className="row">
@@ -72,7 +96,7 @@ const Profile = () => {
                         <h6>Mobile</h6>
                       </div>
                       <div className="col-sm-7">
-                        <p className="text-secondary">+91 8675529268</p>
+                        <p className="text-secondary">{state.data.mobile_number}</p>
                       </div>
                     </div>
                   </div>

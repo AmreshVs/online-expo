@@ -131,6 +131,7 @@ a{
   .col-sm-3{
     padding: 0px 10px;
     margin-bottom: 20px;
+    cursor: pointer;
   }
   .row{
     padding: 0px 5px;
@@ -147,6 +148,9 @@ a{
 #event-detail{
   .image{
     width: 100%;
+    max-height: 450px;
+    height: 450px;
+    background-color: #CCC;
   }
 }
 
@@ -174,7 +178,7 @@ a{
     table-layout: fixed;
   }
   td{
-    // min-width: 100px;
+    text-align: center;
   }
   .table-light{
     background-color: #f6f6f6;
@@ -192,10 +196,20 @@ a{
   
   .table tbody td.table-danger:hover{
     background-color: #f5c6cb;
+    cursor: auto;
   }
 
   .table td.active{
     background-color: #bcbaeb;
+  }
+
+  .table tbody td.table-warning:hover{
+    background-color: #ffeeba;
+    cursor: not-allowed;
+  }
+
+  .table tbody td.table-success:hover{
+    background-color: #c3e6cb;
   }
 }
 
@@ -314,6 +328,18 @@ a{
     width: 50px;
     padding: 5px;
   }
+}
+
+#eventsList{
+  .card-img{
+    width: 100%;
+    max-height: 245px;
+    min-height: 245px;
+  }
+}
+
+.cursor-pointer{
+  cursor: pointer;
 }
 
 // Responsive

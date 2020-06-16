@@ -1,11 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { User } from 'react-feather';
+import axios from 'axios';
 
-const Header = () => {
-
+const Header = ({ access_token }) => {
+  
+  const history = useHistory();
   const [toggle, setToggle] = React.useState(false);
+  let userData = localStorage.getItem('userData');
+  if(userData === null){
+    history.replace('/logout');
+  }
+  else{
+    userData = JSON.parse(userData);
+    axios.defaults.headers.authorization = `Bearer ${userData.access_token}`;
+  }
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -25,28 +36,35 @@ const Header = () => {
 
         <div className={`collapse navbar-collapse justify-content-end ${toggle === true ? 'show' : ''}`} id="mainNav">
           <ul className="navbar-nav ">
-            {/* <li className="nav-item">
-              <Link className="nav-link smoth-scroll" to="/register">Register</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link smoth-scroll" to="/login">Login</Link>
-            </li> */}
-            <li className="nav-item">
-              <Link className="nav-link smoth-scroll" to="/events">Latest Events</Link>
-            </li>
-            <li className="dropdown nav-item">
-              <Link className="nav-link smoth-scroll" to="/register">
-                <User className="nav-icon" />
-                Amresh Vs
-              </Link>
-              <div className="dropdown-content">
-                <Link to="/your-events">Your Events</Link>
-                <Link to="/favourites">Favorites</Link>
-                <Link to="/tickets">Tickets</Link>
-                <Link to="/profile">Profile</Link>
-                <Link to="/home">Logout</Link>
-              </div>
-            </li>
+            {access_token === undefined && (userData !== null && userData.access_token === undefined) ? 
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link smoth-scroll" to="/register">Register</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link smoth-scroll" to="/login">Login</Link>
+                </li>
+              </>
+            :
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link smoth-scroll" to="/events">Latest Events</Link>
+                </li>
+                <li className="dropdown nav-item">
+                  <Link className="nav-link smoth-scroll" to="/register">
+                    <User className="nav-icon" />
+                    {(userData !== null && userData.username !== undefined) ? userData.username : ''}
+                  </Link>
+                  <div className="dropdown-content">
+                    <Link to="/your-events">Your Events</Link>
+                    <Link to="/favourites">Favorites</Link>
+                    <Link to="/tickets">Tickets</Link>
+                    <Link to="/profile">Profile</Link>
+                    <Link to="/logout">Logout</Link>
+                  </div>
+                </li>
+              </>
+            }
           </ul>
         </div>
       </div>
@@ -54,4 +72,6 @@ const Header = () => {
   )
 }
 
-export default Header;
+const mapStateToProps = (state) => state.common.userData;
+
+export default connect(mapStateToProps)(Header);

@@ -17,6 +17,8 @@ import Tickets from 'pages/tickets';
 import Profile from 'pages/profile';
 import EditProfile from 'pages/profile/editProfile';
 import Main from 'pages/main';
+import Logout from 'pages/logout';
+import Test from 'pages/test';
 
 export default function Navigation() {
   return (
@@ -68,6 +70,12 @@ export default function Navigation() {
       </Route>
       <Route path="/edit-profile">
         <EditProfile />
+      </Route>
+      <Route path="/logout">
+        <Logout />
+      </Route>
+      <Route path="/test">
+        <Test />
       </Route>
     </Switch>
   );

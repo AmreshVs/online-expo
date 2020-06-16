@@ -54,14 +54,7 @@ const Register = (props) => {
   }
 
   useEffect(() => {
-    let isLoad = false;
-    if(!isLoad){
-      loadData();
-    }
-
-    return () => {
-      isLoad = true;
-    }
+    loadData();
   }, []);
 
   const loadData = async () => {
@@ -197,8 +190,8 @@ const Register = (props) => {
     bodyFormData.set('otp_id', state.data.otp_id);
     const response = await UseAxios(VERIFY_OTP, bodyFormData);
     if(response.message === 'Logged in successfully'){
-      axios.defaults.headers.authorization = `Bearer ${response.access_token}`;
-      localStorage.setItem('userData', JSON.stringify({ access_token: response.access_token }));
+      axios.defaults.headers.authorization = `Bearer ${response.data.access_token}`;
+      await localStorage.setItem('userData', JSON.stringify(response.data));
       props.setUserData(response.data);
       history.replace('/events');
     }else{

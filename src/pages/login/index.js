@@ -28,21 +28,25 @@ const Login = (props) => {
     2: React.useRef(null),
     3: React.useRef(null),
     4: React.useRef(null),
-  }
+  };
 
   const handleNext = async () => {
     if(mobileValidation(mobileNum.current.value)){
       setSpinner(true);
       let bodyFormData = new FormData();
       bodyFormData.set('mobile_number', mobileNum.current.value);
-      const response = await UseAxios(LOGIN, bodyFormData)
-      if(response.data.length > 0){
+      bodyFormData.set('otp', '');
+      const response = await UseAxios(LOGIN, bodyFormData);
+      setSpinner(false);
+      if(response.status === 200){
         setOtpId(response.data);
-        setSpinner(false);
         snackBarSuccess('OTP sent to your mobile number');
         setSlideAnimation({ right: { ...slideAnimation.right, transform: 'translate(0px, 0px)'}, left: { ...slideAnimation.left, transform: 'translate(-1200px, 0px)'} });
         otpRef[1].current.focus();
         runTimer();
+      }
+      else{
+        snackBarError(response.message);
       }
     }
   }
@@ -65,13 +69,13 @@ const Login = (props) => {
     let otp = otpRef[1].current.value + otpRef[2].current.value + otpRef[3].current.value + otpRef[4].current.value
     var bodyFormData = new FormData();
     bodyFormData.set('otp', otp);
-    bodyFormData.set('otp_id', 1);
+    bodyFormData.set('mobile_number', mobileNum.current.value);
     const response = await UseAxios(LOGIN, bodyFormData);
     if(response.message === 'Logged in successfully'){
-      axios.defaults.headers.authorization = `Bearer ${response.access_token}`;
-      localStorage.setItem('userData', JSON.stringify({ access_token: response.access_token }));
+      axios.defaults.headers.authorization = `Bearer ${response.data.access_token}`;
+      localStorage.setItem('userData', JSON.stringify(response.data) );
       props.setUserData(response.data);
-      history.replace('/events');
+      history.push('/events');
     }else{
       snackBarError(response.message);
     }
@@ -105,7 +109,7 @@ const Login = (props) => {
               <div className='card shadow-sm' style={slideAnimation.left}>
                 <div className="form-group">
                   <label htmlFor="mobileNumber">Mobile Number</label>
-                  <input type="tel" className="form-control" id="mobileNumber" placeholder="Enter Mobile Number with country code" ref={mobileNum} />
+                  <input type="tel" className="form-control" id="mobileNumber" placeholder="Enter Mobile Number" ref={mobileNum} />
                 </div>
                 <Button className="btn btn-primary" onClick={handleNext} loading={spinner}>
                   Next
@@ -132,7 +136,9 @@ const Login = (props) => {
                 </div>
                 <div className="btnContainer">
                   <button type="button" className="btn btn-primary" onClick={handleBack}>Back</button>
-                  <button type="button" className="btn btn-primary" onClick={handleSubmit} disabled={disableSubmit}>Submit</button>
+                  <Button className="btn btn-primary" onClick={handleSubmit} disabled={disableSubmit} loading={spinner}>
+                    Submit
+                  </Button>
                 </div>
               </div>
             </div>

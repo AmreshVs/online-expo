@@ -1,18 +1,34 @@
 import React from 'react';
 
+import UseAxios from 'hooks/UseAxios';
+import { SELECT_PACKAGE } from 'api';
+import Button from 'components/button';
+
 const SelectPackage = (props) => {
 
-  const [selected, setSelected] = React.useState('platinum');
+  const [selected, setSelected] = React.useState(1);
+  const [spinner, setSpinner] = React.useState(false);
 
   const handleChange = (e) => {
     setSelected(e.target.value);
+  }
+
+  const handlePay = async () => {
+    setSpinner(true);
+    let formData = new FormData();
+    formData.set('package_type', selected);
+    formData.set('ticket_key', props.ticketKey);
+    const response = await UseAxios(SELECT_PACKAGE, formData);
+    console.log(response);
+    setSpinner(false);
+    props.handlePay();
   }
 
   return (
     <div className="card p-3 shadow-sm selectPackage">
       <h5>Choose your package</h5>
       <div className="form-check d-flex">
-        <input className="form-check-input" id="platinum" name="packages" type="radio" value="platinum" onChange={handleChange} checked={selected === 'platinum'} />
+        <input className="form-check-input" id="platinum" name="packages" type="radio" value="1" onChange={handleChange} checked={selected === 1} />
         <div className="checkLabelContainer">
           <label className="form-check-label font-weight-bold" htmlFor="platinum">
             Platinum - <span className="border badge badge-primary">₹19,999</span>
@@ -30,7 +46,7 @@ const SelectPackage = (props) => {
         </div>
       </div>
       <div className="form-check d-flex">
-        <input className="form-check-input" name="packages" id="diamond" type="radio" value="diamond" onChange={handleChange} checked={selected === 'diamond'} />
+        <input className="form-check-input" name="packages" id="diamond" type="radio" value="2" onChange={handleChange} checked={selected === 2} />
         <div className="checkLabelContainer">
           <label className="form-check-label font-weight-bold" htmlFor="diamond">
             Diamond - <span className="border badge badge-info">₹15,999</span>
@@ -48,7 +64,7 @@ const SelectPackage = (props) => {
         </div>
       </div>
       <div className="form-check d-flex">
-        <input className="form-check-input" name="packages" id="gold" type="radio" value="gold" onChange={handleChange} checked={selected === 'gold'} />
+        <input className="form-check-input" name="packages" id="gold" type="radio" value="3" onChange={handleChange} checked={selected === 3} />
         <div className="checkLabelContainer">
           <label className="form-check-label font-weight-bold" htmlFor="gold">
             Gold - <span className="border badge badge-warning">₹9,999</span>
@@ -65,7 +81,7 @@ const SelectPackage = (props) => {
         </div>
       </div>
       <div className="form-check d-flex">
-        <input className="form-check-input" name="packages" id="silver" type="radio" value="silver" onChange={handleChange} checked={selected === 'silver'} />
+        <input className="form-check-input" name="packages" id="silver" type="radio" value="4" onChange={handleChange} checked={selected === 4} />
         <div className="checkLabelContainer">
           <label className="form-check-label font-weight-bold" htmlFor="silver">
             Silver - <span className="border badge badge-light">₹7,999</span>
@@ -83,7 +99,9 @@ const SelectPackage = (props) => {
       </div>
       <div className="btnLRContainer">
         <button className="btn btn-primary" onClick={props.handleBack}>Back</button>
-        <button className="btn btn-primary" onClick={props.handlePay}>Pay</button>
+        <Button className="btn btn-primary" onClick={handlePay} loading={spinner}>
+          Pay
+        </Button>
       </div>
     </div>
   )
