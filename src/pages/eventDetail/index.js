@@ -13,6 +13,7 @@ const EventDetail = () => {
   const history = useHistory();
   const location = useLocation();
   const key = location.state.key;
+  const buy = location.state.buy;
 
   const [state, setState] = React.useState({
     loading: true,
@@ -30,7 +31,8 @@ const EventDetail = () => {
   }
 
   const handleBuyTicket = () => {
-    history.push('/exhibitor/buy-ticket', { key: key });
+    let { register_type } = JSON.parse(localStorage.getItem('userData'));
+    history.push(`/${register_type === 1 ? 'exhibitor' : 'visitor'}/buy-ticket`, { key: key, price: state.data.visitors_package_price });
   }
 
   let eventData = state.data;
@@ -49,8 +51,10 @@ const EventDetail = () => {
               <div className="p-3">
                 <h1>{eventData.event_title}</h1>
                 <small className="text-muted">{moment(eventData.event_start_date).format('MMMM Do YYYY')} - {moment(eventData.event_end_date).format('MMMM Do YYYY')}</small>
-                {ReactHtmlParser(eventData.event_desc)}
-                <button className="btn btn-primary" onClick={handleBuyTicket}>Buy Ticket</button>
+                <div className="mt-3">
+                  {ReactHtmlParser(eventData.event_desc)}
+                </div>
+                {buy === false ? null : <button className="btn btn-primary" onClick={handleBuyTicket}>Buy Ticket</button>}
               </div>
             </div>
           </div>

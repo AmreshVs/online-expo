@@ -8,17 +8,19 @@ const UseAxios = async (params, data) => {
   return await axios({
     url: url,
     method: method,
-    headers: headers || {},
-    data: data || {}
+    headers: headers || {
+      'Content-type': 'none'
+    },
+    data: data || {},
   })
   .then((response) => {
     return response.data;
   })
   .catch((error) => {
-    if(error.response.data.message !== undefined && error.response.data.message === 'Please Login to Continue'){
+    // if(error.response.data.message !== undefined && error.response.data.message === 'Please Login to Continue'){
       // Logout();
-    }
-    return error.response.data;
+    // }
+    return error;
   })
 }
 

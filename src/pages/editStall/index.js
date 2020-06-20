@@ -1,11 +1,13 @@
 import React, { useRef, useState } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import ImageUploadAdapter from 'common/imageUploadAdapter';
 import UseAxios from 'hooks/UseAxios';
-import { COMPANY_DETAILS, STALL_DETAIL } from 'api';
+import { UPDATE_STALL_DETAIL, STALL_DETAIL } from 'api';
 import { snackBarError } from 'common/snackBar';
 import Button from 'components/button';
 import Loader from 'components/loader';
+import { ADMIN_URL } from '../../constants';
 
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
@@ -22,6 +24,8 @@ import ImageCaptionPlugin from '@ckeditor/ckeditor5-image/src/imagecaption';
 import ImageStylePlugin from '@ckeditor/ckeditor5-image/src/imagestyle';
 import ImageToolbarPlugin from '@ckeditor/ckeditor5-image/src/imagetoolbar';
 import ImageUploadPlugin from '@ckeditor/ckeditor5-image/src/imageupload';
+import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle';
+import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
 import LinkPlugin from '@ckeditor/ckeditor5-link/src/link';
 import ListPlugin from '@ckeditor/ckeditor5-list/src/list';
 import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph';
@@ -39,17 +43,17 @@ import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperti
 
 const editorConfiguration = {
   plugins: [
-    EssentialsPlugin, AutoformatPlugin, BoldPlugin, ItalicPlugin, BlockQuotePlugin, HeadingPlugin, ImagePlugin, ImageCaptionPlugin, ImageStylePlugin, ImageToolbarPlugin, ImageUploadPlugin, LinkPlugin, ListPlugin, ParagraphPlugin, UploadAdapterPlugin, Font, PageBreak, PasteFromOffice, SpecialCharacters, SpecialCharactersEssentials, Alignment, TodoList, MediaEmbed, Table, TableToolbar, TableProperties, TableCellProperties
+    EssentialsPlugin, AutoformatPlugin, BoldPlugin, ItalicPlugin, BlockQuotePlugin, HeadingPlugin, ImagePlugin, ImageCaptionPlugin, ImageStylePlugin, ImageToolbarPlugin, ImageUploadPlugin, ImageStyle, ImageResize, LinkPlugin, ListPlugin, ParagraphPlugin, UploadAdapterPlugin, Font, PageBreak, PasteFromOffice, SpecialCharacters, SpecialCharactersEssentials, Alignment, TodoList, MediaEmbed, Table, TableToolbar, TableProperties, TableCellProperties
   ],
   toolbar: [
-    'heading', 'bold', 'italic', 'alignment', 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'pageBreak', 'link', 'bulletedList', 'numberedList', 'imageUpload', 'blockQuote', 'SpecialCharacters', 'todoList', 'undo', 'redo', 'mediaEmbed', 'insertTable'
+    'heading', 'bold', 'italic', 'alignment', 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'pageBreak', 'link', 'bulletedList', 'numberedList', 'imageUpload', 'blockQuote', 'SpecialCharacters', 'todoList', 'undo', 'redo', 'mediaEmbed', 'insertTable',
   ],
   image: {
-    toolbar: [
-      'imageStyle:full',
-      'imageStyle:side',
-      '|',
-      'imageTextAlternative'
+    toolbar: [ 'imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight' ],
+    styles: [
+      'full',
+      'alignLeft',
+      'alignRight'
     ]
   },
   table: {
@@ -62,12 +66,15 @@ const editorConfiguration = {
 
 const EditStall = (props) => {
   
-  let userData = localStorage.getItem('userData');
-  userData = JSON.parse(userData);
-  let token = userData.access_token;
+  let { access_token } = JSON.parse(localStorage.getItem('userData'));
+  let location = useLocation();
+  let history = useHistory();
+  let key = location.state.key;
 
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState('');
+  const [logoImg, setLogoImg] = useState('');
+  const [coverImg, setCoverImg] = useState('');
   const logo = useRef(null);
   const cover = useRef(null);
   const company_name = useRef(null);
@@ -90,22 +97,16 @@ const EditStall = (props) => {
 
   const loadData = async () => {
     setState({ ...state, loading: true });
-    const response = await UseAxios(STALL_DETAIL);
-    setContent(response.data.content);
+    const response = await UseAxios({ ...STALL_DETAIL, url: STALL_DETAIL.url + key });
     setState({ ...state, data: response.data, loading: false });
+    setContent(response.data.company_desc);
+    setCoverImg(ADMIN_URL + '/' + response.data.cover_image_path);
+    setLogoImg(ADMIN_URL + '/' + response.data.logo_image_path);
   }
 
+  let data = state.data;
+
   const validate = () => {
-
-    if(logo.current.files[0] === undefined){
-      snackBarError('Logo cannot be empty!');
-      return false;
-    }
-
-    if(cover.current.files[0] === ''){
-      snackBarError('Cover cannot be empty!');
-      return false;
-    }
 
     if(company_name.current.value === ''){
       snackBarError('Company name cannot be empty!');
@@ -125,11 +126,11 @@ const EditStall = (props) => {
     return true;
   }
   
-  const handleNext = async () => {
+  const handleUpdate = async () => {
     if(validate()){
       setLoading(true);
       let formData = new FormData();
-      formData.set('event_key', props.ekey);
+      formData.set('ticket_key', key);
       formData.set('company_name', company_name.current.value);
       formData.set('website', web.current.value);
       formData.set('meet_id', meet_id.current.value);
@@ -138,12 +139,16 @@ const EditStall = (props) => {
       formData.set('fb_url', fb_live.current.value);
       formData.set('youtupe_link', youtube.current.value);
       formData.set('company_desc', content);
-      formData.set('logo_image_path', logo.current.files[0]);
-      formData.set('cover_image_path', cover.current.files[0]);
+      if(logo.current.files[0] !== undefined){
+        formData.set('logo_image_path', logo.current.files[0] !== undefined ? logo.current.files[0] : '');
+      }
+      if(cover.current.files[0] !== undefined){
+        formData.set('cover_image_path', cover.current.files[0] !== undefined ? cover.current.files[0] : '');
+      }
       formData.set('short_desc', desc.current.value);
-      const response = await UseAxios(COMPANY_DETAILS, formData);
+      await UseAxios(UPDATE_STALL_DETAIL, formData);
       setLoading(false);
-      props.handleNext(response.ticket_id);
+      history.goBack();
     }
   }
 
@@ -151,90 +156,96 @@ const EditStall = (props) => {
     state.loading === true ?
     <Loader />
     :
-    <div className="card p-3 shadow-sm">
-      <div className="form-group">
-        <img src={state.data.logo} alt="company-logo" />
-      </div>
-      <div className="form-group">
-        <label htmlFor="logoUpload">Update Logo (50 x 50)</label>
-        <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={logo} />
-      </div>
-      <div className="form-group">
-        <img src={state.data.cover} alt="company-cover" />
-      </div>
-      <div className="form-group">
-        <label htmlFor="logoUpload">Update Company Cover Image (1920 x 1080)</label>
-        <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={cover} />
-      </div>
-      <div className="form-group">
-        <label htmlFor="companyname">Company Name</label>
-        <input id="companyname" type="text" className="form-control" value={state.data.company_name} ref={company_name} />
-      </div>
-      <div className="form-group">
-        <label htmlFor="description">Short Description</label>
-        <input id="description" type="text" className="form-control" value={state.data.description} ref={desc} />
-      </div>
-      <div className="form-group">
-        <CKEditor
-          editor={ClassicEditor}
-          config={editorConfiguration}
-          data=""
-          onInit={editor => {
-            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-              return new ImageUploadAdapter(loader, token);
-            };
-          }}
-          onChange={(event, editor) => {
-            setContent(editor.getData());
-          }}
-        />
-      </div>
-      <div className="row">
-        <div className="col-sm-6">
-          <div className="form-group">
-            <label htmlFor="Webpage">Webpage</label>
-            <input id="Webpage" type="text" className="form-control" value={state.data.web} ref={web} />
+    <div className="container">
+      <div className="row justify-content-center">
+        <div className="col-sm-12 col-lg-9">
+          <div className="card p-3 mt-3 mb-3 shadow-sm">
+            <div className="form-group">
+              <img className="stall-logo" src={logoImg} alt="company-logo" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="logoUpload">Update Logo (50 x 50)</label>
+              <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={logo} onChange={() => logo.current.files[0] !== undefined ? setLogoImg(URL.createObjectURL(logo.current.files[0])) : setLogoImg('')} />
+            </div>
+            <div className="form-group">
+              <img src={coverImg} alt="company-cover" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="logoUpload">Update Company Cover Image (1920 x 1080)</label>
+              <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={cover} onChange={() => cover.current.files[0] !== undefined ? setCoverImg(URL.createObjectURL(cover.current.files[0])) : setCoverImg('')} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="companyname">Company Name</label>
+              <input id="companyname" type="text" className="form-control" defaultValue={data.company_name} ref={company_name} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="description">Short Description</label>
+              <input id="description" type="text" className="form-control" defaultValue={data.short_desc} ref={desc} />
+            </div>
+            <div className="form-group">
+              <CKEditor
+                editor={ClassicEditor}
+                config={editorConfiguration}
+                data={data.company_desc}
+                onInit={editor => {
+                  editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                    return new ImageUploadAdapter(loader, access_token);
+                  };
+                }}
+                onChange={(event, editor) => {
+                  setContent(editor.getData());
+                }}
+              />
+            </div>
+            <div className="row">
+              <div className="col-sm-6">
+                <div className="form-group">
+                  <label htmlFor="Webpage">Webpage</label>
+                  <input id="Webpage" type="text" className="form-control" defaultValue={data.website} ref={web} />
+                </div>
+              </div>
+              <div className="col-sm-6">
+                <div className="form-group">
+                  <label htmlFor="meetId">Meet ID</label>
+                  <input id="meetId" type="text" className="form-control" defaultValue={data.meet_id} ref={meet_id} />
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm-6">
+                <div className="form-group">
+                  <label htmlFor="zoomId">Zoom ID</label>
+                  <input id="zoomId" type="text" className="form-control" defaultValue={data.zoom_id} ref={zoom_id} />
+                </div>
+              </div>
+              <div className="col-sm-6">
+                <div className="form-group">
+                  <label htmlFor="whatsapp">Whatsapp Number</label>
+                  <input id="whatsapp" type="text" className="form-control" defaultValue={data.whatsapp_number} ref={whatsapp} />
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm-6">
+                <div className="form-group">
+                  <label htmlFor="facebookLive">Facebook Live</label>
+                  <input id="facebookLive" type="text" className="form-control" defaultValue={data.fb_url} ref={fb_live} />
+                </div>
+              </div>
+              <div className="col-sm-6">
+                <div className="form-group">
+                  <label htmlFor="youtubeLink">Youtube</label>
+                  <input id="youtubeLink" type="text" className="form-control" defaultValue={data.youtupe_link} ref={youtube} />
+                </div>
+              </div>
+            </div>
+            <div className="text-right">
+            <Button className="btn btn-primary" onClick={handleUpdate} loading={loading} >
+              Update
+            </Button>
+            </div>
           </div>
         </div>
-        <div className="col-sm-6">
-          <div className="form-group">
-            <label htmlFor="meetId">Meet ID</label>
-            <input id="meetId" type="text" className="form-control" value={state.data.meet_id} ref={meet_id} />
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-sm-6">
-          <div className="form-group">
-            <label htmlFor="zoomId">Zoom ID</label>
-            <input id="zoomId" type="text" className="form-control" value={state.data.zoom_id} ref={zoom_id} />
-          </div>
-        </div>
-        <div className="col-sm-6">
-          <div className="form-group">
-            <label htmlFor="whatsapp">Whatsapp Number</label>
-            <input id="whatsapp" type="text" className="form-control" value={state.data.whatsapp} ref={whatsapp} />
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-sm-6">
-          <div className="form-group">
-            <label htmlFor="facebookLive">Facebook Live</label>
-            <input id="facebookLive" type="text" className="form-control" value={state.data.fb} ref={fb_live} />
-          </div>
-        </div>
-        <div className="col-sm-6">
-          <div className="form-group">
-            <label htmlFor="youtubeLink">Youtube</label>
-            <input id="youtubeLink" type="text" className="form-control" value={state.data.youtube} ref={youtube} />
-          </div>
-        </div>
-      </div>
-      <div className="text-right">
-      <Button className="btn btn-primary" onClick={handleNext} loading={loading} >
-        Next
-      </Button>
       </div>
     </div>
   )

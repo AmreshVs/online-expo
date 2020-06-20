@@ -10,8 +10,8 @@ const ExhibitorBuyTicket = () => {
   const history = useHistory();
   const location = useLocation();
   const key = location.state.key;
-  const [ticketKey, setTicketKey] = React.useState(''); 
-  const [stallId, setStallId] = React.useState(0); 
+  const [ticketKey, setTicketKey] = React.useState('');
+  const [epackage, setEpackage] = React.useState(0); 
   
   const [slideAnimation, setSlideAnimation] = React.useState({
     left: { transition: 'all .3s', transform: 'translate(0px, 0px)' },
@@ -34,8 +34,8 @@ const ExhibitorBuyTicket = () => {
     }, 100);
   }
 
-  const handleNext1 = (stall_id) => {
-    setStallId(stall_id);
+  const handleNext1 = (epackage) => {
+    setEpackage(epackage);
     setSlideAnimation({ ...slideAnimation, last: { ...slideAnimation.last, transform: 'translate(-1200px, 0px)', display: 'block'} });
     setTimeout(() => {
       setSlideAnimation({ ...slideAnimation, right: { ...slideAnimation.right, transform: 'translate(-1200px, 0px)', display: 'none' }, last: { ...slideAnimation.last, transform: 'translate(0px, 0px)', display: 'block'} });
@@ -49,12 +49,12 @@ const ExhibitorBuyTicket = () => {
     }, 100);
   }
 
-  const handlePay = () => {
-    history.push('/payment-confirmation');
+  const handlePay = (data) => {
+    history.push('/payment', { url: data.payment_url });
   }
 
   return(
-    <div id="event-detail">
+    <div id="exhibitorBuyTicket">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-sm-12 col-lg-9">
@@ -66,7 +66,7 @@ const ExhibitorBuyTicket = () => {
                 <FloorPlan handleNext={handleNext1} eventKey={key} ticketKey={ticketKey} handleBack={handleBack} />
               </div>
               <div className="exhibitorContents pt-3 pb-3" style={slideAnimation.last}>
-                <SelectPackage handleBack={handleBack1} ticketKey={ticketKey} handlePay={handlePay} />
+                <SelectPackage handleBack={handleBack1} package={epackage} ticketKey={ticketKey} handlePay={handlePay} />
               </div>
             </div>
           </div>

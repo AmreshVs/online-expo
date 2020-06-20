@@ -222,12 +222,15 @@ const Register = (props) => {
     state.loading === true ?
     <Loader/>
     :
-    <div className="layout">
+    <div className="layout registerContainer">
       <div className="container p-3">
         <div className="row justify-content-center">
           <div className="col-sm-6 registerContainer">
             <div className="position-relative">
               <div className='card shadow-sm' style={slideAnimation.left}>
+                <div className="text-center mb-3">
+                  <img className="login-img" src={require('../../assets/img/register.png')} alt="login" />
+                </div>
                 <div className="form-group">
                   <label htmlFor="registerAs">Register as</label>
                   <select className="form-control" id="registerAs" onChange={(e) => handleChange(e.target.value)} ref={register}>
@@ -284,6 +287,9 @@ const Register = (props) => {
               }
               </div>
               <div className='card shadow-sm' style={slideAnimation.right}>
+                <div className="text-center mb-3">
+                  <img className="login-img" src={require('../../assets/img/otp.jpg')} alt="login" />
+                </div>
                 <div className=" mb-2">
                   <div className="form-group mb-0">
                     <label htmlFor="companyName">Enter OTP</label>

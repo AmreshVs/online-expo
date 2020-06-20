@@ -1,4 +1,4 @@
-import { ADMIN_URL } from '../constants/index';
+import { ADMIN_URL, API_URL } from '../constants/index';
 
 export default class ImageUploadAdapter {
   constructor(loader, token) {
@@ -15,7 +15,7 @@ export default class ImageUploadAdapter {
     // a POST request with JSON as a data structure but your configuration
     // could be different.
     // xhr.open('POST', API_URL + '/image-upload', true);
-    xhr.open('POST', '/api/v1/ticket/image-upload', true);
+    xhr.open('POST', API_URL + '/ticket/image-upload', true);
     xhr.responseType = 'json';
   }
 
@@ -44,7 +44,7 @@ export default class ImageUploadAdapter {
       // This URL will be used to display the image in the content. Learn more in the
       // UploadAdapter#upload documentation.
       resolve({
-        default: ADMIN_URL + response.url
+        default: ADMIN_URL + '/' + response.data.url
       });
     });
 
@@ -71,8 +71,7 @@ export default class ImageUploadAdapter {
     // like authentication and CSRF protection. For instance, you can use
     // XMLHttpRequest.setRequestHeader() to set the request headers containing
     // the CSRF token generated earlier by your application.
-
-    this.xhr.setRequestHeader('Authorization', 'Bearer' + this.token);
+    this.xhr.setRequestHeader('Authorization', 'Bearer ' + this.token);
     // Send the request.
     this.xhr.send(data);
   }

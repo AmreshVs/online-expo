@@ -36,7 +36,7 @@ const Header = ({ access_token }) => {
 
         <div className={`collapse navbar-collapse justify-content-end ${toggle === true ? 'show' : ''}`} id="mainNav">
           <ul className="navbar-nav ">
-            {access_token === undefined && (userData !== null && userData.access_token === undefined) ? 
+            {userData === null ? 
               <>
                 <li className="nav-item">
                   <Link className="nav-link smoth-scroll" to="/register">Register</Link>
@@ -51,10 +51,10 @@ const Header = ({ access_token }) => {
                   <Link className="nav-link smoth-scroll" to="/events">Latest Events</Link>
                 </li>
                 <li className="dropdown nav-item">
-                  <Link className="nav-link smoth-scroll" to="/register">
-                    <User className="nav-icon" />
+                  <div className="userName nav-link">
+                    <User className="nav-icon" color="#FFF" />
                     {(userData !== null && userData.username !== undefined) ? userData.username : ''}
-                  </Link>
+                  </div>
                   <div className="dropdown-content">
                     <Link to="/your-events">Your Events</Link>
                     <Link to="/favourites">Favorites</Link>

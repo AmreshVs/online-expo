@@ -18,7 +18,8 @@ import Profile from 'pages/profile';
 import EditProfile from 'pages/profile/editProfile';
 import Main from 'pages/main';
 import Logout from 'pages/logout';
-import Test from 'pages/test';
+import Payment from 'pages/payment';
+// import Test from 'pages/test';
 
 export default function Navigation() {
   return (
@@ -53,10 +54,10 @@ export default function Navigation() {
       <Route path="/view-event">
         <ViewEvent />
       </Route>
-      <Route path="/stall-detail/:id">
+      <Route path="/stall-detail">
         <StallDetail />
       </Route>
-      <Route path="/edit-stall/:id">
+      <Route path="/edit-stall">
         <EditStall />
       </Route>
       <Route path="/favourites">
@@ -74,8 +75,8 @@ export default function Navigation() {
       <Route path="/logout">
         <Logout />
       </Route>
-      <Route path="/test">
-        <Test />
+      <Route path="/payment">
+        <Payment />
       </Route>
     </Switch>
   );

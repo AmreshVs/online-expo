@@ -1,7 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom'; 
 
 const PaymentSuccess = () => {
+  const location = useLocation();
+  const history = useHistory();
+
+  let data = location.state.data;
+
+  const handleClick = () => {
+    history.push('/view-event', { key: data.event_key, title: data.event_name, ticket_key: data.ticket_key })
+  }
+
   return(
     <div id="event-detail">
       <div className="container">
@@ -10,8 +20,9 @@ const PaymentSuccess = () => {
             <div className="detailContainer text-wrap">
               <div className="card p-3 mt-3">
                 <h3 className="text-success">Payment Success</h3>
-                <p>Your Ticket is now confirmed and ID is #213243. Now you can enter the expo hassle free.</p>
-                <Link to="" className="text-decoration-none">Back to upcoming events</Link>
+                <p>Your Payment of ₹{data.amount} for the event <b>{data.event_name}</b> is now confirmed and ID is #{data.id}. Now you can enter the expo hassle free.</p>
+                <button className="btn btn-primary" onClick={handleClick}>Enter the Expo</button>
+                <Link to="/your-events" className="text-decoration-none">Back to upcoming events</Link>
               </div>
             </div>
           </div>

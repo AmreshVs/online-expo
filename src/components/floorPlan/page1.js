@@ -1,8 +1,29 @@
 /* eslint-disable no-loop-func */
 import React from 'react';
 
-const FloorPlanPage1 = ({ selected, handleClick, data }) => {
+const FloorPlanPage1 = ({ selected, handleClick, data, view }) => {
+
+  const renderDataTip = (data) => {
+    return `Stall <b>${data.id}</b> <br> <b>${data.name}</b> <br> <span>${data.description}</span><br><span class="badge badge-primary">${data.type}</span>`;
+  }
   
+  const getClassName = (data) => {
+    if(data.status === 0){
+      if(selected === data.id){
+        return "table-success";
+      }
+      else if(view === 1){
+        return "col-disable"
+      }
+      else{
+        return "";
+      }
+    }
+    else{
+      return "table-warning";
+    }
+  }
+
   const RenderFirstRow = () => {
 
     let row = data.first_row;
@@ -13,7 +34,7 @@ const FloorPlanPage1 = ({ selected, handleClick, data }) => {
       if(id !== ''){
         let col = row[id];
         tds.push(
-          <td className={col.status === 0 ? selected === col.id ? "table-success" : '' : "table-warning"} onClick={() => handleClick(col.id)} key={col.id} data-tip={`Stall <b>${col.id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>S{col.id}</td>
+          <td className={getClassName(col)} onClick={() => view === 1 ? col.status === 1 ? handleClick(col) : null : handleClick(col)} key={col.id} data-tip={col.status === 1 ? renderDataTip(col) : ''}>S{col.id}</td>
         )
       }
       else{
@@ -40,7 +61,7 @@ const FloorPlanPage1 = ({ selected, handleClick, data }) => {
       if(id !== ''){
         let col = row[id];
         tds.push(
-          <td className={col.status === 0 ? selected === col.id ? "table-success" : '' : "table-warning"} onClick={() => handleClick(col.id)} key={col.id} data-tip={`Stall <b>${col.id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>S{col.id}</td>
+          <td className={getClassName(col)} onClick={() => view === 1 ? col.status === 1 ? handleClick(col) : null : handleClick(col)} key={col.id} data-tip={col.status === 1 ? renderDataTip(col) : ''}>S{col.id}</td>
         )
       }
       else{
@@ -85,15 +106,15 @@ const FloorPlanPage1 = ({ selected, handleClick, data }) => {
     for(let i = 0; i < 26; i++){
       rows.push(
         <tr colSpan="9" key={i}>
-          <td className={row[r1Arr[i]].status === 0 ? selected === row[r1Arr[i]].id ? "table-success" : '' : "table-warning"} onClick={() => handleClick(row[r1Arr[i]].id)} data-tip={`Stall <b>${row[r1Arr[i]].id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>S{row[r1Arr[i]].id}</td>
+          <td className={getClassName(row[r1Arr[i]])} onClick={() => view === 1 ? row[r1Arr[i]].status === 1 ? handleClick(row[r1Arr[i]]) : null : handleClick(row[r1Arr[i]])} data-tip={row[r1Arr[i]].status === 1 ? renderDataTip(row[r1Arr[i]]) : ''}>S{row[r1Arr[i]].id}</td>
           <td className="table-light"></td>
-          <td className={row[r3Arr[i]].status === 0 ? selected === row[r3Arr[i]].id ? "table-success" : '' : "table-warning"} onClick={() => handleClick(row[r3Arr[i]].id)} data-tip={`Stall <b>${row[r3Arr[i]].id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>S{row[r3Arr[i]].id}</td>
+          <td className={getClassName(row[r3Arr[i]])} onClick={() => view === 1 ? row[r3Arr[i]].status === 1 ? handleClick(row[r3Arr[i]]) : null : handleClick(row[r3Arr[i]])} data-tip={row[r3Arr[i]].status === 1 ? renderDataTip(row[r3Arr[i]]) : ''}>S{row[r3Arr[i]].id}</td>
           <td className="table-light"></td>
-          <td className={row[r5Arr[i]].status === 0 ? selected === row[r5Arr[i]].id ? "table-success" : '' : "table-warning"} onClick={() => handleClick(row[r5Arr[i]].id)} data-tip={`Stall <b>${row[r5Arr[i]].id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>S{row[r5Arr[i]].id}</td>
+          <td className={getClassName(row[r5Arr[i]])} onClick={() => view === 1 ? row[r5Arr[i]].status === 1 ? handleClick(row[r5Arr[i]]) : null : handleClick(row[r5Arr[i]])} data-tip={row[r5Arr[i]].status === 1 ? renderDataTip(row[r5Arr[i]]) : ''}>S{row[r5Arr[i]].id}</td>
           <td className="table-light"></td>
-          <td className={row[r7Arr[i]].status === 0 ? selected === row[r7Arr[i]].id ? "table-success" : '' : "table-warning"} onClick={() => handleClick(row[r7Arr[i]].id)} data-tip={`Stall <b>${row[r7Arr[i]].id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>S{row[r7Arr[i]].id}</td>
+          <td className={getClassName(row[r7Arr[i]])} onClick={() => view === 1 ? row[r7Arr[i]].status === 1 ? handleClick(row[r7Arr[i]]) : null : handleClick(row[r7Arr[i]])} data-tip={row[r7Arr[i]].status === 1 ? renderDataTip(row[r7Arr[i]]) : ''}>S{row[r7Arr[i]].id}</td>
           <td className="table-light"></td>
-          <td className={row[r9Arr[i]].status === 0 ? selected === row[r9Arr[i]].id ? "table-success" : '' : "table-warning"} onClick={() => handleClick(row[r9Arr[i]].id)} data-tip={`Stall <b>${row[r9Arr[i]].id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>S{row[r9Arr[i]].id}</td>
+          <td className={getClassName(row[r9Arr[i]])} onClick={() => view === 1 ? row[r9Arr[i]].status === 1 ? handleClick(row[r9Arr[i]]) : null : handleClick(row[r9Arr[i]])} data-tip={row[r9Arr[i]].status === 1 ? renderDataTip(row[r9Arr[i]]) : ''}>S{row[r9Arr[i]].id}</td>
         </tr>
       );
       r1--; r3++; r5--; r7--; r9++;
@@ -111,7 +132,7 @@ const FloorPlanPage1 = ({ selected, handleClick, data }) => {
       if(id !== ''){
         let col = row[id];
         tds.push(
-          <td className={col.status === 0 ? selected === col.id ? "table-success" : '' : "table-warning"} onClick={() => handleClick(col.id)} key={col.id} data-tip={`Stall <b>${col.id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>S{col.id}</td>
+          <td className={getClassName(col)} onClick={() => view === 1 ? col.status === 1 ? handleClick(col) : null : handleClick(col)} key={col.id} data-tip={col.status === 1 ? renderDataTip(col) : ''}>S{col.id}</td>
         )
       }
       else{
@@ -138,7 +159,7 @@ const FloorPlanPage1 = ({ selected, handleClick, data }) => {
       if(id !== ''){
         let col = row[id];
         tds.push(
-          <td className={col.status === 0 ? selected === col.id ? "table-success" : '' : "table-warning"} onClick={() => handleClick(col.id)} key={col.id} data-tip={`Stall <b>${col.id}</b> <br> <b>Company Name</b> <br> <span>Description</span><br><span class="badge badge-primary">Diamond</span>`}>S{col.id}</td>
+          <td className={getClassName(col)} onClick={() => view === 1 ? col.status === 1 ? handleClick(col) : null : handleClick(col)} key={col.id} data-tip={col.status === 1 ? renderDataTip(col) : ''}>S{col.id}</td>
         )
       }
       else{

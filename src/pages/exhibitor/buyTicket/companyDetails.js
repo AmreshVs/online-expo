@@ -21,6 +21,8 @@ import ImageCaptionPlugin from '@ckeditor/ckeditor5-image/src/imagecaption';
 import ImageStylePlugin from '@ckeditor/ckeditor5-image/src/imagestyle';
 import ImageToolbarPlugin from '@ckeditor/ckeditor5-image/src/imagetoolbar';
 import ImageUploadPlugin from '@ckeditor/ckeditor5-image/src/imageupload';
+import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle';
+import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
 import LinkPlugin from '@ckeditor/ckeditor5-link/src/link';
 import ListPlugin from '@ckeditor/ckeditor5-list/src/list';
 import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph';
@@ -38,17 +40,17 @@ import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperti
 
 const editorConfiguration = {
   plugins: [
-    EssentialsPlugin, AutoformatPlugin, BoldPlugin, ItalicPlugin, BlockQuotePlugin, HeadingPlugin, ImagePlugin, ImageCaptionPlugin, ImageStylePlugin, ImageToolbarPlugin, ImageUploadPlugin, LinkPlugin, ListPlugin, ParagraphPlugin, UploadAdapterPlugin, Font, PageBreak, PasteFromOffice, SpecialCharacters, SpecialCharactersEssentials, Alignment, TodoList, MediaEmbed, Table, TableToolbar, TableProperties, TableCellProperties
+    EssentialsPlugin, AutoformatPlugin, BoldPlugin, ItalicPlugin, BlockQuotePlugin, HeadingPlugin, ImagePlugin, ImageCaptionPlugin, ImageStylePlugin, ImageToolbarPlugin, ImageUploadPlugin, ImageStyle, ImageResize, LinkPlugin, ListPlugin, ParagraphPlugin, UploadAdapterPlugin, Font, PageBreak, PasteFromOffice, SpecialCharacters, SpecialCharactersEssentials, Alignment, TodoList, MediaEmbed, Table, TableToolbar, TableProperties, TableCellProperties
   ],
   toolbar: [
     'heading', 'bold', 'italic', 'alignment', 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'pageBreak', 'link', 'bulletedList', 'numberedList', 'imageUpload', 'blockQuote', 'SpecialCharacters', 'todoList', 'undo', 'redo', 'mediaEmbed', 'insertTable'
   ],
   image: {
-    toolbar: [
-      'imageStyle:full',
-      'imageStyle:side',
-      '|',
-      'imageTextAlternative'
+    toolbar: [ 'imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight' ],
+    styles: [
+      'full',
+      'alignLeft',
+      'alignRight'
     ]
   },
   table: {
@@ -67,6 +69,8 @@ const CompanyDetails = (props) => {
 
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState('');
+  const [logoImg, setLogoImg] = useState('');
+  const [coverImg, setCoverImg] = useState('');
   const logo = useRef(null);
   const cover = useRef(null);
   const company_name = useRef(null);
@@ -125,21 +129,35 @@ const CompanyDetails = (props) => {
       formData.set('cover_image_path', cover.current.files[0]);
       formData.set('short_desc', desc.current.value);
       const response = await UseAxios(COMPANY_DETAILS, formData);
-      console.log(response)
+      if(response.status === 200){
+        props.handleNext(response.data.ticket_key);   
+      }
+      else{
+        snackBarError(response.message);
+      }
       setLoading(false);
-      props.handleNext(response.data.ticket_key);
     }
   }
 
   return (
     <div className="card p-3 shadow-sm">
+      {logoImg !== '' && 
+        <div className="form-group">
+          <img className="stall-logo" src={logoImg} alt="company-logo" />
+        </div>
+      }
       <div className="form-group">
         <label htmlFor="logoUpload">Logo (50 x 50)</label>
-        <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={logo} />
+        <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={logo} onChange={() => logo.current.files[0] !== undefined ? setLogoImg(URL.createObjectURL(logo.current.files[0])) : setLogoImg('')} />
       </div>
+      {coverImg !== '' && 
+        <div className="form-group">
+          <img src={coverImg} alt="company-cover" />
+        </div>
+      }
       <div className="form-group">
         <label htmlFor="logoUpload">Company Cover Image (1920 x 1080)</label>
-        <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={cover} />
+        <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={cover} onChange={() => cover.current.files[0] !== undefined ? setCoverImg(URL.createObjectURL(cover.current.files[0])) : setCoverImg('')} />
       </div>
       <div className="form-group">
         <label htmlFor="companyname">Company Name</label>

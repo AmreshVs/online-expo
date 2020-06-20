@@ -1,12 +1,26 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+
+import { VISITOR_PACKAGE } from 'api';
+import UseAxios from 'hooks/UseAxios';
+import Button from 'components/button';
 
 const VisitorBuyTicket = () => {
 
   const history = useHistory();
+  const location = useLocation();
+  let key = location.state.key;
+  let price = location.state.price;
 
-  const handlePay = () => {
-    history.push('/payment-confirmation');
+  const [spinner, setSpinner] = React.useState(false);
+
+  const handlePay = async () => {
+    setSpinner(true);
+    let formData = new FormData();
+    formData.set('event_key', key);
+    const response = await UseAxios(VISITOR_PACKAGE, formData);
+    setSpinner(false);
+    history.push('/payment', { url: response.data.payment_url });
   }
 
   return (
@@ -21,7 +35,7 @@ const VisitorBuyTicket = () => {
                   <div className="form-check">
                     <div className="checkLabelContainer">
                       <label className="form-check-label font-weight-bold" htmlFor="platinum">
-                        Entry Fee - <span className="border badge badge-light">₹199</span>
+                        Entry Fee - <span className="border badge badge-light">₹{price}</span>
                       </label>
                       <label className="form-check-label text-muted">
                         By clicking pay you will be redirected to our payment gateway. The gateway is very secured for online transactions.
@@ -29,7 +43,9 @@ const VisitorBuyTicket = () => {
                     </div>
                   </div>
                   <div className="btnLRContainer">
-                    <button className="btn btn-primary" onClick={handlePay}>Pay</button>
+                    <Button className="btn btn-primary" onClick={handlePay} loading={spinner}>
+                      Pay
+                    </Button>
                   </div>
                 </div>
               </div>

@@ -107,6 +107,9 @@ const Login = (props) => {
           <div className="col-sm-6 registerContainer">
             <div className="position-relative">
               <div className='card shadow-sm' style={slideAnimation.left}>
+                <div className="text-center">
+                  <img className="login-img" src={require('../../assets/img/login.jpg')} alt="login" />
+                </div>
                 <div className="form-group">
                   <label htmlFor="mobileNumber">Mobile Number</label>
                   <input type="tel" className="form-control" id="mobileNumber" placeholder="Enter Mobile Number" ref={mobileNum} />
@@ -116,9 +119,11 @@ const Login = (props) => {
                 </Button>
               </div>
               <div className='card shadow-sm' style={slideAnimation.right}>
+                <div className="text-center mb-3">
+                  <img className="login-img" src={require('../../assets/img/otp.jpg')} alt="login" />
+                </div>
                 <div className=" mb-2">
                   <div className="form-group mb-0">
-                    <label>Enter OTP</label>
                     <div className="otpContainer">
                       <input type="text" className="form-control otpInput" onChange={(e) => handleOtpChange(e, 1)} id="otp1" maxLength={1} ref={otpRef[1]} />
                       <input type="text" className="form-control otpInput" onChange={(e) => handleOtpChange(e, 2)} id="otp2" maxLength={1} ref={otpRef[2]} />

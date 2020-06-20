@@ -28,8 +28,8 @@ const FloorPlans = (props) => {
     setState({ ...state, data: response.data, loading: false });
   }
 
-  const handleClick = (id) => {
-    setSelected(id);
+  const handleClick = (data) => {
+    setSelected(data.id);
   }
 
   const handleNext = async () => {
@@ -37,9 +37,9 @@ const FloorPlans = (props) => {
     let formData = new FormData();
     formData.set('ticket_key', props.ticketKey);
     formData.set('stall_id', selected);
-    await UseAxios(SELECT_STALL, formData);
+    const response = await UseAxios(SELECT_STALL, formData);
     setState({ ...state, spinner: false });
-    props.handleNext();
+    props.handleNext(response.data);
   }
 
   return (

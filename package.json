@@ -2,6 +2,7 @@
   "name": "online-expo",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://app.worldtradehub.in",
   "dependencies": {
     "@babel/core": "7.9.0",
     "@ckeditor/ckeditor5-adapter-ckfinder": "^19.0.1",
