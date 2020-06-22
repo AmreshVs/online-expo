@@ -31,7 +31,7 @@ const Event = ({ data }) => {
       <div className="card shadow-sm" onClick={handleClick}>
         <img className="card-img" src={image} alt="event" />
         <div className="card-body p-3">
-          <h5 className="card-title mb-0">{data.event_title}</h5>
+          <h6 className="card-title mb-0">{data.event_title}</h6>
           <p className="card-text"><small className="text-muted">{moment(data.event_start_date).format('MMMM Do YYYY')} - {moment(data.event_end_date).format('MMMM Do YYYY')}</small></p>
         </div>
       </div>

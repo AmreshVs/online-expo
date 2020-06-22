@@ -11,8 +11,16 @@ const YourEvents = () => {
 
   const history = useHistory();
 
-  const handleClick = (key, title, ticket_key) => {
-    history.push('/view-event', { key: key, title: title, ticket_key: ticket_key });
+  const handleClick = (key, title, ticket_key, startDate) => {
+    var today = moment(new Date(), 'DD-MM-YYYY');
+    var start = moment(new Date(startDate), 'DD-MM-YYYY');
+    var days = start.diff(today, 'days');
+    if(days <= 0){
+      history.push('/view-event', { key: key, title: title, ticket_key: ticket_key });
+    }
+    else{
+      history.push('/event-detail', { key: key });
+    }
   }
 
   const [state, setState] = React.useState({
@@ -48,7 +56,7 @@ const YourEvents = () => {
                   {state.data.length > 0 && state.data.map((item, index) => {
                     return(
                       <div key={index}>
-                        <div className="cursor-pointer" onClick={() => handleClick(item.event_key, item.event_title, item.ticket_key)}>
+                        <div className="cursor-pointer" onClick={() => handleClick(item.event_key, item.event_title, item.ticket_key, item.event_start_date)}>
                           <div className="row">
                             <div className="col-sm-3 col-4">
                               <img className="card-img" src={ADMIN_URL + item.event_image} alt="event" />

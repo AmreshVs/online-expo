@@ -9,7 +9,7 @@ import { snackBarError, snackBarSuccess } from 'common/snackBar';
 import { mobileValidation } from 'common/validation';
 import Button from 'components/button';
 import { setUserData } from 'redux/actions/commonActions';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 const Login = (props) => {
 
@@ -117,6 +117,9 @@ const Login = (props) => {
                 <Button className="btn btn-primary" onClick={handleNext} loading={spinner}>
                   Next
                 </Button>
+                <div className="form-group mt-2 mb-0">
+                  <Link to="/register">Not an member? Register Now</Link>
+                </div>
               </div>
               <div className='card shadow-sm' style={slideAnimation.right}>
                 <div className="text-center mb-3">
