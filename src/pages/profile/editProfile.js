@@ -158,7 +158,7 @@ const EditProfile = () => {
     state.loading === true ?
     <Loader/>
     :
-    <div className="viewEvent">
+    <div className="viewEvent layout">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-sm-12 col-lg-6">

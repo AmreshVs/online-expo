@@ -23,13 +23,11 @@ const Profile = () => {
     setState({ ...state, data: response.data, loading: false });
   }
 
-  let data = state.data;
-
   return (
     state.loading === true ? 
     <Loader/>
     :
-    <div className="viewEvent">
+    <div className="viewEvent layout">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-sm-12 col-lg-6">
@@ -47,7 +45,7 @@ const Profile = () => {
                   <div className="p-3">
                     <div className="row">
                       <div className="col-sm-4 d-flex">
-                        <User size={20} className="mr-2" />
+                        <User size={20} className="mr-2" color="#4395ff" />
                         <h6>Fullname</h6>
                       </div>
                       <div className="col-sm-7">
@@ -56,7 +54,7 @@ const Profile = () => {
                     </div>
                     <div className="row">
                       <div className="col-sm-4 d-flex">
-                        <Mail size={20} className="mr-2" />
+                        <Mail size={20} className="mr-2" color="#4395ff" />
                         <h6>Email</h6>
                       </div>
                       <div className="col-sm-7">
@@ -65,7 +63,7 @@ const Profile = () => {
                     </div>
                     <div className="row">
                       <div className="col-sm-4 d-flex">
-                        <MapPin size={20} className="mr-2" />
+                        <MapPin size={20} className="mr-2" color="#4395ff" />
                         <h6>Country</h6>
                       </div>
                       <div className="col-sm-7">
@@ -74,7 +72,7 @@ const Profile = () => {
                     </div>
                     <div className="row">
                       <div className="col-sm-4 d-flex">
-                        <Map size={20} className="mr-2" />
+                        <Map size={20} className="mr-2" color="#4395ff" />
                         <h6>State</h6>
                       </div>
                       <div className="col-sm-7">
@@ -83,7 +81,7 @@ const Profile = () => {
                     </div>
                     <div className="row">
                       <div className="col-sm-4 d-flex">
-                        <Map size={20} className="mr-2" />
+                        <Map size={20} className="mr-2" color="#4395ff" />
                         <h6>City</h6>
                       </div>
                       <div className="col-sm-7">
@@ -92,7 +90,7 @@ const Profile = () => {
                     </div>
                     <div className="row">
                       <div className="col-sm-4 d-flex">
-                        <Phone size={20} className="mr-2" />
+                        <Phone size={20} className="mr-2" color="#4395ff" />
                         <h6>Mobile</h6>
                       </div>
                       <div className="col-sm-7">

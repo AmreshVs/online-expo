@@ -152,7 +152,7 @@ const CompanyDetails = (props) => {
       </div>
       {coverImg !== '' && 
         <div className="form-group">
-          <img src={coverImg} alt="company-cover" />
+          <img className="coverImg" src={coverImg} alt="company-cover" />
         </div>
       }
       <div className="form-group">

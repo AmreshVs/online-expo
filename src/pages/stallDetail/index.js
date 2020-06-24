@@ -47,7 +47,7 @@ const StallDetail = () => {
     state.loading === true ?
     <Loader/>
     :
-    <div className="stallDetail">
+    <div className="stallDetail layout">
       <div className="container">
         <div className="row">
           <div className="col-sm-12 pt-3 pb-3">

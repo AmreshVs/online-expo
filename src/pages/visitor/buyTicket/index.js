@@ -24,7 +24,7 @@ const VisitorBuyTicket = () => {
   }
 
   return (
-    <div id="event-detail">
+    <div id="event-detail" className="layout">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-sm-12 col-lg-9">

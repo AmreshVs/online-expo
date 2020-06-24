@@ -1,8 +1,8 @@
 $theme-colors: (
-  "primary": #635CDB,
+  "primary": #4395ff,
 );
 
-$primary: #635CDB;
+$primary: #4395ff;
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
@@ -33,6 +33,7 @@ a{
 
 .layout{
   min-height: calc(100vh - 60px);
+  margin-top: 60px;
 }
 
 .loaderContainer{
@@ -44,6 +45,9 @@ a{
 
 .navbar{
   background: $primary;
+  -webkit-box-shadow: 0px 15px 30px -26px rgba(0,0,0,0.66);
+  -moz-box-shadow: 0px 15px 30px -26px rgba(0,0,0,0.66);
+  box-shadow: 0px 15px 30px -26px rgba(0,0,0,0.66);
 }
 
 .site-navigation, .trans-navigation {
@@ -83,6 +87,16 @@ a{
 
 .registerContainer{
   transition: all .3s;
+  .card{
+    position: absolute;
+    width: 100%;
+    padding: 35px;
+  }
+}
+
+.loginContainer{
+  transition: all .3s;
+  min-height: 600px;
   .card{
     position: absolute;
     width: 100%;
@@ -154,6 +168,7 @@ a{
 
 .detailContainer{
   position: relative;
+  min-height: 400px;
 }
 
 .getDetails{
@@ -386,12 +401,51 @@ a{
   width: 70%;
 }
 
-// Footer
+.expo-body{
+  min-height: 700px;
+}
+
+#exhibitorBuyTicket.stallLayout{
+  min-height: 3130px;
+}
+
+#exhibitorBuyTicket.stallLayoutSmall{
+  min-height: 700px;
+}
+
+#exhibitorBuyTicket{
+  min-height: 1800px;
+}
+
+.coverImg{
+  width: 100%;
+}
+
+.registerContainer{
+  min-height: 1200px;
+}
+
+.userName{
+  color: #FFF;
+}
+
+.btn-primary{
+  @extend .grad-2-still;
+}
+
+.btn-secondary{
+  @extend .grad-1-still;
+}
+
+/*--------------------------
+ FOOTER
+----------------------*/
 #footer {
-  padding-bottom: 60px !important;
+  padding-bottom: 30px;
   position: relative;
-  background: url("./assets/img/2.png");
-  border-top: 1px solid #eee;
+  background: url('./assets/img/footer.png');
+  background-repeat: no-repeat;
+  padding-top: 300px;
 }
 
 .footer-widget ul li {
@@ -400,14 +454,21 @@ a{
 
 .footer-widget p {
   margin-bottom: 5px;
+  color: #FFF;
+}
+
+#footer ul{
+  list-style: none;
+  padding: 0px;
 }
 
 .footer-widget h4 {
   margin-bottom: 20px;
+  color: #FFF;
 }
 
 .footer-widget h4 span {
-  color: #635CDB;
+  color: #4395ff;
   display: block;
   font-size: 60px;
   line-height: 60px;
@@ -440,6 +501,7 @@ a{
   padding-top: 30px;
   margin-top: 30px;
   border-top: 1px solid #eee;
+  color: #FFF;
 }
 
 .footer-text h6 {
@@ -447,11 +509,12 @@ a{
 }
 
 .footer-text p span {
-  color: #000;
+  color: #FFF;
+  font-weight: 700;
 }
 
 .footer-text p.mail {
-  color: #635CDB;
+  color: #FFF;
 }
 
 .bg-main {
@@ -459,24 +522,88 @@ a{
 }
 
 .footer-widget a {
-  color: #999;
-}
-
-.expo-body{
-  min-height: 700px;
-}
-
-#exhibitorBuyTicket{
-  min-height: 3500px;
-}
-
-.registerContainer{
-  min-height: 1200px;
-}
-
-.userName{
   color: #FFF;
 }
+
+.grad-1-still{
+  background-image: -webkit-linear-gradient(to right, #4facfe 0%, #00f2fe 100%) !important;
+  background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%) !important;
+  transition: .5s;
+  border: none;
+}
+
+.grad-1-still.ebutton:hover{
+  background-image: -webkit-linear-gradient(to right, #00f2fe 0%, #4facfe 100%) !important;
+  background-image: linear-gradient(to right, #00f2fe 0%, #4facfe 100%) !important;
+}
+
+.ebutton{
+  border-radius: 40px;
+  padding: 10px 25px !important;
+  color: #FFF !important;
+}
+
+.grad-2-still{
+  background-image: -webkit-linear-gradient(to right, #0acffe 0%, #495aff 100%) !important;
+  background-image: linear-gradient(to right, #0acffe 0%, #495aff 100%) !important;
+  border: none;
+}
+
+.ecaption{
+  color: #2b92ff;
+}
+
+.grad-2 {
+  background: linear-gradient(270deg, #0acffe, #495aff, #00fffa);
+  background-size: 600% 600%;
+
+  -webkit-animation: grad-2Move 20s ease infinite;
+  -moz-animation: grad-2Move 20s ease infinite;
+  animation: grad-2Move 20s ease infinite;
+  border: none;
+}
+
+@-webkit-keyframes grad-2Move {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@-moz-keyframes grad-2Move {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes grad-2Move {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+.grad-1 {
+  background: linear-gradient(270deg, #0a61fe, #00ebdc, #00e2ff);
+  background-size: 600% 600%;
+
+  -webkit-animation: grad-1Move 20s ease infinite;
+  -moz-animation: grad-1Move 20s ease infinite;
+  animation: grad-1Move 20s ease infinite;
+}
+
+@-webkit-keyframes grad-1Move {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@-moz-keyframes grad-1Move {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes grad-1Move {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
 
 // Responsive
 

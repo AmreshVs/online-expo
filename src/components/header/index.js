@@ -23,7 +23,7 @@ const Header = ({ access_token }) => {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg trans-navigation header-white">
+    <nav className="navbar navbar-expand-lg fixed-top trans-navigation header-white grad-2">
       <div className="container">
         <Link className="navbar-brand" to="/">
           <img src={require('../../assets/img/logo.png')} alt="" className="img-fluid b-logo" />

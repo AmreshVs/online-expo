@@ -41,7 +41,7 @@ const Payment = () => {
   };
 
   return (
-    <>
+    <div className="layout">
       <IframeComm
         ref={check}
         attributes={attributes}
@@ -49,7 +49,7 @@ const Payment = () => {
         handleReady={onReady}
         handleReceiveMessage={onReceiveMessage}
       />
-    </>
+    </div>
   )
 }
 

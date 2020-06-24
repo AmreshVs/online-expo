@@ -104,7 +104,7 @@ const Login = (props) => {
     <div className="layout">
       <div className="container p-3">
         <div className="row justify-content-center">
-          <div className="col-sm-6 registerContainer">
+          <div className="col-sm-6 loginContainer">
             <div className="position-relative">
               <div className='card shadow-sm' style={slideAnimation.left}>
                 <div className="text-center">
@@ -118,7 +118,7 @@ const Login = (props) => {
                   Next
                 </Button>
                 <div className="form-group mt-2 mb-0">
-                  <Link to="/register">Not an member? Register Now</Link>
+                  <Link to="/register">New User?</Link>
                 </div>
               </div>
               <div className='card shadow-sm' style={slideAnimation.right}>

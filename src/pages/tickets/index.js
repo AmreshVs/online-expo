@@ -27,7 +27,7 @@ const Tickets = () => {
     state.loading === true ? 
     <Loader/>
     :
-    <div className="tickets">
+    <div className="tickets layout">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-sm-12 col-lg-9">

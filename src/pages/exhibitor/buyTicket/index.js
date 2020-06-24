@@ -12,6 +12,7 @@ const ExhibitorBuyTicket = () => {
   const key = location.state.key;
   const [ticketKey, setTicketKey] = React.useState('');
   const [epackage, setEpackage] = React.useState(0); 
+  const [layout, setLayout] = React.useState('');
   
   const [slideAnimation, setSlideAnimation] = React.useState({
     left: { transition: 'all .3s', transform: 'translate(0px, 0px)' },
@@ -21,10 +22,12 @@ const ExhibitorBuyTicket = () => {
 
   const handleNext = (ticket_key) => {
     setTicketKey(ticket_key);
+    setLayout('full');
     setSlideAnimation({ ...slideAnimation, right: { ...slideAnimation.right, transform: 'translate(-1200px, 0px)', display: 'block'}, left: { ...slideAnimation.left, transform: 'translate(-1200px, 0px)'} });
     setTimeout(() => {
       setSlideAnimation({ ...slideAnimation, right: { ...slideAnimation.right, transform: 'translate(0px, 0px)', display: 'block'}, left: { ...slideAnimation.left, transform: 'translate(-1200px, 0px)', display:'none'} });
     }, 100);
+    window.scrollTo(0, 0);
   }
 
   const handleBack = () => {
@@ -32,14 +35,17 @@ const ExhibitorBuyTicket = () => {
     setTimeout(() => {
       setSlideAnimation({ ...slideAnimation, right: { ...slideAnimation.right, transform: 'translate(-1200px, 0px)', display: 'none'}, left: { ...slideAnimation.left, transform: 'translate(-0px, 0px)', display: 'block' } });
     }, 100);
+    window.scrollTo(0, 0);
   }
 
   const handleNext1 = (epackage) => {
     setEpackage(epackage);
+    setLayout('small');
     setSlideAnimation({ ...slideAnimation, last: { ...slideAnimation.last, transform: 'translate(-1200px, 0px)', display: 'block'} });
     setTimeout(() => {
       setSlideAnimation({ ...slideAnimation, right: { ...slideAnimation.right, transform: 'translate(-1200px, 0px)', display: 'none' }, last: { ...slideAnimation.last, transform: 'translate(0px, 0px)', display: 'block'} });
     }, 100);
+    window.scrollTo(0, 0);
   }
 
   const handleBack1 = () => {
@@ -47,6 +53,7 @@ const ExhibitorBuyTicket = () => {
     setTimeout(() => {
       setSlideAnimation({ ...slideAnimation, last: { ...slideAnimation.last, transform: 'translate(-1200px, 0px)', display: 'none' }, right: { ...slideAnimation.right, transform: 'translate(0px, 0px)', display: 'block' }});
     }, 100);
+    window.scrollTo(0, 0);
   }
 
   const handlePay = (data) => {
@@ -54,7 +61,7 @@ const ExhibitorBuyTicket = () => {
   }
 
   return(
-    <div id="exhibitorBuyTicket">
+    <div id="exhibitorBuyTicket" className={`layout ${layout !== '' && layout !== 'small' ? 'stallLayout' : layout === 'small' ? 'stallLayoutSmall' : '' }`}>
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-sm-12 col-lg-9">
