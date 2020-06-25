@@ -37,7 +37,7 @@ const Tickets = () => {
                   <h5>Ticket History</h5>
                   <div className="row">
                     {state.data.length === 0 && 
-                      <p>No Tickets available, Please buy ticket to participate in event</p>
+                      <p className="pl-3">No Tickets available, Please buy ticket to participate in event</p>
                     }
                     {state.data.length > 0 && state.data.map((ticket) => {
                       return(
@@ -59,7 +59,6 @@ const Tickets = () => {
                         </div>
                       )
                     })}
-                    
                   </div>
                 </div>
               </div>
