@@ -139,6 +139,7 @@ const EditProfile = () => {
       bodyFormData.set('country_id', Number(state.country[0].id));
       bodyFormData.set('email', email.current.value);
       bodyFormData.set('mobile_number', Number(mobNum));
+      bodyFormData.set('password', '');
       bodyFormData.set('country_code', state.countryCode);
       bodyFormData.set('register_type', userData.register_type);
       bodyFormData.set('state_id', Number(state.cstate[0].id));

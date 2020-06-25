@@ -1,7 +1,7 @@
 import { API_URL } from '../constants';
 
 export const LOGIN = {
-  url: `${API_URL}/user/otp-login`,
+  url: `${API_URL}/user/login`,
   method: 'POST',
 }
 

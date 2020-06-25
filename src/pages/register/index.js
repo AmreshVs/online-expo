@@ -45,6 +45,8 @@ const Register = (props) => {
   const companyEmail = React.useRef(null);
   const fullName = React.useRef(null);
   const email = React.useRef(null);
+  const password = React.useRef(null);
+  const repassword = React.useRef(null);
 
   const otpRef = {
     1: React.useRef(null),
@@ -117,6 +119,21 @@ const Register = (props) => {
       return false;
     }
 
+    if(password.current.value === ''){
+      snackBarError('Password cannot be empty!');
+      return false;
+    }
+
+    if(repassword.current.value === ''){
+      snackBarError('Re-Password cannot be empty');
+      return false;
+    }
+
+    if(password.current.value !== repassword.current.value){
+      snackBarError('Passwords dont match!');
+      return false;
+    }
+
     if(state.country.length === 0){
       snackBarError('You must select country!');
       return false;
@@ -148,20 +165,6 @@ const Register = (props) => {
     return true;
   }
 
-  const handleBack = () => {
-    setSlideAnimation({ right: { ...slideAnimation.right, transform: 'translate(-1200px, 0px)'}, left: { ...slideAnimation.left, transform: 'translate(0px, 0px)'} });
-  }
-
-  const runTimer = (sec = 60) => {
-    let timer = setInterval(() => {
-      sec -= 1;
-      setResendOtp(sec);
-      if(sec <= 0){
-        clearInterval(timer);
-      }
-    }, 1000);
-  }
-
   const handleNext = async () => {
     if(validate()){
       let mobNum = state.mobile.split(' ').join('');
@@ -172,51 +175,14 @@ const Register = (props) => {
       bodyFormData.set('country_id', Number(state.country[0].id));
       bodyFormData.set('email', state.type === 'Exhibitor' ? companyEmail.current.value : email.current.value);
       bodyFormData.set('mobile_number', Number(mobNum));
+      bodyFormData.set('password', password.current.value);
       bodyFormData.set('country_code', state.countryCode);
       bodyFormData.set('register_type', register.current.value === 'Visitor' ? 2 : 1);
       bodyFormData.set('state_id', Number(state.cstate[0].id));
       const response = await UseAxios(REGISTER, bodyFormData);
       setState({ ...state, data: response.data, spinner: false });
-      setSlideAnimation({ right: { ...slideAnimation.right, transform: 'translate(0px, 0px)'}, left: { ...slideAnimation.left, transform: 'translate(-1200px, 0px)'} });
-      runTimer();
-      otpRef[1].current.focus();
     }
   }
-
-  const handleSubmit = async () => {
-    let otp = otpRef[1].current.value + otpRef[2].current.value + otpRef[3].current.value + otpRef[4].current.value
-    var bodyFormData = new FormData();
-    bodyFormData.set('otp', otp);
-    bodyFormData.set('otp_id', state.data.otp_id);
-    const response = await UseAxios(VERIFY_OTP, bodyFormData);
-    if(response.message === 'Logged in successfully'){
-      axios.defaults.headers.authorization = `Bearer ${response.data.access_token}`;
-      await localStorage.setItem('userData', JSON.stringify(response.data));
-      props.setUserData(response.data);
-      history.replace('/events');
-    }else{
-      snackBarError(response.message);
-    }
-  }
-
-  const handleOtpChange = (e, id) => {
-    if (e.target.value === ''){
-      if(id !== 1){
-        otpRef[id - 1].current.focus();
-      }
-    }
-    else{
-      if(id !== 4){
-        otpRef[id + 1].current.focus();
-      }
-    }
-  }
-
-  const handleResendOtp = () => {
-    runTimer();
-  }
-
-  let disableSubmit = (otpRef[1].current !== null && otpRef[1].current.value !== '') && (otpRef[2].current !== null && otpRef[2].current.value !== '')  && (otpRef[3].current !== null && otpRef[3].current.value !== '') && (otpRef[4].current !== null && otpRef[4].current.value !== '') ? false : true;
 
   return (
     state.loading === true ?
@@ -227,7 +193,7 @@ const Register = (props) => {
         <div className="row justify-content-center">
           <div className="col-sm-6 registerContainer">
             <div className="position-relative">
-              <div className='card shadow-sm' style={slideAnimation.left}>
+              <div className='card shadow-sm'>
                 <div className="text-center mb-3">
                   <img className="login-img" src={require('../../assets/img/register.png')} alt="login" />
                 </div>
@@ -264,6 +230,14 @@ const Register = (props) => {
                     </div>
                   }
                   <div className="form-group">
+                    <label htmlFor="Country">Password</label>
+                    <input type="password" className="form-control" id="password" placeholder="Enter Password" ref={password} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="Country">Re-Password</label>
+                    <input type="password" className="form-control" id="repassword" placeholder="Re-Type Password" ref={repassword} />
+                  </div>
+                  <div className="form-group">
                     <label htmlFor="Country">Country</label>
                     <Typeahead id="Country" labelKey="name" multiple={false} onChange={handleCountry} options={state.countries} placeholder="Choose a country" selected={state.country}  />
                   </div>
@@ -280,38 +254,11 @@ const Register = (props) => {
                     <IntlTelInput preferredCountries={['IN', 'GB']} defaultCountry={'IN'} onChange={handleMobileInput} />
                   </div>
                   <Button className="btn btn-primary" onClick={handleNext} loading={state.spinner}>
-                    Next
+                    Submit
                   </Button>
                 </>
                 : null
               }
-              </div>
-              <div className='card shadow-sm' style={slideAnimation.right}>
-                <div className="text-center mb-3">
-                  <img className="login-img" src={require('../../assets/img/otp.jpg')} alt="login" />
-                </div>
-                <div className=" mb-2">
-                  <div className="form-group mb-0">
-                    <label htmlFor="companyName">Enter OTP</label>
-                    <div className="otpContainer">
-                      <input type="text" className="form-control otpInput" onChange={(e) => handleOtpChange(e, 1)} id="otp1" maxLength={1} ref={otpRef[1]} />
-                      <input type="text" className="form-control otpInput" onChange={(e) => handleOtpChange(e, 2)} id="otp2" maxLength={1} ref={otpRef[2]} />
-                      <input type="text" className="form-control otpInput" onChange={(e) => handleOtpChange(e, 3)} id="otp3" maxLength={1} ref={otpRef[3]} />
-                      <input type="text" className="form-control otpInput" onChange={(e) => handleOtpChange(e, 4)} id="otp4" maxLength={1} ref={otpRef[4]} />
-                    </div>
-                  </div>
-                </div>
-                <div className="resendOtpContainer mb-2">
-                  {resendOtp > 0 ? 
-                  <p>Resend OTP in {resendOtp}</p>
-                  :
-                  <button type="button" className="btn btn-link" onClick={handleResendOtp}>Resend OTP</button>
-                  }
-                </div>
-                <div className="btnContainer">
-                  <button type="button" className="btn btn-primary" onClick={handleBack}>Back</button>
-                  <button type="button" className="btn btn-primary" onClick={handleSubmit} disabled={disableSubmit}>Submit</button>
-                </div>
               </div>
             </div>
           </div>

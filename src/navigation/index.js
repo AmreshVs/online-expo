@@ -16,6 +16,7 @@ import Favourites from 'pages/favourites';
 import Tickets from 'pages/tickets';
 import Profile from 'pages/profile';
 import EditProfile from 'pages/profile/editProfile';
+import ChangePassword from 'pages/profile/changePassword';
 import Main from 'pages/main';
 import Logout from 'pages/logout';
 import Payment from 'pages/payment';
@@ -71,6 +72,9 @@ export default function Navigation() {
       </Route>
       <Route path="/edit-profile">
         <EditProfile />
+      </Route>
+      <Route path="/change-password">
+        <ChangePassword />
       </Route>
       <Route path="/logout">
         <Logout />

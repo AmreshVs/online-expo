@@ -123,11 +123,24 @@ a{
 
 .btnContainer{
   display: flex;
+  justify-content: space-between;
   .btn{
     width: 50%;
     margin: 0px 10px;
     box-sizing: border-box;
   }
+}
+
+.link{
+  color: #4395ff;
+  cursor: pointer;
+  &:hover {
+    color: #006bf6;
+  }
+}
+
+.loginLayout{
+  margin-bottom: 60px;
 }
 
 .resendOtpContainer{
@@ -422,7 +435,7 @@ a{
 }
 
 .registerContainer{
-  min-height: 1200px;
+  min-height: 1250px;
 }
 
 .userName{

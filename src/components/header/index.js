@@ -5,7 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { User } from 'react-feather';
 import axios from 'axios';
 
-const Header = ({ access_token }) => {
+const Header = () => {
   
   const history = useHistory();
   const [toggle, setToggle] = React.useState(false);
@@ -60,6 +60,7 @@ const Header = ({ access_token }) => {
                     <Link to="/favourites">Favorites</Link>
                     <Link to="/tickets">Tickets</Link>
                     <Link to="/profile">Profile</Link>
+                    <Link to="/change-password">Change Password</Link>
                     <Link to="/logout">Logout</Link>
                   </div>
                 </li>

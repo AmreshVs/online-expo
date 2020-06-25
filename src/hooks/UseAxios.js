@@ -20,7 +20,7 @@ const UseAxios = async (params, data) => {
     // if(error.response.data.message !== undefined && error.response.data.message === 'Please Login to Continue'){
       // Logout();
     // }
-    return error;
+    return error.response.data;
   })
 }
 
