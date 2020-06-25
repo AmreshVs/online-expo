@@ -5,8 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import UseAxios from 'hooks/UseAxios';
 import { LOGIN } from 'api';
-import { snackBarError, snackBarSuccess } from 'common/snackBar';
-import { mobileValidation } from 'common/validation';
+import { snackBarError } from 'common/snackBar';
 import Button from 'components/button';
 import { setUserData } from 'redux/actions/commonActions';
 import { useHistory, Link } from 'react-router-dom';
@@ -59,8 +58,8 @@ const Login = (props) => {
                   <img className="login-img" src={require('../../assets/img/login.jpg')} alt="login" />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="mobileNumber">Mobile Number</label>
-                  <input type="tel" className="form-control" id="mobileNumber" placeholder="Enter Mobile Number" ref={mobileNum} />
+                  <label htmlFor="mobileNumber">Email Address</label>
+                  <input type="email" className="form-control" id="mobileNumber" placeholder="Enter Email Address" ref={mobileNum} />
                 </div>
                 <div className="form-group">
                   <label htmlFor="mobileNumber">Password</label>
