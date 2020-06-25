@@ -25,9 +25,9 @@ const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg fixed-top trans-navigation header-white grad-2">
       <div className="container">
-        <Link className="navbar-brand" to="/">
+        <a className="navbar-brand" href="https://worldtradehub.in">
           <img src={require('../../assets/img/logo.png')} alt="" className="img-fluid b-logo" />
-        </Link>
+        </a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation" onClick={handleToggle}>
           <span className="navbar-toggler-icon">
             <FontAwesomeIcon icon="bars" />

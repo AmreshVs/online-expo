@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import UseAxios from 'hooks/UseAxios';
-import { LOGIN } from 'api';
+import { LOGIN, FORGOT_PASSWORD } from 'api';
 import { snackBarError } from 'common/snackBar';
 import Button from 'components/button';
 import { setUserData } from 'redux/actions/commonActions';
@@ -18,12 +18,26 @@ const Login = (props) => {
     left: { transition: 'all .3s', transform: 'translate(0px, 0px)' },
     right: { transition: 'all .3s', transform: 'translate(-1200px, 0px)' }
   });
-  const mobileNum = React.useRef(null);
+  const email = React.useRef(null);
   const password = React.useRef(null);
 
 
   const handleNext = async () => {
-    setSlideAnimation({ right: { ...slideAnimation.right, transform: 'translate(0px, 0px)'}, left: { ...slideAnimation.left, transform: 'translate(-1200px, 0px)'} });
+    if(email.current.value === ''){
+      snackBarError('Email cannot be empty!');
+      email.current.focus();
+    }
+    else{
+      var bodyFormData = new FormData();
+      bodyFormData.set('email', email.current.value);
+      const response = await UseAxios(FORGOT_PASSWORD, bodyFormData);
+      if(response.status === 200){
+        setSlideAnimation({ right: { ...slideAnimation.right, transform: 'translate(0px, 0px)'}, left: { ...slideAnimation.left, transform: 'translate(-1200px, 0px)'} });
+      }
+      else{
+        snackBarError('Email Not sent!');
+      }
+    }
   }
 
   const handleBack = () => {
@@ -31,20 +45,36 @@ const Login = (props) => {
   }
 
   const handleSubmit = async () => {
-    var bodyFormData = new FormData();
-    bodyFormData.set('password', password.current.value);
-    bodyFormData.set('username', mobileNum.current.value);
-    setSpinner(true);
-    const response = await UseAxios(LOGIN, bodyFormData);
-    setSpinner(false);
-    if(response.message === 'Logged in successfully'){
-      axios.defaults.headers.authorization = `Bearer ${response.data.access_token}`;
-      localStorage.setItem('userData', JSON.stringify(response.data) );
-      props.setUserData(response.data);
-      history.push('/events');
-    }else{
-      snackBarError(response.message);
+    if(validate()){
+      var bodyFormData = new FormData();
+      bodyFormData.set('password', password.current.value);
+      bodyFormData.set('username', email.current.value);
+      setSpinner(true);
+      const response = await UseAxios(LOGIN, bodyFormData);
+      setSpinner(false);
+      if(response.message === 'Logged in successfully'){
+        axios.defaults.headers.authorization = `Bearer ${response.data.access_token}`;
+        localStorage.setItem('userData', JSON.stringify(response.data) );
+        props.setUserData(response.data);
+        history.push('/events');
+      }else{
+        snackBarError(response.message);
+      }
     }
+  }
+
+  const validate = () => {
+    if(email.current.value === ''){
+      snackBarError('Email cannot be empty!');
+      return false;
+    }
+
+    if(password.current.value === ''){
+      snackBarError('Password cannot be empty!');
+      return false;
+    }
+
+    return true;
   }
 
   return (
@@ -59,7 +89,7 @@ const Login = (props) => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="mobileNumber">Email Address</label>
-                  <input type="email" className="form-control" id="mobileNumber" placeholder="Enter Email Address" ref={mobileNum} />
+                  <input type="email" className="form-control" id="mobileNumber" placeholder="Enter Email Address" ref={email} />
                 </div>
                 <div className="form-group">
                   <label htmlFor="mobileNumber">Password</label>
@@ -70,7 +100,7 @@ const Login = (props) => {
                 </Button>
                 <div className="form-group mt-2 mb-0 btnContainer">
                   <Link to="/register">New User?</Link>
-                  <p className="link" onClick={handleNext}>Forget Password?</p>
+                  <p className="link" onClick={handleNext}>Forgot Password?</p>
                 </div>
               </div>
               <div className='card shadow-sm' style={slideAnimation.right}>

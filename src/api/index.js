@@ -104,3 +104,8 @@ export const VISITOR_PACKAGE = {
   url: `${API_URL}/ticket/visitor-package-select`,
   method: 'POST',
 }
+
+export const FORGOT_PASSWORD = {
+  url: `${API_URL}/user/forgot-password`,
+  method: 'POST',
+}

@@ -44,7 +44,9 @@ const EditProfile = () => {
 
   const loadData = async () => {
     const response = await UseAxios(GET_COUNTRY);
-    setState({ ...state, countries: response.data, loading: false });
+    const response1 = await UseAxios({ ...GET_STATE, url: GET_STATE.url + userData.country.id });
+    const response2 = await UseAxios({ ...GET_CITY, url: GET_CITY.url + userData.state.id });
+    setState({ ...state, countries: response.data, states: response1.data, cities: response2.data, loading: false });
   }
 
   const handleCountry = async (value) => {
@@ -59,7 +61,7 @@ const EditProfile = () => {
   }
 
   const handleCity = (value) => {
-      setState({ ...state, city: value });
+    setState({ ...state, city: value });
   }
 
   const handleState = async (value) => {
