@@ -10,6 +10,7 @@ import { GET_COUNTRY, GET_STATE, GET_CITY, UPDATE_PROFILE } from 'api';
 import { snackBarError, snackBarSuccess } from 'common/snackBar';
 import { mobileValidation, emailValidation } from 'common/validation';
 import Button from 'components/button';
+import OverlayLoader from 'components/overlayLoader';
 
 const EditProfile = () => {
 
@@ -30,6 +31,7 @@ const EditProfile = () => {
     countryCode: '',
     mobile: userData.mobile_number,
     loading: true,
+    overlay: false,
     spinner: false
   });
 
@@ -51,9 +53,9 @@ const EditProfile = () => {
 
   const handleCountry = async (value) => {
     if(value[0] !== undefined){
-      setState({ ...state, country: value });
+      setState({ ...state, country: value, overlay: true });
       const response = await UseAxios({ ...GET_STATE, url: GET_STATE.url + value[0].id });
-      setState({ ...state, states: response.data, country: value, cstate: [] });
+      setState({ ...state, states: response.data, country: value, cstate: [], overlay: false });
     }
     else{
       setState({ ...state, country: value });
@@ -66,9 +68,9 @@ const EditProfile = () => {
 
   const handleState = async (value) => {
     if(value[0] !== undefined){
-      setState({ ...state, cstate: value });
+      setState({ ...state, cstate: value, overlay: true });
       const response = await UseAxios({ ...GET_CITY, url: GET_CITY.url + value[0].id });
-      setState({ ...state, cities: response.data, cstate: value, city: [] });
+      setState({ ...state, cities: response.data, cstate: value, city: [], overlay: false });
     }
     else{
       setState({ ...state, cstate: value });
@@ -161,47 +163,50 @@ const EditProfile = () => {
     state.loading === true ?
     <Loader/>
     :
-    <div className="viewEvent layout">
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-sm-12 col-lg-6">
-            <div className="detailContainer text-wrap">
-              <div className="pt-3 pb-3">
-                <div className="card p-4 shadow-sm">
-                  <div className="form-group">
-                    <label htmlFor="companyName">{type === 'Exhibitor' ? 'Company Name' : 'Fullname'}</label>
-                    <input type="text" className="form-control" id="companyName" placeholder="Enter name" defaultValue={userData.username} ref={fullName} />
+    <>
+      <OverlayLoader loading={state.overlay} />
+      <div className="viewEvent layout">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-sm-12 col-lg-6">
+              <div className="detailContainer text-wrap">
+                <div className="pt-3 pb-3">
+                  <div className="card p-4 shadow-sm">
+                    <div className="form-group">
+                      <label htmlFor="companyName">{type === 'Exhibitor' ? 'Company Name' : 'Fullname'}</label>
+                      <input type="text" className="form-control" id="companyName" placeholder="Enter name" defaultValue={userData.username} ref={fullName} />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="companyEmail">{type === 'Exhibitor' ? 'Company Email' : 'Email'}</label>
+                      <input type="email" className="form-control" id="companyEmail" placeholder="Enter email" defaultValue={userData.email} ref={email} />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="Country">Country</label>
+                      <Typeahead id="Country" labelKey="name" multiple={false} onChange={handleCountry} options={state.countries} placeholder="Choose a country" selected={state.country}  />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="State">State</label>
+                      <Typeahead id="State" labelKey="name" multiple={false} onChange={handleState} options={state.states} placeholder="Choose a state" selected={state.cstate}  />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="City">City</label>
+                      <Typeahead id="City" labelKey="name" multiple={false} onChange={handleCity} options={state.cities} placeholder="Choose a city" selected={state.city}  />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="Country">Mobile Number</label>
+                      <IntlTelInput preferredCountries={['IN', 'GB']} defaultCountry={'IN'} defaultValue={'+91'+userData.mobile_number} onChange={handleMobileInput} />
+                    </div>
+                    <Button className="btn btn-primary" onClick={handleUpdate} loading={state.spinner}>
+                      Update
+                    </Button>
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="companyEmail">{type === 'Exhibitor' ? 'Company Email' : 'Email'}</label>
-                    <input type="email" className="form-control" id="companyEmail" placeholder="Enter email" defaultValue={userData.email} ref={email} />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="Country">Country</label>
-                    <Typeahead id="Country" labelKey="name" multiple={false} onChange={handleCountry} options={state.countries} placeholder="Choose a country" selected={state.country}  />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="State">State</label>
-                    <Typeahead id="State" labelKey="name" multiple={false} onChange={handleState} options={state.states} placeholder="Choose a state" selected={state.cstate}  />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="City">City</label>
-                    <Typeahead id="City" labelKey="name" multiple={false} onChange={handleCity} options={state.cities} placeholder="Choose a city" selected={state.city}  />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="Country">Mobile Number</label>
-                    <IntlTelInput preferredCountries={['IN', 'GB']} defaultCountry={'IN'} defaultValue={'+91'+userData.mobile_number} onChange={handleMobileInput} />
-                  </div>
-                  <Button className="btn btn-primary" onClick={handleUpdate} loading={state.spinner}>
-                    Update
-                  </Button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
