@@ -7,6 +7,7 @@ import UseAxios from 'hooks/UseAxios';
 import Loader from 'components/loader';
 import { FAVORITES, ADD_FAVORITE } from 'api';
 import { ADMIN_URL } from '../../constants';
+import NoData from 'components/noData';
 
 const Favourites = () => {
 
@@ -50,7 +51,7 @@ const Favourites = () => {
                 <div className="card p-3 shadow-sm">
                   <h5>Your Favorite Events</h5>
                   {state.data.length === 0 && 
-                    <p className="mt-2">No Favourite Events!</p>
+                    <NoData text="No Favourite Events!" />
                   }
                   {state.data.length > 0 && state.data.map((item, index) => {
                     return(

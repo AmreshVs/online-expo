@@ -172,6 +172,11 @@ const EditProfile = () => {
               <div className="detailContainer text-wrap">
                 <div className="pt-3 pb-3">
                   <div className="card p-4 shadow-sm">
+                    <div className="row justify-content-center">
+                      <div className="col-12 col-lg-9 mb-3">
+                        <img className="w-100" src={require('../../assets/img/profile.jpg')} alt="profile" />
+                      </div>
+                    </div>
                     <div className="form-group">
                       <label htmlFor="companyName">{type === 'Exhibitor' ? 'Company Name' : 'Fullname'}</label>
                       <input type="text" className="form-control" id="companyName" placeholder="Enter name" defaultValue={userData.username} ref={fullName} />

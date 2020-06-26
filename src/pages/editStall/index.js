@@ -174,14 +174,14 @@ const EditStall = (props) => {
               <img className="stall-logo" src={logoImg} alt="company-logo" />
             </div>
             <div className="form-group">
-              <label htmlFor="logoUpload">Update Logo (50 x 50)</label>
+              <label htmlFor="logoUpload">Update Logo (50 x 50) - 1 MB Max</label>
               <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={logo} onChange={() => logo.current.files[0] !== undefined ? setLogoImg(URL.createObjectURL(logo.current.files[0])) : setLogoImg('')} />
             </div>
             <div className="form-group">
               <img src={coverImg} alt="company-cover" />
             </div>
             <div className="form-group">
-              <label htmlFor="logoUpload">Update Company Cover Image (1920 x 1080)</label>
+              <label htmlFor="logoUpload">Update Company Cover Image (1920 x 1080) - 1 MB Max</label>
               <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={cover} onChange={() => cover.current.files[0] !== undefined ? setCoverImg(URL.createObjectURL(cover.current.files[0])) : setCoverImg('')} />
             </div>
             <div className="form-group">

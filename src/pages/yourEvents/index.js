@@ -6,6 +6,7 @@ import UseAxios from 'hooks/UseAxios';
 import Loader from 'components/loader';
 import { UPCOMING_EVENTS } from 'api';
 import { ADMIN_URL } from '../../constants';
+import NoData from 'components/noData';
 
 const YourEvents = () => {
 
@@ -49,7 +50,7 @@ const YourEvents = () => {
                 <div className="card p-3 shadow-sm">
                   <h5>Your Upcoming Events</h5>
                   {state.data.length === 0 && 
-                    <p>No Upcoming events, Please buy ticket to participate in event</p>
+                    <NoData text="No Upcoming events, Please buy ticket to participate in event" />
                   }
                   {state.data.length > 0 && state.data.map((item, index) => {
                     return(

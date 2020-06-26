@@ -43,57 +43,62 @@ const Profile = () => {
                     </Link>
                   </div>
                   <div className="p-3">
+                    <div className="row justify-content-center">
+                      <div className="col-12 col-lg-9 mb-3">
+                        <img className="w-100" src={require('../../assets/img/profile.jpg')} alt="profile" />
+                      </div>
+                    </div>
                     <div className="row">
-                      <div className="col-sm-4 d-flex">
+                      <div className="col-sm-4 col-5 d-flex">
                         <User size={20} className="mr-2" color="#4395ff" />
                         <h6>Fullname</h6>
                       </div>
-                      <div className="col-sm-7">
+                      <div className="col-sm-7 col-7 pl-0">
                         <p className="text-secondary">{state.data.username}</p>
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-sm-4 d-flex">
+                      <div className="col-sm-4 col-5 d-flex">
                         <Mail size={20} className="mr-2" color="#4395ff" />
                         <h6>Email</h6>
                       </div>
-                      <div className="col-sm-7">
+                      <div className="col-sm-7 col-7 pl-0">
                         <p className="text-secondary">{state.data.email}</p>
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-sm-4 d-flex">
+                      <div className="col-sm-4 col-5 d-flex">
                         <MapPin size={20} className="mr-2" color="#4395ff" />
                         <h6>Country</h6>
                       </div>
-                      <div className="col-sm-7">
+                      <div className="col-sm-7 col-7 pl-0">
                         <p className="text-secondary">{state.data.country.name}</p>
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-sm-4 d-flex">
+                      <div className="col-sm-4 col-5 d-flex">
                         <Map size={20} className="mr-2" color="#4395ff" />
                         <h6>State</h6>
                       </div>
-                      <div className="col-sm-7">
+                      <div className="col-sm-7 col-7 pl-0">
                         <p className="text-secondary">{state.data.state.name}</p>
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-sm-4 d-flex">
+                      <div className="col-sm-4 col-5 d-flex">
                         <Map size={20} className="mr-2" color="#4395ff" />
                         <h6>City</h6>
                       </div>
-                      <div className="col-sm-7">
+                      <div className="col-sm-7 col-7 pl-0">
                         <p className="text-secondary">{state.data.city.name}</p>
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-sm-4 d-flex">
+                      <div className="col-sm-4 col-5 d-flex">
                         <Phone size={20} className="mr-2" color="#4395ff" />
                         <h6>Mobile</h6>
                       </div>
-                      <div className="col-sm-7">
+                      <div className="col-sm-7 col-7 pl-0">
                         <p className="text-secondary">{state.data.mobile_number}</p>
                       </div>
                     </div>

@@ -5,6 +5,7 @@ import moment from 'moment';
 import UseAxios from 'hooks/UseAxios';
 import Loader from 'components/loader';
 import { TICKET_HISTORY } from 'api';
+import NoData from 'components/noData';
 
 const Tickets = () => {
 
@@ -37,7 +38,7 @@ const Tickets = () => {
                   <h5>Ticket History</h5>
                   <div className="row">
                     {state.data.length === 0 && 
-                      <p className="pl-3">No Tickets available, Please buy ticket to participate in event</p>
+                      <NoData text="No Tickets available, Please buy ticket to participate in event" />
                     }
                     {state.data.length > 0 && state.data.map((ticket) => {
                       return(
