@@ -209,7 +209,7 @@ a{
 }
 
 .exhibitorContents{
-  position: absolute;
+  position: relative;
   width: 100%;
 }
 
@@ -431,18 +431,6 @@ a{
 
 .expo-body{
   min-height: 700px;
-}
-
-#exhibitorBuyTicket.stallLayout{
-  min-height: 3130px;
-}
-
-#exhibitorBuyTicket.stallLayoutSmall{
-  min-height: 700px;
-}
-
-#exhibitorBuyTicket{
-  min-height: 1800px;
 }
 
 .coverImg{
@@ -674,5 +662,8 @@ a{
   }
   #event-detail img.image {
     height: auto;
+  }
+  #exhibitorBuyTicket.stallLayoutSmall {
+    min-height: 1200px;
   }
 }

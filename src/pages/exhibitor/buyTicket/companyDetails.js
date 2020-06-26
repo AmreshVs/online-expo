@@ -109,7 +109,17 @@ const CompanyDetails = (props) => {
       return false;
     }
 
-    return true;
+    return ValidateSize(logo.current, 'Logo') && ValidateSize(cover.current, 'Cover');
+  }
+
+  function ValidateSize(file, name) {
+    var FileSize = file.files[0].size / 1024 / 1024; // in MB
+    if (FileSize > 1) {
+      snackBarError(name + ' File size exceeds 1 MB');
+      return false;
+    } else {
+      return true;
+    }
   }
   
   const handleNext = async () => {
