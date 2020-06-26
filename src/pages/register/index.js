@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 import Loader from 'components/loader';
 import UseAxios from 'hooks/UseAxios';
 import { GET_COUNTRY, GET_STATE, GET_CITY, REGISTER, VERIFY_OTP } from 'api';
-import { snackBarError } from 'common/snackBar';
+import { snackBarError, snackBarSuccess } from 'common/snackBar';
 import { mobileValidation, emailValidation } from 'common/validation';
 import Button from 'components/button';
 import { setUserData } from 'redux/actions/commonActions';
@@ -47,13 +47,6 @@ const Register = (props) => {
   const email = React.useRef(null);
   const password = React.useRef(null);
   const repassword = React.useRef(null);
-
-  const otpRef = {
-    1: React.useRef(null),
-    2: React.useRef(null),
-    3: React.useRef(null),
-    4: React.useRef(null),
-  }
 
   useEffect(() => {
     loadData();
@@ -180,6 +173,16 @@ const Register = (props) => {
       bodyFormData.set('register_type', register.current.value === 'Visitor' ? 2 : 1);
       bodyFormData.set('state_id', Number(state.cstate[0].id));
       const response = await UseAxios(REGISTER, bodyFormData);
+      if(response.status === 200){
+        axios.defaults.headers.authorization = `Bearer ${response.data.access_token}`;
+        localStorage.setItem('userData', JSON.stringify(response.data));
+        props.setUserData(response.data);
+        snackBarSuccess('Register Successfull');
+        history.replace('/events');
+      }
+      else{
+        snackBarError(response.message);
+      }
       setState({ ...state, data: response.data, spinner: false });
     }
   }

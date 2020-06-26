@@ -35,7 +35,7 @@ const VisitorBuyTicket = () => {
                   <div className="form-check">
                     <div className="checkLabelContainer">
                       <label className="form-check-label font-weight-bold" htmlFor="platinum">
-                        Entry Fee - <span className="border badge badge-light">₹{price}</span>
+                        Entry Fee - <span className="border badge badge-light">₹{price} + ₹{price * (18/100)} GST</span>
                       </label>
                       <label className="form-check-label text-muted">
                         By clicking pay you will be redirected to our payment gateway. The gateway is very secured for online transactions.

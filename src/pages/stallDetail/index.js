@@ -65,20 +65,25 @@ const StallDetail = () => {
                 <h6>Connect with:</h6>
                 <div className="row connectWith">
                   {connectWith.map((connect) => {
-                    return(
-                      <div className="col-sm-3 mb-3 col-6" key={connect.id}>
-                        <a target="_blank" rel="noopener noreferrer" href={connect.link}>
-                          <div className="d-flex">
-                            <div className="col-sm-4 text-center pr-0">
-                              <img className="contactImage" src={require(`../../assets/img/${connect.logo}_logo.png`)} alt={`${connect.logo}-logo`} />
+                    if(connect.link !== ''){
+                      return(
+                        <div className="col-sm-3 mb-3 col-6" key={connect.id}>
+                          <a target="_blank" rel="noopener noreferrer" href={connect.link}>
+                            <div className="d-flex">
+                              <div className="col-sm-4 text-center pr-0">
+                                <img className="contactImage" src={require(`../../assets/img/${connect.logo}_logo.png`)} alt={`${connect.logo}-logo`} />
+                              </div>
+                              <div className="col-sm-8 d-flex align-items-center pl-0">
+                                {connect.title}
+                              </div>
                             </div>
-                            <div className="col-sm-8 d-flex align-items-center pl-0">
-                              {connect.title}
-                            </div>
-                          </div>
-                        </a>
-                      </div>
-                    )
+                          </a>
+                        </div>
+                      )
+                    }
+                    else{
+                      return null;
+                    }
                   })}
                 </div>
               </div>
