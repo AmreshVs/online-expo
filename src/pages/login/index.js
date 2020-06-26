@@ -9,18 +9,19 @@ import { snackBarError } from 'common/snackBar';
 import Button from 'components/button';
 import { setUserData } from 'redux/actions/commonActions';
 import { useHistory, Link } from 'react-router-dom';
+import Loader from 'components/loader';
 
 const Login = (props) => {
 
   const history = useHistory();
   const [spinner, setSpinner] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [slideAnimation, setSlideAnimation] = React.useState({
     left: { transition: 'all .3s', transform: 'translate(0px, 0px)' },
     right: { transition: 'all .3s', transform: 'translate(-1200px, 0px)' }
   });
   const email = React.useRef(null);
   const password = React.useRef(null);
-
 
   const handleNext = async () => {
     if(email.current.value === ''){
@@ -30,7 +31,9 @@ const Login = (props) => {
     else{
       var bodyFormData = new FormData();
       bodyFormData.set('email', email.current.value);
+      setLoading(true);
       const response = await UseAxios(FORGOT_PASSWORD, bodyFormData);
+      setLoading(false);
       if(response.status === 200){
         setSlideAnimation({ right: { ...slideAnimation.right, transform: 'translate(0px, 0px)'}, left: { ...slideAnimation.left, transform: 'translate(-1200px, 0px)'} });
       }
@@ -78,6 +81,9 @@ const Login = (props) => {
   }
 
   return (
+    loading === true ?
+    <Loader/>
+    :
     <div className="layout loginLayout">
       <div className="container p-3">
         <div className="row justify-content-center">
