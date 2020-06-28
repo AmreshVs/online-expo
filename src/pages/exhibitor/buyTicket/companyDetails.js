@@ -195,13 +195,13 @@ const CompanyDetails = (props) => {
       <div className="row">
         <div className="col-sm-6">
           <div className="form-group">
-            <label htmlFor="Webpage">Webpage</label>
-            <input id="Webpage" type="text" className="form-control" ref={web} />
+            <label htmlFor="Website">Website</label>
+            <input id="Website" type="text" className="form-control" ref={web} />
           </div>
         </div>
         <div className="col-sm-6">
           <div className="form-group">
-            <label htmlFor="meetId">Meet ID</label>
+            <label htmlFor="meetId">Google Meet ID</label>
             <input id="meetId" type="text" className="form-control" ref={meet_id} />
           </div>
         </div>

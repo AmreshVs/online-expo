@@ -47,8 +47,9 @@ const FloorPlans = (props) => {
     <Loader />
     :
     <div className="card p-3 shadow-sm floorPlan">
-      <h5>Choose your place</h5>
+      <h5>Choose your place (Indian Exhibitor)</h5>
       <FloorPlanPage1 selected={selected} data={state.data.room1} handleClick={handleClick} />
+      <h5>Choose your place (Foreign Exhibitor)</h5>
       <FloorPlanPage2 selected={selected} data={state.data.room2} handleClick={handleClick} />
       <div className="btnLRContainer">
         <button className="btn btn-primary" onClick={props.handleBack}>Back</button>

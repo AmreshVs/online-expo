@@ -210,13 +210,13 @@ const EditStall = (props) => {
             <div className="row">
               <div className="col-sm-6">
                 <div className="form-group">
-                  <label htmlFor="Webpage">Webpage</label>
+                  <label htmlFor="Website">Website</label>
                   <input id="Webpage" type="text" className="form-control" defaultValue={data.website} ref={web} />
                 </div>
               </div>
               <div className="col-sm-6">
                 <div className="form-group">
-                  <label htmlFor="meetId">Meet ID</label>
+                  <label htmlFor="meetId">Google Meet ID</label>
                   <input id="meetId" type="text" className="form-control" defaultValue={data.meet_id} ref={meet_id} />
                 </div>
               </div>

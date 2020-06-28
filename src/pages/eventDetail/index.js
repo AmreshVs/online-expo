@@ -10,6 +10,7 @@ import { ADMIN_URL } from '../../constants';
 
 const EventDetail = () => {
 
+  let { register_type } = JSON.parse(localStorage.getItem('userData'));
   const history = useHistory();
   const location = useLocation();
   const key = location.state.key;
@@ -54,7 +55,7 @@ const EventDetail = () => {
                 <div className="mt-3">
                   {ReactHtmlParser(eventData.event_desc)}
                 </div>
-                {buy === false ? null : <button className="btn btn-primary" onClick={handleBuyTicket}>Buy Ticket</button>}
+                {buy === false ? null : <button className="btn btn-primary" onClick={handleBuyTicket}>{register_type === '1' ? 'Book Stall' : 'Buy Entry Pass'}</button>}
               </div>
             </div>
           </div>
