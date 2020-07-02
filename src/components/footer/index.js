@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 
 const Footer = () => {
@@ -20,12 +21,9 @@ const Footer = () => {
               <div className="footer-widget footer-link">
                 <h4>About</h4>
                 <ul>
-                  <li><a href="#">About</a></li>
-                  <li><a href="#">Service</a></li>
-                  <li><a href="#">Pricing</a></li>
-                  <li><a href="#">Team</a></li>
-                  <li><a href="#">Testimonials</a></li>
-                  <li><a href="#">Blog</a></li>
+                  <li><a target="_blank" rel="noopener noreferrer" href="https://worldtradehub.in/about-us">About Us</a></li>
+                  <li><a target="_blank" rel="noopener noreferrer" href="https://worldtradehub.in/#service-head">Service</a></li>
+                  <li><a target="_blank" rel="noopener noreferrer" href="https://worldtradehub.in/#pricing">Pricing</a></li>
                 </ul>
               </div>
             </div>
@@ -35,9 +33,9 @@ const Footer = () => {
                 <h4>Quick Links</h4>
                 <ul>
                   <li><a href="#">How it Works</a></li>
-                  <li><a href="#">Support</a></li>
-                  <li><a href="#">Privacy Policy</a></li>
-                  <li><a href="#">Terms & Condition</a></li>
+                  <li><a target="_blank" rel="noopener noreferrer" href="https://worldtradehub.in/contact">Support</a></li>
+                  <li><a target="_blank" rel="noopener noreferrer" href="https://worldtradehub.in/privacy-policy">Privacy Policy</a></li>
+                  <li><a target="_blank" rel="noopener noreferrer" href="https://worldtradehub.in/terms-and-conditions">Terms & Condition</a></li>
                 </ul>
               </div>
             </div>

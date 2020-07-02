@@ -1,15 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import FloorPlanPage1 from '../../../components/floorPlan/page1';
 import FloorPlanPage2 from '../../../components/floorPlan/page2';
 import UseAxios from 'hooks/UseAxios';
-import { SELECT_STALL } from 'api';
+import { SELECT_STALL, STALL_BLOCKS } from 'api';
 import Loader from 'components/loader';
-import { STALL_BLOCKS } from 'api';
 import Button from 'components/button';
+import { snackBarSuccess, snackBarError } from 'common/snackBar';
 
 const FloorPlans = (props) => {
 
+  const history = useHistory();
   const [selected, setSelected] = React.useState('');
 
   const [state, setState] = React.useState({
@@ -36,10 +39,17 @@ const FloorPlans = (props) => {
     setState({ ...state, spinner: true });
     let formData = new FormData();
     formData.set('ticket_key', props.ticketKey);
+    formData.set('event_key', props.eventKey);
     formData.set('stall_id', selected);
     const response = await UseAxios(SELECT_STALL, formData);
     setState({ ...state, spinner: false });
-    props.handleNext(response.data);
+    if(response.status === 200){
+      snackBarSuccess('Stall Booked!');
+      history.replace('/your-events');
+    }
+    else{
+      snackBarError(response.message);
+    }
   }
 
   return (

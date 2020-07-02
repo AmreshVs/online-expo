@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import SimpleImageSlider from "react-simple-image-slider";
 
 import ImageUploadAdapter from 'common/imageUploadAdapter';
 import UseAxios from 'hooks/UseAxios';
@@ -71,6 +72,7 @@ const CompanyDetails = (props) => {
   const [content, setContent] = useState('');
   const [logoImg, setLogoImg] = useState('');
   const [coverImg, setCoverImg] = useState('');
+  const [multipleImages, setMultipleImages] = useState([]);
   const logo = useRef(null);
   const cover = useRef(null);
   const company_name = useRef(null);
@@ -81,6 +83,25 @@ const CompanyDetails = (props) => {
   const whatsapp = useRef(null);
   const fb_live = useRef(null);
   const youtube = useRef(null);
+  const whytoconsider = useRef(null);
+  const images = useRef(null);
+  const features = useRef(null);
+  const youtube_links = useRef(null);
+  const locality = useRef(null);
+  const shipment = useRef(null);
+  const brochure = useRef(null);
+
+  const handleImages = () => {
+    setMultipleImages([]);
+    let imagesRef = images.current.files;
+    let imagesArray = [];
+    Object.values(imagesRef).forEach(file => {
+      imagesArray = [...imagesArray, { url: URL.createObjectURL(file) }];
+    });
+    setTimeout(() => {
+      setMultipleImages(imagesArray);
+    }, 1000);
+  }
 
   const validate = () => {
 
@@ -126,7 +147,7 @@ const CompanyDetails = (props) => {
     if(validate()){
       setLoading(true);
       let formData = new FormData();
-      formData.set('event_key', props.ekey);
+      formData.set('ticket_key', props.ticketKey);
       formData.set('company_name', company_name.current.value);
       formData.set('website', web.current.value);
       formData.set('meet_id', meet_id.current.value);
@@ -138,6 +159,15 @@ const CompanyDetails = (props) => {
       formData.set('logo_image_path', logo.current.files[0]);
       formData.set('cover_image_path', cover.current.files[0]);
       formData.set('short_desc', desc.current.value);
+      formData.set('whytoconsider', whytoconsider.current.value);
+      formData.set('features', features.current.value);
+      for (let i = 0; i < images.current.files.length; i++) {
+        formData.append(`images[${i}]`, images.current.files[i]);
+      }
+      formData.set('youtube_links', youtube_links.current.value);
+      formData.set('locality', locality.current.value);
+      formData.set('shipment', shipment.current.value);
+      formData.set('attachment', brochure.current.files[0]);
       const response = await UseAxios(COMPANY_DETAILS, formData);
       if(response.status === 200){
         props.handleNext(response.data.ticket_key);   
@@ -157,7 +187,7 @@ const CompanyDetails = (props) => {
         </div>
       }
       <div className="form-group">
-        <label htmlFor="logoUpload">Logo (50 x 50) - 1 MB Max</label>
+        <label htmlFor="logoUpload">Logo (50 x 50)<span className="text-muted"> - 1 MB Max</span></label>
         <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={logo} onChange={() => logo.current.files[0] !== undefined ? setLogoImg(URL.createObjectURL(logo.current.files[0])) : setLogoImg('')} />
       </div>
       {coverImg !== '' && 
@@ -166,7 +196,7 @@ const CompanyDetails = (props) => {
         </div>
       }
       <div className="form-group">
-        <label htmlFor="logoUpload">Company Cover Image (1920 x 1080) - 1 MB Max</label>
+        <label htmlFor="logoUpload">Company Cover Image (1920 x 1080)<span className="text-muted"> - 1 MB Max</span></label>
         <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={cover} onChange={() => cover.current.files[0] !== undefined ? setCoverImg(URL.createObjectURL(cover.current.files[0])) : setCoverImg('')} />
       </div>
       <div className="form-group">
@@ -178,6 +208,7 @@ const CompanyDetails = (props) => {
         <input id="description" type="text" className="form-control" ref={desc} />
       </div>
       <div className="form-group">
+        <label htmlFor="description">About the Company</label>
         <CKEditor
           editor={ClassicEditor}
           config={editorConfiguration}
@@ -192,31 +223,60 @@ const CompanyDetails = (props) => {
           }}
         />
       </div>
+      <div className="form-group">
+        <label htmlFor="whytoconsider">Why to consider this Product or Service</label>
+        <textarea id="whytoconsider" className="form-control" cols={10} ref={whytoconsider} />
+      </div>
+      {multipleImages.length > 0 ? <SimpleImageSlider width={'96%'} height={400} images={multipleImages} /> : null}
+      <div className="form-group">
+        <label htmlFor="logoUpload">Product or Service Images<span className="text-muted"> - Each 1 MB Max</span></label>
+        <input id="logoUpload" type="file" accept="image/*" multiple className="form-control p-1" ref={images} onChange={handleImages} />
+      </div>
+      <div className="form-group">
+        <label htmlFor="logoUpload">Brochure<span className="text-muted"> - .doc,.docx,.pdf</span></label>
+        <input id="logoUpload" type="file" accept=".doc,.docx,.pdf" className="form-control p-1" ref={brochure} />
+      </div>
+      <div className="form-group">
+        <label htmlFor="features">Features of Product or Service<span className="text-muted"> - Comma Seperated</span></label>
+        <textarea id="features" className="form-control" cols={10} ref={features} placeholder="Confirm your move and pay for the event online, Choose the stall you want to visit" />
+      </div>
+      <div className="form-group">
+        <label htmlFor="videos">Video link's of Product or Service<span className="text-muted"> - Comma Seperated (Youtube Only)</span></label>
+        <textarea id="videos" className="form-control" cols={10} ref={youtube_links} placeholder="https://www.youtube.com/watch?v=xxxxxxxx, https://www.youtube.com/watch?v=xxxxxxx" />
+      </div>
+      <div className="form-group">
+        <label htmlFor="locality">Locality<span className="text-muted"> - Comma Seperated</span></label>
+        <input id="locality" type="text" className="form-control" ref={locality} placeholder="India, China, Japan" />
+      </div>
+      <div className="form-group">
+        <label htmlFor="locality">Shipment</label>
+        <input id="locality" type="text" className="form-control" ref={shipment} placeholder="Throughout India or Karnataka Only" />
+      </div>
       <div className="row">
         <div className="col-sm-6">
           <div className="form-group">
             <label htmlFor="Website">Website</label>
-            <input id="Website" type="text" className="form-control" ref={web} />
+            <input id="Website" type="text" className="form-control" ref={web} placeholder="https://worldtradehub.in" />
           </div>
         </div>
         <div className="col-sm-6">
           <div className="form-group">
-            <label htmlFor="meetId">Google Meet ID</label>
-            <input id="meetId" type="text" className="form-control" ref={meet_id} />
+            <label htmlFor="meetId">Google Meet</label>
+            <input id="meetId" type="text" className="form-control" ref={meet_id} placeholder="https://meet.google.com/xxxxxxxxx" />
           </div>
         </div>
       </div>
       <div className="row">
         <div className="col-sm-6">
           <div className="form-group">
-            <label htmlFor="zoomId">Zoom ID</label>
-            <input id="zoomId" type="text" className="form-control" ref={zoom_id} />
+            <label htmlFor="zoomId">Zoom</label>
+            <input id="zoomId" type="text" className="form-control" ref={zoom_id} placeholder="https://us04web.zoom.us/j/9530858596?pwd=xxxxxxxxxxxxxxxxx" />
           </div>
         </div>
         <div className="col-sm-6">
           <div className="form-group">
             <label htmlFor="whatsapp">Whatsapp Number</label>
-            <input id="whatsapp" type="text" className="form-control" ref={whatsapp} />
+            <input id="whatsapp" type="text" className="form-control" ref={whatsapp} placeholder="+91xxxxxxxxxx" />
           </div>
         </div>
       </div>
@@ -224,13 +284,13 @@ const CompanyDetails = (props) => {
         <div className="col-sm-6">
           <div className="form-group">
             <label htmlFor="facebookLive">Facebook Live</label>
-            <input id="facebookLive" type="text" className="form-control" ref={fb_live} />
+            <input id="facebookLive" type="text" className="form-control" ref={fb_live} placeholder="https://www.facebook.com/xxxxxx/videos/xxxxxxxxxx" />
           </div>
         </div>
         <div className="col-sm-6">
           <div className="form-group">
-            <label htmlFor="youtubeLink">Youtube</label>
-            <input id="youtubeLink" type="text" className="form-control" ref={youtube} />
+            <label htmlFor="youtubeLink">Youtube Live</label>
+            <input id="youtubeLink" type="text" className="form-control" ref={youtube} placeholder="https://www.youtube.com/watch?v=xxxxxxxxx" />
           </div>
         </div>
       </div>

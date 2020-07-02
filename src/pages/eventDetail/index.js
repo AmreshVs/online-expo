@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { useHistory, useParams, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import moment from 'moment';
 
@@ -36,6 +37,10 @@ const EventDetail = () => {
     history.push(`/${register_type === 1 ? 'exhibitor' : 'visitor'}/buy-ticket`, { key: key, price: state.data.visitors_package_price });
   }
 
+  const handleContinueBuyTicket = () => {
+    history.push('/exhibitor/continue-booking', { ticket_key: state.data.pending_stall_booking[0].ticket_key, event_key: state.data.event_key  });
+  }
+
   let eventData = state.data;
   let image = eventData.event_image !== null ? ADMIN_URL + eventData.event_image : require('../../assets/img/placeholder.png');
 
@@ -55,7 +60,7 @@ const EventDetail = () => {
                 <div className="mt-3">
                   {ReactHtmlParser(eventData.event_desc)}
                 </div>
-                {buy === false ? null : <button className="btn btn-primary" onClick={handleBuyTicket}>{register_type === 1 ? 'Book Stall' : 'Buy Entry Pass'}</button>}
+                {buy === false ? null : state.data.pending_stall_booking.length > 0 ? <button className="btn btn-primary" onClick={handleContinueBuyTicket}>Continue Stall Booking</button> : <button className="btn btn-primary" onClick={handleBuyTicket}>{register_type === 1 ? 'Book Stall' : 'Buy Entry Pass'}</button>}
               </div>
             </div>
           </div>

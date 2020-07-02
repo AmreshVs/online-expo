@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
@@ -25,6 +26,7 @@ const YourEvents = () => {
   const [state, setState] = React.useState({
     loading: true,
     data: [],
+    pending: []
   });
 
   React.useEffect(() => {
@@ -34,7 +36,11 @@ const YourEvents = () => {
   const loadData = async () => {
     setState({ ...state, loading: true });
     const response = await UseAxios(UPCOMING_EVENTS);
-    setState({ ...state, data: response.data, loading: false });
+    setState({ ...state, data: response.data.upcomming, pending: response.data.pending_stall_booking, loading: false });
+  }
+
+  const handleContinueBuyTicket = (ticket_key, event_key) => {
+    history.push('/exhibitor/continue-booking', { ticket_key: ticket_key, event_key: event_key  });
   }
 
   return (
@@ -47,7 +53,7 @@ const YourEvents = () => {
           <div className="col-sm-12 col-lg-9">
             <div className="detailContainer text-wrap">
               <div className="pt-3 pb-3">
-                <div className="card p-3 shadow-sm">
+                <div className="card p-3 shadow-sm mb-3">
                   <h5>Your Upcoming Events</h5>
                   {state.data.length === 0 && 
                     <NoData text="No Upcoming events, Please buy ticket to participate in event" />
@@ -70,6 +76,28 @@ const YourEvents = () => {
                       </div>
                     )})}
                 </div>
+                {state.pending.length > 0 ? 
+                  <div className="card p-3 shadow-sm">
+                    <h5>Continue to Book Stall</h5>
+                    {state.pending.map((item, index) => {
+                      return(
+                        <div key={index}>
+                          <div className="cursor-pointer" onClick={() => handleContinueBuyTicket(item.ticket_key, item.event_key)}>
+                            <div className="row">
+                              <div className="col-sm-3 col-4">
+                                <img className="card-img" src={ADMIN_URL + item.event_image} alt="event" />
+                              </div>
+                              <div className="col-sm-9 pl-0 col-8">
+                                <h5 className="card-title mb-0">{item.event_title}</h5>
+                                <p className="card-text"><small className="text-muted">{moment(item.event_start_date).format('MMMM Do YYYY')} - {moment(item.event_end_date).format('MMMM Do YYYY')}</small></p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="divider" />
+                        </div>
+                      )})}
+                  </div>
+                : null}
               </div>
             </div>
           </div>

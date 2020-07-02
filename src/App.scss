@@ -6,6 +6,8 @@ $primary: #4395ff;
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
+/* import Slider CSS */
+@import "~react-image-gallery/styles/scss/image-gallery.scss";
 
 html, #root{
   height: 100%;
@@ -587,6 +589,36 @@ a{
 
 .footer-widget a {
   color: #FFF;
+}
+
+.detailContainer .card-body{
+  margin-bottom: 25px;
+  border: none;
+}
+
+.image-gallery-svg {
+  height: 50px !important;
+}
+
+.image-gallery-play-button .image-gallery-svg, .image-gallery-fullscreen-button .image-gallery-svg {
+  height: 25px !important;
+}
+
+.image-gallery-content .image-gallery-slide .image-gallery-image {
+  max-height: calc(100vh - 10px) !important;
+  min-height: calc(100vh - 10px) !important;
+}
+
+.image-gallery-thumbnail .image-gallery-thumbnail-image {
+  min-height: 62px;
+}
+
+.image-gallery-slide .image-gallery-image {
+  object-fit: cover !important;
+}
+
+.stallDetail #eventsList .card{
+  cursor: pointer;
 }
 
 .grad-1-still{

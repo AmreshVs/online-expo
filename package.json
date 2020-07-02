@@ -59,6 +59,7 @@
     "eslint-plugin-react-hooks": "^1.6.1",
     "file-loader": "4.3.0",
     "fs-extra": "^8.1.0",
+    "google-map-react": "^1.1.7",
     "html-webpack-plugin": "4.0.0-beta.11",
     "identity-obj-proxy": "3.0.0",
     "jest": "24.9.0",
@@ -86,10 +87,12 @@
     "react-feather": "^2.0.8",
     "react-html-parser": "^2.0.2",
     "react-iframe-comm": "^1.2.2",
+    "react-image-gallery": "^1.0.7",
     "react-redux": "^7.2.0",
     "react-ripples": "^2.2.1",
     "react-router-dom": "^5.2.0",
     "react-router-scroll-top": "^0.2.1",
+    "react-simple-image-slider": "^1.0.4",
     "react-toastify": "^6.0.5",
     "react-tooltip": "^4.2.6",
     "redux": "^4.0.5",
@@ -181,6 +184,5 @@
     "presets": [
       "react-app"
     ]
-  },
-  "proxy": "http://admin.worldtradehub.in"
+  }
 }

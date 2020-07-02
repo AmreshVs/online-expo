@@ -6,6 +6,7 @@ import Login from 'pages/login';
 import Events from 'pages/events';
 import EventDetail from 'pages/eventDetail';
 import ExhibitorBuyTicket from 'pages/exhibitor/buyTicket';
+import ContinueBooking from 'pages/exhibitor/bookStall';
 import VisitorBuyTicket from 'pages/visitor/buyTicket';
 import PaymentSuccess from 'pages/paymentSuccess';
 import YourEvents from 'pages/yourEvents';
@@ -42,6 +43,9 @@ export default function Navigation() {
       </Route>
       <Route path="/exhibitor/buy-ticket">
         <ExhibitorBuyTicket />
+      </Route>
+      <Route path="/exhibitor/continue-booking">
+        <ContinueBooking />
       </Route>
       <Route path="/visitor/buy-ticket">
         <VisitorBuyTicket />

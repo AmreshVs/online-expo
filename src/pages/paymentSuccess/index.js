@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useLocation, useHistory } from 'react-router-dom'; 
+import { useLocation } from 'react-router-dom'; 
 
 const PaymentSuccess = () => {
   const location = useLocation();
-  const history = useHistory();
+  // const history = useHistory();
 
   let data = location.state.data;
 
-  const handleClick = () => {
-    history.push('/view-event', { key: data.event_key, title: data.event_name, ticket_key: data.ticket_key })
-  }
+  // const handleClick = () => {
+  //   history.push('/view-event', { key: data.event_key, title: data.event_name, ticket_key: data.ticket_key })
+  // }
 
   return(
     <div id="event-detail" className="layout">
@@ -26,8 +26,7 @@ const PaymentSuccess = () => {
                 </div>
                 <h3 className="text-success">Payment Success</h3>
                 <p>Your Payment of <b>₹{data.amount}</b> for the event <b>{data.event_name}</b> is now confirmed and ID is #{data.id}. Now you can enter the expo hassle free.</p>
-                <button className="btn btn-primary" onClick={handleClick}>Enter the Expo</button>
-                <Link to="/your-events" className="text-decoration-none">Back to upcoming events</Link>
+                <Link to="/your-events" className="btn btn-primary">Back to upcoming events</Link>
               </div>
             </div>
           </div>

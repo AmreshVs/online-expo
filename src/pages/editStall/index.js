@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import SimpleImageSlider from "react-simple-image-slider";
 
 import ImageUploadAdapter from 'common/imageUploadAdapter';
 import UseAxios from 'hooks/UseAxios';
-import { UPDATE_STALL_DETAIL, STALL_DETAIL } from 'api';
+import { COMPANY_DETAILS, STALL_DETAIL } from 'api';
 import { snackBarError } from 'common/snackBar';
 import Button from 'components/button';
 import Loader from 'components/loader';
@@ -64,7 +66,7 @@ const editorConfiguration = {
   }
 };
 
-const EditStall = (props) => {
+const EditStall = () => {
   
   let { access_token } = JSON.parse(localStorage.getItem('userData'));
   let location = useLocation();
@@ -75,6 +77,7 @@ const EditStall = (props) => {
   const [content, setContent] = useState('');
   const [logoImg, setLogoImg] = useState('');
   const [coverImg, setCoverImg] = useState('');
+  const [multipleImages, setMultipleImages] = useState([]);
   const logo = useRef(null);
   const cover = useRef(null);
   const company_name = useRef(null);
@@ -85,6 +88,13 @@ const EditStall = (props) => {
   const whatsapp = useRef(null);
   const fb_live = useRef(null);
   const youtube = useRef(null);
+  const whytoconsider = useRef(null);
+  const images = useRef(null);
+  const features = useRef(null);
+  const youtube_links = useRef(null);
+  const locality = useRef(null);
+  const shipment = useRef(null);
+  const brochure = useRef(null);
 
   const [state, setState] = React.useState({
     loading: true,
@@ -98,13 +108,32 @@ const EditStall = (props) => {
   const loadData = async () => {
     setState({ ...state, loading: true });
     const response = await UseAxios({ ...STALL_DETAIL, url: STALL_DETAIL.url + key });
-    setState({ ...state, data: response.data, loading: false });
-    setContent(response.data.company_desc);
-    setCoverImg(ADMIN_URL + '/' + response.data.cover_image_path);
-    setLogoImg(ADMIN_URL + '/' + response.data.logo_image_path);
+    setState({ ...state, data: response.data.ticket, loading: false });
+    setContent(response.data.ticket.company_desc);
+    setCoverImg(ADMIN_URL + '/' + response.data.ticket.cover_image_path);
+    setLogoImg(ADMIN_URL + '/' + response.data.ticket.logo_image_path);
+    if(response.data.ticket.image_files !== undefined && response.data.ticket.image_files.length > 0){
+      let imagesArray = [];
+      for(let i in response.data.ticket.image_files){
+        imagesArray = [...imagesArray, { url: ADMIN_URL + '/' + response.data.ticket.image_files[i].image_path }];
+      }
+      setMultipleImages(imagesArray);
+    }
   }
 
   let data = state.data;
+
+  const handleImages = () => {
+    setMultipleImages([]);
+    let imagesRef = images.current.files;
+    let imagesArray = [];
+    Object.values(imagesRef).forEach(file => {
+      imagesArray = [...imagesArray, { url: URL.createObjectURL(file) }];
+    });
+    setTimeout(() => {
+      setMultipleImages(imagesArray);
+    }, 1000);
+  }
 
   const validate = () => {
 
@@ -127,6 +156,9 @@ const EditStall = (props) => {
   }
 
   function ValidateSize(file, name) {
+    if(file.files[0] === undefined){
+      return true;
+    }
     var FileSize = file.files[0].size / 1024 / 1024; // in MB
     if (FileSize > 1) {
       snackBarError(name + ' File size exceeds 1 MB');
@@ -156,9 +188,25 @@ const EditStall = (props) => {
         formData.set('cover_image_path', cover.current.files[0] !== undefined ? cover.current.files[0] : '');
       }
       formData.set('short_desc', desc.current.value);
-      await UseAxios(UPDATE_STALL_DETAIL, formData);
+      formData.set('whytoconsider', whytoconsider.current.value);
+      formData.set('features', features.current.value);
+      if(images.current.files[0] !== undefined){
+        for (let i = 0; i < images.current.files.length; i++) {
+          formData.append(`images[${i}]`, images.current.files[i]);
+        }
+      }
+      formData.set('youtube_links', youtube_links.current.value);
+      formData.set('locality', locality.current.value);
+      formData.set('shipment', shipment.current.value);
+      formData.set('attachment', brochure.current.files[0]);
+      const response = await UseAxios(COMPANY_DETAILS, formData);
       setLoading(false);
-      history.goBack();
+      if(response.status === 200){
+        history.goBack();
+      }
+      else{
+        snackBarError(response.message);
+      }
     }
   }
 
@@ -166,7 +214,7 @@ const EditStall = (props) => {
     state.loading === true ?
     <Loader />
     :
-    <div className="container">
+    <div className="container layout">
       <div className="row justify-content-center">
         <div className="col-sm-12 col-lg-9">
           <div className="card p-3 mt-3 mb-3 shadow-sm">
@@ -174,14 +222,14 @@ const EditStall = (props) => {
               <img className="stall-logo" src={logoImg} alt="company-logo" />
             </div>
             <div className="form-group">
-              <label htmlFor="logoUpload">Update Logo (50 x 50) - 1 MB Max</label>
+              <label htmlFor="logoUpload">Update Logo (50 x 50)<span className="text-muted"> - 1 MB Max</span></label>
               <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={logo} onChange={() => logo.current.files[0] !== undefined ? setLogoImg(URL.createObjectURL(logo.current.files[0])) : setLogoImg('')} />
             </div>
             <div className="form-group">
-              <img src={coverImg} alt="company-cover" />
+              <img className="coverImg" src={coverImg} alt="company-cover" />
             </div>
             <div className="form-group">
-              <label htmlFor="logoUpload">Update Company Cover Image (1920 x 1080) - 1 MB Max</label>
+              <label htmlFor="logoUpload">Update Company Cover Image (1920 x 1080)<span className="text-muted"> - 1 MB Max</span></label>
               <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={cover} onChange={() => cover.current.files[0] !== undefined ? setCoverImg(URL.createObjectURL(cover.current.files[0])) : setCoverImg('')} />
             </div>
             <div className="form-group">
@@ -207,17 +255,46 @@ const EditStall = (props) => {
                 }}
               />
             </div>
+            <div className="form-group">
+              <label htmlFor="whytoconsider">Why to consider this Product or Service</label>
+              <textarea id="whytoconsider" className="form-control" cols={10} ref={whytoconsider} />
+            </div>
+            {multipleImages.length > 0 ? <SimpleImageSlider width={'96%'} height={400} images={multipleImages} /> : null}
+            <div className="form-group">
+              <label htmlFor="logoUpload">Product or Service Images<span className="text-muted"> - Each 1 MB Max</span></label>
+              <input id="productImages" type="file" accept="image/*" multiple className="form-control p-1" ref={images} onChange={handleImages} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="logoUpload">Brochure<span className="text-muted"> - .doc,.docx,.pdf</span></label>
+              <input id="brochure" type="file" accept=".doc,.docx,.pdf" className="form-control p-1" ref={brochure} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="features">Features of Product or Service<span className="text-muted"> - Comma Seperated</span></label>
+              <textarea id="features" className="form-control" cols={10} ref={features} defaultValue={data.features} placeholder="Confirm your move and pay for the event online, Choose the stall you want to visit" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="videos">Video link's of Product or Service<span className="text-muted"> - Comma Seperated (Youtube Only)</span></label>
+              <textarea id="videos" className="form-control" cols={10} ref={youtube_links} defaultValue={data.youtube_links} placeholder="https://www.youtube.com/watch?v=xxxxxxxx, https://www.youtube.com/watch?v=xxxxxxx" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="locality">Locality<span className="text-muted"> - Comma Seperated</span></label>
+              <input id="locality" type="text" className="form-control" ref={locality} defaultValue={data.locality} placeholder="India, China, Japan" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="locality">Shipment</label>
+              <input id="locality" type="text" className="form-control" ref={shipment} defaultValue={data.shipment} placeholder="Throughout India or Karnataka Only" />
+            </div>
             <div className="row">
               <div className="col-sm-6">
                 <div className="form-group">
                   <label htmlFor="Website">Website</label>
-                  <input id="Webpage" type="text" className="form-control" defaultValue={data.website} ref={web} />
+                  <input id="Webpage" type="text" className="form-control" defaultValue={data.website} ref={web} placeholder="https://worldtradehub.in" />
                 </div>
               </div>
               <div className="col-sm-6">
                 <div className="form-group">
                   <label htmlFor="meetId">Google Meet ID</label>
-                  <input id="meetId" type="text" className="form-control" defaultValue={data.meet_id} ref={meet_id} />
+                  <input id="meetId" type="text" className="form-control" defaultValue={data.meet_id} ref={meet_id} placeholder="https://meet.google.com/xxxxxxxxx" />
                 </div>
               </div>
             </div>
@@ -225,13 +302,13 @@ const EditStall = (props) => {
               <div className="col-sm-6">
                 <div className="form-group">
                   <label htmlFor="zoomId">Zoom ID</label>
-                  <input id="zoomId" type="text" className="form-control" defaultValue={data.zoom_id} ref={zoom_id} />
+                  <input id="zoomId" type="text" className="form-control" defaultValue={data.zoom_id} ref={zoom_id} placeholder="https://us04web.zoom.us/j/9530858596?pwd=xxxxxxxxxxxxxxxxx" />
                 </div>
               </div>
               <div className="col-sm-6">
                 <div className="form-group">
                   <label htmlFor="whatsapp">Whatsapp Number</label>
-                  <input id="whatsapp" type="text" className="form-control" defaultValue={data.whatsapp_number} ref={whatsapp} />
+                  <input id="whatsapp" type="text" className="form-control" defaultValue={data.whatsapp_number} ref={whatsapp} placeholder="+91xxxxxxxxxx" />
                 </div>
               </div>
             </div>
@@ -239,13 +316,13 @@ const EditStall = (props) => {
               <div className="col-sm-6">
                 <div className="form-group">
                   <label htmlFor="facebookLive">Facebook Live</label>
-                  <input id="facebookLive" type="text" className="form-control" defaultValue={data.fb_url} ref={fb_live} />
+                  <input id="facebookLive" type="text" className="form-control" defaultValue={data.fb_url} ref={fb_live} placeholder="https://www.facebook.com/xxxxxx/videos/xxxxxxxxxx" />
                 </div>
               </div>
               <div className="col-sm-6">
                 <div className="form-group">
                   <label htmlFor="youtubeLink">Youtube</label>
-                  <input id="youtubeLink" type="text" className="form-control" defaultValue={data.youtupe_link} ref={youtube} />
+                  <input id="youtubeLink" type="text" className="form-control" defaultValue={data.youtupe_link} ref={youtube} placeholder="https://www.youtube.com/watch?v=xxxxxxxxx" />
                 </div>
               </div>
             </div>

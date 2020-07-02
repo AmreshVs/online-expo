@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Edit, Phone, User, Mail, MapPin, Map } from 'react-feather';

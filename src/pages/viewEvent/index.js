@@ -1,7 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import ReactTooltip from "react-tooltip";
-import { Link } from 'react-router-dom';
 
 import FloorPlanPage1 from '../../components/floorPlan/page1';
 import FloorPlanPage2 from '../../components/floorPlan/page2';

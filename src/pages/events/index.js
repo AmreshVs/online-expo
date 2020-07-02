@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 
 import Event from 'components/event';
@@ -13,14 +14,14 @@ const Events = () => {
   });
 
   React.useEffect(() => {
+    const loadData = async () => {
+      setState({ ...state, loading: true });
+      const response = await UseAxios(EVENTS);
+      setState(s => ({ ...s, data: response.data, loading: false }));
+    }
+
     loadData();
   }, []);
-
-  const loadData = async () => {
-    setState({ ...state, loading: true });
-    const response = await UseAxios(EVENTS);
-    setState({ ...state, data: response.data, loading: false });
-  }
 
   return (
     <div id="eventsList" className="layout container-fluid pt-3">

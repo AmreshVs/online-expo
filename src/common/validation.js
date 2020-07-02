@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import { snackBarError } from './snackBar';
 
 export const mobileValidation = (mobile) => {

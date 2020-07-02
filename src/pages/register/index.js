@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 
 import Loader from 'components/loader';
 import UseAxios from 'hooks/UseAxios';
-import { GET_COUNTRY, GET_STATE, GET_CITY, REGISTER, VERIFY_OTP } from 'api';
+import { GET_COUNTRY, GET_STATE, GET_CITY, REGISTER } from 'api';
 import { snackBarError, snackBarSuccess } from 'common/snackBar';
 import { mobileValidation, emailValidation } from 'common/validation';
 import Button from 'components/button';
@@ -44,13 +45,13 @@ const Register = (props) => {
   const repassword = React.useRef(null);
 
   useEffect(() => {
+    const loadData = async () => {
+      const response = await UseAxios(GET_COUNTRY);
+      setState({ ...state, countries: response.data, loading: false });
+    }
+
     loadData();
   }, []);
-
-  const loadData = async () => {
-    const response = await UseAxios(GET_COUNTRY);
-    setState({ ...state, countries: response.data, loading: false });
-  }
 
   const handleCountry = async (value) => {
     if(value[0] !== undefined){
