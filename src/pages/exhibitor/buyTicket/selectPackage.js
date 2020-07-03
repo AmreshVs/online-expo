@@ -54,6 +54,7 @@ const SelectPackage = (props) => {
         <h5>Choose your package</h5>
         {country.id === 101 ?
           <>
+            {data.exhibitor_platinum_price !== '' &&
             <div className="form-check d-flex">
               <input className="form-check-input" id="platinum" name="packages" type="radio" value={1} onChange={() => handleChange(1)} checked={selected === 1} />
               <div className="checkLabelContainer">
@@ -71,7 +72,8 @@ const SelectPackage = (props) => {
                   Logo will be used at E- Invitation.
                 </label>
               </div>
-            </div>
+            </div>}
+            {data.exhibitor_diamond_price !== '' &&
             <div className="form-check d-flex">
               <input className="form-check-input" name="packages" id="diamond" type="radio" value={2} onChange={() => handleChange(2)} checked={selected === 2} />
               <div className="checkLabelContainer">
@@ -89,7 +91,8 @@ const SelectPackage = (props) => {
                   Logo will be used at E- Invitation.
                 </label>
               </div>
-            </div>
+            </div>}
+            {data.exhibitor_gold_price !== '' &&
             <div className="form-check d-flex">
               <input className="form-check-input" name="packages" id="gold" type="radio" value={3} onChange={() => handleChange(3)} checked={selected === 3} />
               <div className="checkLabelContainer">
@@ -106,7 +109,7 @@ const SelectPackage = (props) => {
                   4,000 free promotional SMS & Email.
                 </label>
               </div>
-            </div>
+            </div>}
           </>
           :
           <>

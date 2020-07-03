@@ -211,6 +211,9 @@ a{
 .detailContainer{
   position: relative;
   min-height: 400px;
+  .card{
+    border: none;
+  }
 }
 
 .getDetails{
@@ -219,7 +222,7 @@ a{
 }
 
 .ck.ck-content{
-  height: 400px;
+  height: 200px;
 }
 
 .exhibitorContents{
@@ -385,6 +388,10 @@ a{
 .stallDetail{
   .image{
     width: 100%;
+    border-radius: 10px;
+  }
+  .imageContainer{
+    border-radius: 10px;
   }
   .contactImage{
     height: 40px;
@@ -401,6 +408,33 @@ a{
     .logo{
       height: 55px;
     }
+  }
+  .card.card-body .pb-2{
+    color: #4395ff;
+  }
+  .col-md-6 iframe{
+    border-radius: 10px;
+  }
+  .list-group-item {
+    padding: 5px 10px;
+    border: 4px solid transparent;
+    border-left-color: #4395ff;
+    margin: 5px 0px;
+    background-color: #fcfcfc;
+  }
+  .card .card-header{
+    display: flex;
+    color: #FFF;
+  }
+  .card{
+    border: none;
+    margin-bottom: 25px;
+  }
+  .card-body .p{
+    margin-bottom: 0px;
+  }
+  .card-header h5{
+    margin-bottom: 3px;
   }
 }
 
@@ -591,11 +625,6 @@ a{
   color: #FFF;
 }
 
-.detailContainer .card-body{
-  margin-bottom: 25px;
-  border: none;
-}
-
 .image-gallery-svg {
   height: 50px !important;
 }
@@ -605,12 +634,19 @@ a{
 }
 
 .image-gallery-content .image-gallery-slide .image-gallery-image {
-  max-height: calc(100vh - 10px) !important;
-  min-height: calc(100vh - 10px) !important;
+  min-height: 60vh !important;
+  max-height: 60vh !important;
+  border-radius: 10px;
 }
 
 .image-gallery-thumbnail .image-gallery-thumbnail-image {
   min-height: 62px;
+  max-height: 62px;
+  border-radius: 5px;
+}
+
+.image-gallery-thumbnail.active {
+  border-radius: 10px;
 }
 
 .image-gallery-slide .image-gallery-image {
@@ -749,5 +785,13 @@ a{
   #eventsList .card-img {
     max-height: 280px;
     min-height: 280px;
+  }
+  .image-gallery-content .image-gallery-slide .image-gallery-image {
+    min-height: 48vh !important;
+    max-height: 48vh !important;
+  }
+  .image-gallery-thumbnail .image-gallery-thumbnail-image {
+    min-height: 50px;
+    max-height: 50px;
   }
 }

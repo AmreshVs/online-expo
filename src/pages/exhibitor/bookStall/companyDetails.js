@@ -129,6 +129,46 @@ const CompanyDetails = (props) => {
       snackBarError('Content cannot be empty!');
       return false;
     }
+    
+    if(whytoconsider.current.value === ''){
+      snackBarError('Why to Consider cannot be empty!');
+      return false;
+    }
+
+    if(multipleImages.length === 0){
+      snackBarError('Service Or Product Images cannot be empty!');
+      return false;
+    }
+
+    if(features.current.value === ''){
+      snackBarError('Features cannot be empty!');
+      return false;
+    }
+
+    if(youtube_links.current.value === ''){
+      snackBarError('Video Links cannot be empty!');
+      return false;
+    }
+
+    if(youtube_links.current.value === ''){
+      snackBarError('Video Links cannot be empty!');
+      return false;
+    }
+
+    if(locality.current.value === ''){
+      snackBarError('Locality cannot be empty!');
+      return false;
+    }
+
+    if(shipment.current.value === ''){
+      snackBarError('Shipment cannot be empty!');
+      return false;
+    }
+
+    if(whatsapp.current.value === ''){
+      snackBarError('Whatsapp Number cannot be empty!');
+      return false;
+    }
 
     return ValidateSize(logo.current, 'Logo') && ValidateSize(cover.current, 'Cover');
   }
@@ -187,7 +227,7 @@ const CompanyDetails = (props) => {
         </div>
       }
       <div className="form-group">
-        <label htmlFor="logoUpload">Logo (50 x 50)<span className="text-muted"> - 1 MB Max</span></label>
+        <label htmlFor="logoUpload">Logo <span className="text-danger">*</span> (50 x 50)<span className="text-muted"> - 1 MB Max</span></label>
         <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={logo} onChange={() => logo.current.files[0] !== undefined ? setLogoImg(URL.createObjectURL(logo.current.files[0])) : setLogoImg('')} />
       </div>
       {coverImg !== '' && 
@@ -196,19 +236,19 @@ const CompanyDetails = (props) => {
         </div>
       }
       <div className="form-group">
-        <label htmlFor="logoUpload">Company Cover Image (1920 x 1080)<span className="text-muted"> - 1 MB Max</span></label>
+        <label htmlFor="logoUpload">Company Cover Image <span className="text-danger">*</span> (1920 x 1080)<span className="text-muted"> - 1 MB Max</span></label>
         <input id="logoUpload" type="file" accept="image/*" className="form-control p-1" ref={cover} onChange={() => cover.current.files[0] !== undefined ? setCoverImg(URL.createObjectURL(cover.current.files[0])) : setCoverImg('')} />
       </div>
       <div className="form-group">
-        <label htmlFor="companyname">Company Name</label>
+        <label htmlFor="companyname">Company Name <span className="text-danger">*</span></label>
         <input id="companyname" type="text" className="form-control" ref={company_name} />
       </div>
       <div className="form-group">
-        <label htmlFor="description">Short Description</label>
+        <label htmlFor="description">Short Description <span className="text-danger">*</span></label>
         <input id="description" type="text" className="form-control" ref={desc} />
       </div>
       <div className="form-group">
-        <label htmlFor="description">About the Company</label>
+        <label htmlFor="description">About the Company <span className="text-danger">*</span></label>
         <CKEditor
           editor={ClassicEditor}
           config={editorConfiguration}
@@ -224,12 +264,12 @@ const CompanyDetails = (props) => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="whytoconsider">Why to consider this Product or Service</label>
-        <textarea id="whytoconsider" className="form-control" cols={10} ref={whytoconsider} />
+        <label htmlFor="whytoconsider">Why to consider this Product or Service <span className="text-danger">*</span></label>
+        <textarea id="whytoconsider" className="form-control" rows={10} ref={whytoconsider} />
       </div>
       {multipleImages.length > 0 ? <SimpleImageSlider width={'96%'} height={400} images={multipleImages} /> : null}
       <div className="form-group">
-        <label htmlFor="logoUpload">Product or Service Images<span className="text-muted"> - Each 1 MB Max</span></label>
+        <label htmlFor="logoUpload">Product or Service Images <span className="text-danger">*</span><span className="text-muted"> - Each 1 MB Max</span></label>
         <input id="logoUpload" type="file" accept="image/*" multiple className="form-control p-1" ref={images} onChange={handleImages} />
       </div>
       <div className="form-group">
@@ -237,19 +277,19 @@ const CompanyDetails = (props) => {
         <input id="logoUpload" type="file" accept=".doc,.docx,.pdf" className="form-control p-1" ref={brochure} />
       </div>
       <div className="form-group">
-        <label htmlFor="features">Features of Product or Service<span className="text-muted"> - Comma Seperated</span></label>
-        <textarea id="features" className="form-control" cols={10} ref={features} placeholder="Confirm your move and pay for the event online, Choose the stall you want to visit" />
+        <label htmlFor="features">Features of Product or Service <span className="text-danger">*</span><span className="text-muted"> - Comma Seperated</span></label>
+        <textarea id="features" className="form-control" rows={10} ref={features} placeholder="Confirm your move and pay for the event online, Choose the stall you want to visit" />
       </div>
       <div className="form-group">
-        <label htmlFor="videos">Video link's of Product or Service<span className="text-muted"> - Comma Seperated (Youtube Only)</span></label>
-        <textarea id="videos" className="form-control" cols={10} ref={youtube_links} placeholder="https://www.youtube.com/watch?v=xxxxxxxx, https://www.youtube.com/watch?v=xxxxxxx" />
+        <label htmlFor="videos">Video link's of Product or Service <span className="text-danger">*</span><span className="text-muted"> - Comma Seperated (Youtube Only)</span></label>
+        <textarea id="videos" className="form-control" rows={5} ref={youtube_links} placeholder="https://www.youtube.com/watch?v=xxxxxxxx, https://www.youtube.com/watch?v=xxxxxxx" />
       </div>
       <div className="form-group">
-        <label htmlFor="locality">Locality<span className="text-muted"> - Comma Seperated</span></label>
+        <label htmlFor="locality">Locality <span className="text-danger">*</span><span className="text-muted"> - Comma Seperated</span></label>
         <input id="locality" type="text" className="form-control" ref={locality} placeholder="India, China, Japan" />
       </div>
       <div className="form-group">
-        <label htmlFor="locality">Shipment</label>
+        <label htmlFor="locality">Shipment <span className="text-danger">*</span></label>
         <input id="locality" type="text" className="form-control" ref={shipment} placeholder="Throughout India or Karnataka Only" />
       </div>
       <div className="row">
@@ -275,7 +315,7 @@ const CompanyDetails = (props) => {
         </div>
         <div className="col-sm-6">
           <div className="form-group">
-            <label htmlFor="whatsapp">Whatsapp Number</label>
+            <label htmlFor="whatsapp">Whatsapp Number <span className="text-danger">*</span></label>
             <input id="whatsapp" type="text" className="form-control" ref={whatsapp} placeholder="+91xxxxxxxxxx" />
           </div>
         </div>
