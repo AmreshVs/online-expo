@@ -34,7 +34,7 @@ const EventDetail = () => {
 
   const handleBuyTicket = () => {
     let { register_type } = JSON.parse(localStorage.getItem('userData'));
-    history.push(`/${register_type === 1 ? 'exhibitor' : 'visitor'}/buy-ticket`, { key: key, price: state.data.visitors_package_price });
+    history.push(`/${register_type == 1 ? 'exhibitor' : 'visitor'}/buy-ticket`, { key: key, price: state.data.visitors_package_price });
   }
 
   const handleContinueBuyTicket = () => {
@@ -60,7 +60,7 @@ const EventDetail = () => {
                 <div className="mt-3">
                   {ReactHtmlParser(eventData.event_desc)}
                 </div>
-                {buy === false ? null : state.data.pending_stall_booking.length > 0 ? <button className="btn btn-primary" onClick={handleContinueBuyTicket}>Continue Stall Booking</button> : <button className="btn btn-primary" onClick={handleBuyTicket}>{register_type === 1 ? 'Book Stall' : 'Buy Entry Pass'}</button>}
+                {buy === false ? null : state.data.pending_stall_booking.length > 0 ? <button className="btn btn-primary" onClick={handleContinueBuyTicket}>Continue Stall Booking</button> : <button className="btn btn-primary" onClick={handleBuyTicket}>{register_type == 1 ? 'Book Stall' : 'Buy Entry Pass'}</button>}
               </div>
             </div>
           </div>

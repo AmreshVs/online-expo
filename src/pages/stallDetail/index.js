@@ -27,7 +27,7 @@ const StallDetail = () => {
 
   React.useEffect(() => {
     loadData();
-  }, []);
+  }, [key]);
 
   const loadData = async () => {
     setState({ ...state, loading: true });
@@ -67,7 +67,7 @@ const StallDetail = () => {
   ];
 
   const handleClick = (key) => {
-    history.replace('stall-detail', { key: key });
+    history.push('stall-detail', { key: key });
   }
 
   return(

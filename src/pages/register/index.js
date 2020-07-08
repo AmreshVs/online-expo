@@ -37,13 +37,13 @@ const Register = (props) => {
     spinner: false,
   });
 
-  const register = React.useRef(null);
   const companyName = React.useRef(null);
   const companyEmail = React.useRef(null);
   const fullName = React.useRef(null);
   const email = React.useRef(null);
   const password = React.useRef(null);
   const repassword = React.useRef(null);
+  const mobNum = React.useRef(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -91,12 +91,12 @@ const Register = (props) => {
       return false;
     }
 
-    if(state.type === 'visitor' && fullName.current.value === ''){
+    if(state.type === 'visitov' && fullName.current.value === ''){
       snackBarError('Fullname cannot be empty!');
       return false;
     }
 
-    if(state.type === 'visitor' && email.current.value === ''){
+    if(state.type === 'visitov' && email.current.value === ''){
       snackBarError('Email cannot be empty!');
       return false;
     }
@@ -131,13 +131,13 @@ const Register = (props) => {
       return false;
     }
 
-    if(state.mobile === ''){
+    if(mobNum.current.value === ''){
       snackBarError('Mobile Number cannot be empty!');
       return false;
     }
 
-    if(state.mobile !== ''){
-      return mobileValidation(state.mobile);
+    if(mobNum.current.value !== ''){
+      return mobileValidation(mobNum.current.value);
     }
 
     if(email.current.value !== ''){
@@ -149,17 +149,16 @@ const Register = (props) => {
 
   const handleNext = async () => {
     if(validate()){
-      let mobNum = state.mobile.split(' ').join('');
       setState({ ...state, spinner: true });
       var bodyFormData = new FormData();
-      bodyFormData.set('username', state.type === 'Exhibitor' ? companyName.current.value : fullName.current.value);
+      bodyFormData.set('username', state.type === 'exhibitor' ? companyName.current.value : fullName.current.value);
       bodyFormData.set('city_id', Number(state.city[0].id));
       bodyFormData.set('country_id', Number(state.country[0].id));
-      bodyFormData.set('email', state.type === 'Exhibitor' ? companyEmail.current.value : email.current.value);
-      bodyFormData.set('mobile_number', Number(mobNum));
+      bodyFormData.set('email', state.type === 'exhibitor' ? companyEmail.current.value : email.current.value);
+      bodyFormData.set('mobile_number', mobNum.current.value);
       bodyFormData.set('password', password.current.value);
       bodyFormData.set('country_code', state.countryCode);
-      bodyFormData.set('register_type', register.current.value === 'Visitor' ? 2 : 1);
+      bodyFormData.set('register_type', state.type === 'visitor' ? 2 : 1);
       bodyFormData.set('state_id', Number(state.cstate[0].id));
       const response = await UseAxios(REGISTER, bodyFormData);
       if(response.status === 200){
@@ -235,7 +234,7 @@ const Register = (props) => {
                   </div>
                   <div className="form-group">
                     <label htmlFor="Country">Mobile Number</label>
-                    <input type="text" className="form-control" defaultValue={state.phoneCode} placeholder="+91 XXXXX XXXXX" />
+                    <input type="text" className="form-control" defaultValue={state.phoneCode} placeholder="+91 XXXXX XXXXX" ref={mobNum} />
                   </div>
                   <Button className="btn btn-primary" onClick={handleNext} loading={state.spinner}>
                     Submit

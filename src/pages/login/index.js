@@ -104,9 +104,13 @@ const Login = (props) => {
                 <Button className="btn btn-primary" onClick={handleSubmit} loading={spinner}>
                   Login
                 </Button>
-                <div className="form-group mt-2 mb-0 btnContainer">
-                  <Link to="/register">New User?</Link>
-                  <p className="link" onClick={handleNext}>Forgot Password?</p>
+                <div className="form-group mt-2 mb-0 d-flex container-fluid p-0">
+                  <div className="col-md-7 p-0">
+                    <p className="pr-1 mb-1">New User? </p>
+                    <Link to="/register/exhibitor" className="pr-1"> Exhibitor | </Link>
+                    <Link to="/register/visitor">Visitor</Link>
+                  </div>
+                  <p className="link col-md-5 p-0 text-right" onClick={handleNext}>Forgot Password?</p>
                 </div>
               </div>
               <div className='card shadow-sm' style={slideAnimation.right}>

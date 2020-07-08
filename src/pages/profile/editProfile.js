@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import IntlTelInput from 'react-bootstrap-intl-tel-input'
 import { Typeahead } from 'react-bootstrap-typeahead'; 
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -40,6 +39,7 @@ const EditProfile = () => {
   const companyEmail = React.useRef(null);
   const fullName = React.useRef(null);
   const email = React.useRef(null);
+  const mobNum = React.useRef(null);
 
   useEffect(() => {
     loadData();
@@ -56,7 +56,7 @@ const EditProfile = () => {
     if(value[0] !== undefined){
       setState({ ...state, country: value, overlay: true });
       const response = await UseAxios({ ...GET_STATE, url: GET_STATE.url + value[0].id });
-      setState({ ...state, states: response.data, country: value, cstate: [], overlay: false });
+      setState({ ...state, states: response.data, country: value, cstate: [], mobile: '+' + value[0].phonecode, overlay: false });
     }
     else{
       setState({ ...state, country: value });
@@ -76,10 +76,6 @@ const EditProfile = () => {
     else{
       setState({ ...state, cstate: value });
     }
-  }
-
-  const handleMobileInput = (mobile) => {
-    setState({ ...state, mobile: mobile.phoneNumber, countryCode: mobile.callingCode });
   }
 
   const validate = () => {
@@ -136,14 +132,13 @@ const EditProfile = () => {
 
   const handleUpdate = async () => {
     if(validate()){
-      let mobNum = state.mobile.split(' ').join('');
       setState({ ...state, spinner: true });
       var bodyFormData = new FormData();
       bodyFormData.set('username', fullName.current.value);
       bodyFormData.set('city_id', Number(state.city[0].id));
       bodyFormData.set('country_id', Number(state.country[0].id));
       bodyFormData.set('email', email.current.value);
-      bodyFormData.set('mobile_number', Number(mobNum));
+      bodyFormData.set('mobile_number', state.mobile);
       bodyFormData.set('password', '');
       bodyFormData.set('country_code', state.countryCode);
       bodyFormData.set('register_type', userData.register_type);
@@ -153,12 +148,11 @@ const EditProfile = () => {
       if(response.message === 'Updated successfully'){
         snackBarSuccess('Profile Updated!');
         axios.defaults.headers.authorization = `Bearer ${response.data.access_token}`;
-        await localStorage.setItem('userData', JSON.stringify(response.data));
+        localStorage.setItem('userData', JSON.stringify(response.data));
         history.goBack();
       }
     }
   }
-
 
   return (
     state.loading === true ?
@@ -200,7 +194,7 @@ const EditProfile = () => {
                     </div>
                     <div className="form-group">
                       <label htmlFor="Country">Mobile Number</label>
-                      <IntlTelInput preferredCountries={['IN', 'GB']} defaultCountry={'IN'} defaultValue={'+91'+userData.mobile_number} onChange={handleMobileInput} />
+                      <input type="text" className="form-control" value={state.mobile} onChange={(e) => setState({ ...state, mobile: e.target.value })} />
                     </div>
                     <Button className="btn btn-primary" onClick={handleUpdate} loading={state.spinner}>
                       Update
