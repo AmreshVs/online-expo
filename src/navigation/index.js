@@ -21,6 +21,7 @@ import ChangePassword from 'pages/profile/changePassword';
 import Main from 'pages/main';
 import Logout from 'pages/logout';
 import Payment from 'pages/payment';
+import NotFound from 'pages/notFound';
 // import Test from 'pages/test';
 
 export default function Navigation() {
@@ -29,7 +30,7 @@ export default function Navigation() {
       <Route exact path="/">
         <Main />
       </Route>
-      <Route path="/register">
+      <Route path="/register/:type">
         <Register />
       </Route>
       <Route path="/login">
@@ -85,6 +86,9 @@ export default function Navigation() {
       </Route>
       <Route path="/payment">
         <Payment />
+      </Route>
+      <Route path="*">
+        <NotFound />
       </Route>
     </Switch>
   );

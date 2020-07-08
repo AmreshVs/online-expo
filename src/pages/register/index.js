@@ -2,10 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import IntlTelInput from 'react-bootstrap-intl-tel-input'
 import { Typeahead } from 'react-bootstrap-typeahead'; 
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import Loader from 'components/loader';
 import UseAxios from 'hooks/UseAxios';
@@ -19,8 +18,10 @@ import OverlayLoader from 'components/overlayLoader';
 const Register = (props) => {
 
   const history = useHistory();
+  const { type } = useParams();
   const [state, setState] = useState({
-    type: 'none',
+    type: type,
+    phoneCode: '',
     country: [],
     countries: [],
     states: [],
@@ -57,7 +58,7 @@ const Register = (props) => {
     if(value[0] !== undefined){
       setState({ ...state, country: value, overlay: true });
       const response = await UseAxios({ ...GET_STATE, url: GET_STATE.url + value[0].id });
-      setState({ ...state, states: response.data, country: value, cstate: [], overlay: false });
+      setState({ ...state, states: response.data, country: value, phoneCode: '+' + value[0].phonecode, cstate: [], overlay: false });
     }
     else{
       setState({ ...state, country: value });
@@ -79,31 +80,23 @@ const Register = (props) => {
     }
   }
 
-  const handleChange = (type) => {
-    setState({ ...state, type: type });
-  }
-
-  const handleMobileInput = (mobile) => {
-    setState({ ...state, mobile: mobile.phoneNumber, countryCode: mobile.callingCode });
-  }
-
   const validate = () => {
-    if(state.type === 'Exhibitor' && companyName.current.value === ''){
+    if(state.type === 'exhibitor' && companyName.current.value === ''){
       snackBarError('Company Name cannot be empty!');
       return false;
     }
 
-    if(state.type === 'Exhibitor' && companyEmail.current.value === ''){
+    if(state.type === 'exhibitor' && companyEmail.current.value === ''){
       snackBarError('Company Email cannot be empty!');
       return false;
     }
 
-    if(state.type === 'Visitor' && fullName.current.value === ''){
+    if(state.type === 'visitor' && fullName.current.value === ''){
       snackBarError('Fullname cannot be empty!');
       return false;
     }
 
-    if(state.type === 'Visitor' && email.current.value === ''){
+    if(state.type === 'visitor' && email.current.value === ''){
       snackBarError('Email cannot be empty!');
       return false;
     }
@@ -198,68 +191,55 @@ const Register = (props) => {
                   <div className="text-center mb-3">
                     <img className="login-img" src={require('../../assets/img/register.png')} alt="login" />
                   </div>
+                  {state.type === 'exhibitor' ? 
+                    <div className="form-group">
+                      <label htmlFor="companyName">Company Name</label>
+                      <input type="text" className="form-control" id="companyName" placeholder="Enter company name" ref={companyName} />
+                    </div>
+                  :
+                    <div className="form-group">
+                      <label htmlFor="fullName">Fullname</label>
+                      <input type="text" className="form-control" id="fullName" placeholder="Enter fullname" ref={fullName} />
+                    </div>
+                  }
+                  {state.type === 'exhibitor' ? 
+                    <div className="form-group">
+                      <label htmlFor="companyEmail">Company Email</label>
+                      <input type="email" className="form-control" id="companyEmail" placeholder="Enter company email" ref={companyEmail} />
+                    </div>
+                  :
+                    <div className="form-group">
+                      <label htmlFor="userEmail">Email</label>
+                      <input type="email" className="form-control" id="userEmail" placeholder="Enter email" ref={email} />
+                    </div>
+                  }
                   <div className="form-group">
-                    <label htmlFor="registerAs">Register as</label>
-                    <select className="form-control" id="registerAs" onChange={(e) => handleChange(e.target.value)} ref={register}>
-                      <option value="none">Select</option>
-                      <option>Visitor</option>
-                      <option>Exhibitor</option>
-                    </select>
+                    <label htmlFor="Country">Password</label>
+                    <input type="password" className="form-control" id="password" placeholder="Enter Password" ref={password} />
                   </div>
-                  {state.type !== 'none' ?
-                  <>
-                    {state.type === 'Exhibitor' ? 
-                      <div className="form-group">
-                        <label htmlFor="companyName">Company Name</label>
-                        <input type="text" className="form-control" id="companyName" placeholder="Enter company name" ref={companyName} />
-                      </div>
-                    :
-                      <div className="form-group">
-                        <label htmlFor="fullName">Fullname</label>
-                        <input type="text" className="form-control" id="fullName" placeholder="Enter fullname" ref={fullName} />
-                      </div>
-                    }
-                    {state.type === 'Exhibitor' ? 
-                      <div className="form-group">
-                        <label htmlFor="companyEmail">Company Email</label>
-                        <input type="email" className="form-control" id="companyEmail" placeholder="Enter company email" ref={companyEmail} />
-                      </div>
-                    :
-                      <div className="form-group">
-                        <label htmlFor="userEmail">Email</label>
-                        <input type="email" className="form-control" id="userEmail" placeholder="Enter email" ref={email} />
-                      </div>
-                    }
-                    <div className="form-group">
-                      <label htmlFor="Country">Password</label>
-                      <input type="password" className="form-control" id="password" placeholder="Enter Password" ref={password} />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="Country">Re-Password</label>
-                      <input type="password" className="form-control" id="repassword" placeholder="Re-Type Password" ref={repassword} />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="Country">Country</label>
-                      <Typeahead id="Country" labelKey="name" multiple={false} onChange={handleCountry} options={state.countries} placeholder="Choose a country" selected={state.country}  />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="State">State</label>
-                      <Typeahead id="State" labelKey="name" multiple={false} onChange={handleState} options={state.states} placeholder="Choose a state" selected={state.cstate}  />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="City">City</label>
-                      <Typeahead id="City" labelKey="name" multiple={false} onChange={handleCity} options={state.cities} placeholder="Choose a city" selected={state.city}  />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="Country">Mobile Number</label>
-                      <IntlTelInput preferredCountries={['IN', 'GB']} defaultCountry={'IN'} onChange={handleMobileInput} />
-                    </div>
-                    <Button className="btn btn-primary" onClick={handleNext} loading={state.spinner}>
-                      Submit
-                    </Button>
-                  </>
-                  : null
-                }
+                  <div className="form-group">
+                    <label htmlFor="Country">Re-Password</label>
+                    <input type="password" className="form-control" id="repassword" placeholder="Re-Type Password" ref={repassword} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="Country">Country</label>
+                    <Typeahead id="Country" labelKey="name" multiple={false} onChange={handleCountry} options={state.countries} placeholder="Choose a country" selected={state.country}  />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="State">State</label>
+                    <Typeahead id="State" labelKey="name" multiple={false} onChange={handleState} options={state.states} placeholder="Choose a state" selected={state.cstate}  />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="City">City</label>
+                    <Typeahead id="City" labelKey="name" multiple={false} onChange={handleCity} options={state.cities} placeholder="Choose a city" selected={state.city}  />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="Country">Mobile Number</label>
+                    <input type="text" className="form-control" defaultValue={state.phoneCode} placeholder="+91 XXXXX XXXXX" />
+                  </div>
+                  <Button className="btn btn-primary" onClick={handleNext} loading={state.spinner}>
+                    Submit
+                  </Button>
                 </div>
               </div>
             </div>

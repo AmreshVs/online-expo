@@ -117,7 +117,7 @@ const SelectPackage = (props) => {
               <input className="form-check-input" name="packages" id="silver" type="radio" value={4} onChange={() => handleChange(4)} checked={selected === 4} />
               <div className="checkLabelContainer">
                 <label className="form-check-label font-weight-bold" htmlFor="silver">
-                Foreigner - <span className="border badge badge-light">₹{data.exhibitor_silver_price} + ₹{(data.exhibitor_silver_price * (18/100)).toFixed(2)} GST</span>
+                  International Exhibitor - <span className="border badge badge-light">₹{data.exhibitor_silver_price} + ₹{(data.exhibitor_silver_price * (18/100)).toFixed(2)} GST</span>
                 </label>
                 <label className="form-check-label text-muted">
                   Space at online trade expo.

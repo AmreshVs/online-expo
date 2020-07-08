@@ -4,7 +4,7 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import ImageGallery from 'react-image-gallery';
-import { HelpCircle, CheckCircle, Image, Film, Map, MapPin, FileText, MessageCircle } from 'react-feather';
+import { CheckCircle, Image, Film, Map, MapPin, FileText, MessageCircle, Box } from 'react-feather';
 
 import UseAxios from 'hooks/UseAxios';
 import Loader from 'components/loader';
@@ -92,15 +92,6 @@ const StallDetail = () => {
                 </div>
                 <div className="ck-content">{ReactHtmlParser(data.company_desc)}</div>
               </div>
-              <div className="card shadow-sm">
-                <div className="card-header grad-2">
-                  <HelpCircle size={20} className="mr-2 mt-1" color="#FFF" />
-                  <h5>Why to consider this product or service</h5>
-                </div>
-                <div className="card-body">
-                  <p>{data.whytoconsider}</p>
-                </div>
-              </div>
               <div className="row">
                 {data.features !== '' &&
                 <div className="col-md-4">
@@ -127,6 +118,15 @@ const StallDetail = () => {
                       {multipleImages.length > 0 ? <ImageGallery items={multipleImages} autoPlay={true} /> : null}
                     </div>
                   </div>
+                </div>
+              </div>
+              <div className="card shadow-sm">
+                <div className="card-header grad-2">
+                  <Box size={20} className="mr-2 mt-1" color="#FFF" />
+                  <h5>Our Products or Services</h5>
+                </div>
+                <div className="card-body">
+                  <p>{data.whytoconsider}</p>
                 </div>
               </div>
               <div className="card shadow-sm">
@@ -186,28 +186,32 @@ const StallDetail = () => {
                   <MessageCircle size={20} className="mr-2 mt-1" color="#FFF" />
                   <h5>Have a live chat or Enquiry</h5>
                 </div>
-                <div className="row card-body connectWith">
-                  {connectWith.map((connect) => {
-                    if(connect.link !== ''){
-                      return(
-                        <div className="col-sm-3 mb-3 col-6" key={connect.id}>
-                          <a target="_blank" rel="noopener noreferrer" href={connect.link}>
-                            <div className="d-flex">
-                              <div className="col-sm-4 text-center pr-0 pl-0">
-                                <img className="contactImage" src={require(`../../assets/img/${connect.logo}_logo.png`)} alt={`${connect.logo}-logo`} />
-                              </div>
-                              <div className="col-sm-8 d-flex align-items-center pl-0">
-                                {connect.title}
-                              </div>
+                <div className="card-body connectWith">
+                  <div className="container">
+                    <div className="row">
+                      {connectWith.map((connect) => {
+                        if(connect.link !== ''){
+                          return(
+                            <div className="col-sm-3 mb-3 col-6" key={connect.id}>
+                              <a target="_blank" rel="noopener noreferrer" href={connect.link}>
+                                <div className="d-flex">
+                                  <div className="col-sm-4 text-center pr-0 pl-0">
+                                    <img className="contactImage" src={require(`../../assets/img/${connect.logo}_logo.png`)} alt={`${connect.logo}-logo`} />
+                                  </div>
+                                  <div className="col-sm-8 d-flex align-items-center pl-0">
+                                    {connect.title}
+                                  </div>
+                                </div>
+                              </a>
                             </div>
-                          </a>
-                        </div>
-                      )
-                    }
-                    else{
-                      return null;
-                    }
-                  })}
+                          )
+                        }
+                        else{
+                          return null;
+                        }
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>}
               {state.nextData.length > 0 && 

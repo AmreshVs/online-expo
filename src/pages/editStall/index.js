@@ -297,14 +297,14 @@ const EditStall = () => {
                 }}
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="whytoconsider">Why to consider this Product or Service <span className="text-danger">*</span></label>
-              <textarea id="whytoconsider" className="form-control" rows={10} ref={whytoconsider} defaultValue={data.whytoconsider}  />
-            </div>
             {multipleImages.length > 0 ? <SimpleImageSlider width={'96%'} height={400} images={multipleImages} /> : null}
             <div className="form-group">
               <label htmlFor="logoUpload">Product or Service Images <span className="text-danger">*</span><span className="text-muted"> - Each 1 MB Max</span></label>
               <input id="productImages" type="file" accept="image/*" multiple className="form-control p-1" ref={images} onChange={handleImages} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="whytoconsider">About Products or Services <span className="text-danger">*</span></label>
+              <textarea id="whytoconsider" className="form-control" rows={10} ref={whytoconsider} defaultValue={data.whytoconsider}  />
             </div>
             <div className="form-group">
               <label htmlFor="logoUpload">Brochure<span className="text-muted"> - .doc,.docx,.pdf</span></label>

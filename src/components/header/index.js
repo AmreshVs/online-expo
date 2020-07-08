@@ -38,8 +38,14 @@ const Header = () => {
           <ul className="navbar-nav ">
             {userData === null ? 
               <>
-                <li className="nav-item">
-                  <Link className="nav-link smoth-scroll" to="/register">Register</Link>
+                <li className="dropdown nav-item">
+                  <div className="nav-link">
+                    Register 
+                  </div>
+                  <div className="dropdown-content">
+                    <Link className="nav-link smoth-scroll" to="/register/exhibitor">Exhibitor</Link>
+                    <Link className="nav-link smoth-scroll" to="/register/visitor">Visitor</Link>
+                  </div>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link smoth-scroll" to="/login">Login</Link>
