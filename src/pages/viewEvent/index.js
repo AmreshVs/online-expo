@@ -58,7 +58,7 @@ const ViewEvent = () => {
                   <div className="d-flex bd-highlight mb-1 align-items-center">
                     <h5 className="mr-auto p-2 bd-highlight">{title}</h5>
                     <button className="btn btn-secondary" onClick={handleViewEvent}>View Event Info</button>
-                    {register_type === 1 ? <button className="btn btn-primary ml-2" onClick={handleEditStall}>View / Edit Stall</button> : null}
+                    {Number(register_type) === 1 ? <button className="btn btn-primary ml-2" onClick={handleEditStall}>View / Edit Stall</button> : null}
                   </div>
                   <div>
                     <FloorPlanPage1 view={1} handleClick={handleClick} data={state.data.room1} />

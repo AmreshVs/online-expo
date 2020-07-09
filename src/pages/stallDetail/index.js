@@ -78,7 +78,7 @@ const StallDetail = () => {
       <div className="container">
         <div className="row">
           <div className="col-sm-12 pt-3 pb-3">
-            {register_type === 1 && edit === false ? null : <div className="text-right mb-2">
+            {Number(register_type) === 1 && edit === false ? null : <div className="text-right mb-2">
               <button className="btn btn-primary" onClick={handleEdit}>Edit</button>
             </div>}
             <div className="detailContainer text-wrap">

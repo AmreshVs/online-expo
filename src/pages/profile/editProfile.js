@@ -16,7 +16,7 @@ const EditProfile = () => {
 
   let userData = localStorage.getItem('userData');
   userData = JSON.parse(userData);
-  let type = userData.register_type;
+  let type = Number(userData.register_type);
 
   const history = useHistory();
   const [state, setState] = useState({
@@ -39,7 +39,6 @@ const EditProfile = () => {
   const companyEmail = React.useRef(null);
   const fullName = React.useRef(null);
   const email = React.useRef(null);
-  const mobNum = React.useRef(null);
 
   useEffect(() => {
     loadData();
@@ -79,22 +78,22 @@ const EditProfile = () => {
   }
 
   const validate = () => {
-    if(state.type === 'Exhibitor' && companyName.current.value === ''){
+    if(type === 1 && companyName.current.value === ''){
       snackBarError('Company Name cannot be empty!');
       return false;
     }
 
-    if(state.type === 'Exhibitor' && companyEmail.current.value === ''){
+    if(type === 1 && companyEmail.current.value === ''){
       snackBarError('Company Email cannot be empty!');
       return false;
     }
 
-    if(state.type === 'Visitor' && fullName.current.value === ''){
+    if(type === 2 && fullName.current.value === ''){
       snackBarError('Fullname cannot be empty!');
       return false;
     }
 
-    if(state.type === 'Visitor' && email.current.value === ''){
+    if(state.type === 2 && email.current.value === ''){
       snackBarError('Email cannot be empty!');
       return false;
     }
@@ -173,11 +172,11 @@ const EditProfile = () => {
                       </div>
                     </div>
                     <div className="form-group">
-                      <label htmlFor="companyName">{type === 'Exhibitor' ? 'Company Name' : 'Fullname'}</label>
+                      <label htmlFor="companyName">{type === 1 ? 'Company Name' : 'Fullname'}</label>
                       <input type="text" className="form-control" id="companyName" placeholder="Enter name" defaultValue={userData.username} ref={fullName} />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="companyEmail">{type === 'Exhibitor' ? 'Company Email' : 'Email'}</label>
+                      <label htmlFor="companyEmail">{type === 1 ? 'Company Email' : 'Email'}</label>
                       <input type="email" className="form-control" id="companyEmail" placeholder="Enter email" defaultValue={userData.email} ref={email} />
                     </div>
                     <div className="form-group">
